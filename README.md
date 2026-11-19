@@ -1,6 +1,6 @@
-# Escalation Trivial 2.3 per Railway
+# Escalation Trivial 3.0 per Railway
 
-Quiz live in italiano sulla cybersicurezza. Un servizio Railway ospita una partita condivisa, con regia docente, proiezione e fino a 400 giocatori. Il catalogo comprende 100 domande in otto categorie. Docente e studenti usano il browser. I partecipanti possono collegarsi dalla rete mobile o dal Wi-Fi.
+Quiz multi-argomento in italiano. Un servizio Railway ospita una partita condivisa, con regia docente, proiezione e fino a 400 giocatori. Il catalogo comprende 210 domande in nove categorie. Docente e studenti usano il browser. I partecipanti possono collegarsi dalla rete mobile o dal Wi-Fi.
 
 ## 1. Pubblicazione su Railway
 
@@ -29,23 +29,29 @@ Apri il dominio HTTPS mostrato da Railway. Tutti i percorsi seguenti appartengon
 | `/docente` | Docente | Accede con la password configurata in Railway, seleziona le domande, apre la lobby e dà il via. |
 | `/schermo` | Proiettore | Mostra PIN, QR, domande e classifica. Apri **Proiettore** dalla regia per usare la stessa sessione. Su un secondo browser serve la password docente, che abilita anche la regia. |
 | `/` | Giocatore | Inserisce PIN e nickname. L’invito via QR o link precompila il PIN. |
-| `/health` | Verifica del servizio | Su un’installazione nuova risponde con codice HTTP 200, stato `ok` e `question_count` pari a 100. |
+| `/health` | Verifica del servizio | Su un’installazione nuova risponde con codice HTTP 200, stato `ok` e `question_count` pari a 210. |
 
-Per la prima partita accedi a `/docente`, scegli **Pesca 10 miste** e poi **Apri la lobby**. Sul proiettore appariranno il QR e il PIN. Il telefono mostra **In attesa del via** dopo l’ingresso e passa alla prima domanda quando premi **Avvia partita**. Per confermare l’accessibilità da Internet dopo la pubblicazione, puoi inquadrare il QR con un telefono sulla rete mobile.
+Per la prima partita accedi a `/docente`, scegli **Pesca domande** e poi **Apri la lobby**. Sul proiettore appariranno il QR e il PIN. Il telefono mostra **In attesa del via** dopo l’ingresso e passa alla prima domanda quando premi **Avvia partita**. Per confermare l’accessibilità da Internet dopo la pubblicazione, puoi inquadrare il QR con un telefono sulla rete mobile.
 
 ## 3. Conduzione della partita
 
-In regia puoi selezionare categorie intere o singole domande, cercare per parola o codice, filtrare per difficoltà e consultare soluzione e spiegazione in **Dettagli**. **Pesca 10 miste** sostituisce la selezione e copre tutte le otto categorie del catalogo. Il tempo predefinito è **30 secondi**. Puoi portarlo fino a 120 secondi per gli scenari lunghi. Se la selezione contiene domande con almeno 45 parole fra traccia e opzioni, la regia suggerisce di valutarne il tempo di lettura. La selezione, la durata e le impostazioni restano modificabili fino all’avvio.
+In regia puoi selezionare categorie intere o singole domande, cercare per parola o codice, filtrare per difficoltà e consultare soluzione e spiegazione in **Dettagli**. **Pesca domande** sostituisce la selezione e ripartisce i posti fra le aree spuntate. Il tempo predefinito è **30 secondi**. Puoi portarlo fino a 120 secondi per gli scenari lunghi. Se la selezione contiene domande con almeno 45 parole fra traccia e opzioni, la regia suggerisce di valutarne il tempo di lettura. La selezione, la durata e le impostazioni restano modificabili fino all’avvio.
 
 Una volta aperta la lobby, ogni studente sceglie un nickname da 2 a 24 caratteri. Sul telefono appare **In attesa del via** quando il collegamento è attivo. La prima domanda sostituisce automaticamente la lobby al comando **Avvia partita**. I contatori **Iscritti** e **Collegati** distinguono i posti riservati dai giocatori con almeno una scheda collegata. Una seconda scheda con la stessa identità conta una sola volta. Il docente può copiare il link diretto. Gli iscritti possono lasciare la lobby liberando il posto. Dopo l’avvio sono ammessi i rientri dei partecipanti già iscritti, utilizzando lo stesso browser e profilo. Una disconnessione conserva il posto. Il server decide la scadenza e accetta una sola risposta per persona e round.
 
-Una risposta esatta dà **500 punti più un bonus fino a 500**, proporzionale alla frazione di tempo rimasta quando il server riceve la scelta. Il totale viene arrotondato all’intero più vicino. A metà tempo una risposta corretta vale 750 punti. Risposta errata o assente vale zero. I nuovi punti diventano visibili alla chiusura del round. La risposta giusta, la spiegazione e la distribuzione dei voti restano sul proiettore fino al comando successivo. Le percentuali usano come denominatore le risposte ricevute. I numeri accanto alle barre riportano i voti effettivi.
+Una risposta esatta dà **500 punti più un bonus fino a 500**, proporzionale alla frazione di tempo rimasta quando il server riceve la scelta. Il totale viene arrotondato all’intero più vicino. A metà tempo una risposta corretta vale 750 punti. Una risposta ordinaria errata o assente vale zero. Le puntate seguono le regole descritte sotto. I nuovi punti diventano visibili alla chiusura del round. La risposta giusta, la spiegazione e la distribuzione dei voti restano sul proiettore fino al comando successivo. Le percentuali usano come denominatore le risposte ricevute. I numeri accanto alle barre riportano i voti effettivi.
 
 Nelle nuove partite create dalla regia, **Mostra la soluzione quando tutti hanno risposto** è preselezionata. Il conteggio considera tutti gli iscritti, inclusi quelli momentaneamente disconnessi. Quando un iscritto manca all’appello, il round termina comunque alla scadenza oppure al comando del docente. Disattiva l’opzione in regia se desideri conservare tutto il tempo assegnato dopo l’ultima risposta.
 
 **Chiudi le risposte** anticipa la scadenza. Se qualcuno deve ancora rispondere, compare una conferma. Dopo ogni soluzione puoi proseguire o concludere in anticipo. Dopo l’ultimo round, **Mostra la classifica** apre il risultato finale. A parità di punti si condivide la posizione, per esempio 1ª, 1ª, 3ª. In classifica i pari merito sono elencati in ordine di iscrizione. Il CSV contiene tutti gli iscritti, inclusi i giocatori con zero punti. La regia visualizza fino a 20 nominativi, la proiezione fino a 10. Il collegamento **Esporta CSV** identifica la partita visualizzata. Puoi salvare il file prima di aprire una nuova lobby o conservare quel collegamento nel browser del docente.
 
 Lo schermo del giocatore conferma l’invio appena il server registra la risposta. Alla chiusura mostra l’esito, la soluzione, la spiegazione e la posizione. **Rivedi domanda e opzioni** riapre tutte le alternative. A fine partita la sala vede il podio e lo studente può scegliere **Ripassa le domande**, quindi **Da ripassare** o **Tutte**. Prima di aprire un’altra lobby lascia all’aula il tempo per il ripasso e per l’esportazione del docente.
+
+### Bonus e Raddoppio
+
+In regia imposta il titolo e il moltiplicatore accanto ai singoli quesiti. Per le nuove selezioni i quesiti avanzati propongono ×2. Puoi scegliere standard, ×2 o ×3. Con il Raddoppio attivo ogni giocatore dispone di due puntate. Una risposta corretta vale da 500 a 1.000 punti base secondo la velocità. Una puntata riuscita aggiunge una quota base al valore della domanda. Una puntata errata sottrae fino a 500 punti disponibili. Un invio duplicato o fuori tempo non consuma una puntata. Il riepilogo docente calcola le percentuali sulle risposte ricevute.
+
+Per i contenuti di privacy e sicurezza sul lavoro i riferimenti sono il Regolamento (UE) 2016/679, il D.Lgs. 81/2008 e le procedure aziendali applicabili. [Principi del trattamento](https://www.garanteprivacy.it/home/principi-fondamentali-del-trattamento) · [D.Lgs. 81/2008](https://www.normattiva.it/uri-res/N2Ls?urn:nir:stato:decreto.legislativo:2008-04-09;81)
 
 ## 4. Aggiornamento dalle versioni precedenti
 
@@ -82,7 +88,7 @@ Estrai tutto lo ZIP in una cartella scrivibile. Occorre **Python 3.12 o successi
 
 Il launcher prepara le dipendenze, apre la regia nel browser e indica il percorso della password. Al primo avvio locale genera credenziali casuali in **`data/accesso-locale.env`**. Per accedere copia il valore accanto ad `ADMIN_PASSWORD`. Conserva il file sul computer del docente. Agli studenti serve soltanto il PIN della lobby. Per fermare il servizio premi `Ctrl+C` nella finestra di avvio.
 
-Nella regia scegli **Pesca 10 miste**, poi **Apri la lobby**. Apri **Proiettore** e sposta la nuova scheda sullo schermo dell’aula. Seleziona il QR sul proiettore per ingrandirlo nelle aule profonde. Gli studenti possono inquadrarlo e inserire il nickname, oppure aprire l’indirizzo giocatori e digitare il PIN. Premi **Avvia partita** in regia quando l’aula è pronta. Il comando si abilita con il primo iscritto.
+Nella regia scegli **Pesca domande**, poi **Apri la lobby**. Apri **Proiettore** e sposta la nuova scheda sullo schermo dell’aula. Seleziona il QR sul proiettore per ingrandirlo nelle aule profonde. Gli studenti possono inquadrarlo e inserire il nickname, oppure aprire l’indirizzo giocatori e digitare il PIN. Premi **Avvia partita** in regia quando l’aula è pronta. Il comando si abilita con il primo iscritto.
 
 | Vista | Indirizzo locale | Accesso |
 |---|---|---|

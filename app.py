@@ -68,6 +68,12 @@ CREATE TABLE IF NOT EXISTS answers (
  answered_at REAL NOT NULL,
  PRIMARY KEY(game_id, player_id, question_index)
 );
+CREATE TABLE IF NOT EXISTS quiz_settings (
+ game_id TEXT PRIMARY KEY, config TEXT NOT NULL);
+CREATE TABLE IF NOT EXISTS score_details (
+ game_id TEXT NOT NULL, player_id TEXT NOT NULL, question_index INTEGER NOT NULL,
+ base INTEGER NOT NULL, bonus INTEGER NOT NULL, wager INTEGER NOT NULL, stake_delta INTEGER NOT NULL,
+ PRIMARY KEY(game_id,player_id,question_index));
 CREATE INDEX IF NOT EXISTS idx_players_game ON players(game_id);
 CREATE INDEX IF NOT EXISTS idx_answers_question ON answers(game_id,question_index);
 ''')
@@ -208,8 +214,49 @@ def connected_players(game_id):
     return sum(1 for group in player_clients.values() if group.game_id == game_id and group.sockets)
 
 
+def area_name(category):
+    return {'SSL':'Salute e sicurezza sul lavoro','PRI':'Privacy'}.get(category,'Sicurezza digitale')
+
+
+def settings(game):
+    saved = row('SELECT config FROM quiz_settings WHERE game_id=?',(game['id'],))
+    return json.loads(saved['config']) if saved else {'title':'','areas':[], 'bets':False,'multipliers':{}}
+
+
+def save_settings(game_id, body, chosen):
+    old = settings({'id':game_id})
+    title = body.get('title',old['title'])
+    bets = body.get('bets',old['bets'])
+    bonuses = body.get('multipliers',old['multipliers'])
+    if not isinstance(title,str) or len(title)>90 or type(bets) is not bool or not isinstance(bonuses,dict):
+        raise HTTPException(400,detail='Impostazioni del quiz non valide.')
+    ids = set(chosen)
+    if any(type(v) is not int or v not in (1,2,3) for v in bonuses.values()):
+        raise HTTPException(400,detail='Moltiplicatore non valido.')
+    areas = sorted({area_name(q['category_id']) for q in conn.execute('SELECT id,category_id FROM questions') if q['id'] in ids})
+    config = dict(title=title.strip(),bets=bets,areas=areas,multipliers={k:v for k,v in bonuses.items() if k in ids and v>1})
+    conn.execute('INSERT OR REPLACE INTO quiz_settings VALUES (?,?)',(game_id,json.dumps(config,sort_keys=True)))
+
+
+def lesson_report(game):
+    ids = json.loads(game['selected_json'])[:game['current_index']+1]
+    frozen = {r[0]:json.loads(r[1]) for r in conn.execute('SELECT question_id,payload FROM game_questions WHERE game_id=?',(game['id'],))}
+    counts = {r[0]:(r[1],r[2]) for r in conn.execute('SELECT question_index,COUNT(*),SUM(correct) FROM answers WHERE game_id=? GROUP BY question_index',(game['id'],))}
+    areas, rounds = {}, []
+    for index,qid in enumerate(ids):
+        q = frozen[qid]
+        answered, correct = counts.get(index,(0,0))
+        area = areas.setdefault(area_name(q['category_id']),[0,0])
+        area[0] += correct
+        area[1] += answered
+        if answered:
+            rounds.append(dict(text=q['text'],solution=q['options'][q['correct']],why=q['explanation'],correct=correct,answered=answered))
+    rounds.sort(key=lambda r:r['correct']/r['answered'])
+    return dict(areas=areas,hardest=rounds[:3])
+
+
 def deck_revision(game):
-    values = [json.loads(game['selected_json']), game['duration'], bool(game['reveal_on_complete'])]
+    values = [json.loads(game['selected_json']), game['duration'], bool(game['reveal_on_complete']),settings(game)]
     return hashlib.sha256(json.dumps(values, separators=(',', ':')).encode()).hexdigest()
 
 
@@ -225,7 +272,8 @@ def game_info(game, include_pin=True):
     if not game: return None
     total = len(json.loads(game['selected_json']))
     n = row('SELECT COUNT(*) AS n FROM players WHERE game_id=?',(game['id'],))['n']
-    return dict(id=game['id'], pin=game['pin'] if include_pin else None,
+    config=settings(game)
+    return dict(title=config['title'],areas=config['areas'],bets=config['bets'],id=game['id'], pin=game['pin'] if include_pin else None,
                 status=game['status'],duration=game['duration'],total=total,
                 reveal_on_complete=bool(game['reveal_on_complete']),
                 current=game['current_index']+1,players=n,connected=connected_players(game['id']),max_players=MAX_PLAYERS,
@@ -243,8 +291,9 @@ def leaderboard(game, limit=10):
 
 def final_totals(game, player_id=None):
     """Fetch final counts in a single indexed query for either a reconnect or the whole room."""
-    sql = '''SELECT player_id, COUNT(*) AS answered, SUM(correct) AS correct
-               FROM answers WHERE game_id=? AND question_index BETWEEN 0 AND ?'''
+    sql = '''SELECT a.player_id, COUNT(*) AS answered, SUM(a.correct) AS correct,
+        SUM(COALESCE(d.base,a.points)) AS base,SUM(COALESCE(d.bonus,0)) AS bonus,SUM(COALESCE(d.stake_delta,0)) AS stake
+        FROM answers a LEFT JOIN score_details d USING(game_id,player_id,question_index) WHERE game_id=? AND question_index BETWEEN 0 AND ?'''
     params = [game['id'], game['current_index']]
     if player_id is not None:
         sql += ' AND player_id=?'
@@ -255,7 +304,7 @@ def final_totals(game, player_id=None):
 def personal_summary(played, totals):
     correct = totals['correct'] if totals else 0
     answered = totals['answered'] if totals else 0
-    return {'played': played, 'correct': correct, 'wrong': answered - correct,
+    return {'base':totals['base'] if totals else 0,'bonus':totals['bonus'] if totals else 0,'stake':totals['stake'] if totals else 0,'played': played, 'correct': correct, 'wrong': answered - correct,
             'missed': played - answered}
 
 
@@ -280,6 +329,7 @@ def public_snapshot(game, role, player_id=None):
     result={'type':'snapshot','game':info}
     if question:
         visible={k:question[k] for k in ('id','category_id','category','text','options','type','difficulty')}
+        visible['multiplier']=settings(game)['multipliers'].get(question['id'],1)
         visible['number']=game['current_index']+1
         if game['status'] in ('results','finished') or role=='host':
             visible['correct']=question['correct']
@@ -291,10 +341,13 @@ def public_snapshot(game, role, player_id=None):
             result['breakdown']=stats['breakdown']
     if role in ('host','screen') and game['status'] in ('results', 'finished'):
         result['leaderboard']=leaderboard(game, 20 if role=='host' else 10)
+    if role=='host' and game['status']=='finished':
+        result['lesson']=lesson_report(game)
     if role == 'player' and player_id:
         p=row('SELECT * FROM players WHERE id=? AND game_id=?',(player_id,game['id']))
         if not p:return {'type':'error','message':'Partecipante non trovato nella partita.'}
-        result['me']={'nickname':p['nickname'],'score':p['score']}
+        spent=row('SELECT COUNT(*) FROM score_details WHERE game_id=? AND player_id=? AND wager=1',(game['id'],player_id))[0]
+        result['me']={'remainingBets':max(0,2-spent),'nickname':p['nickname'],'score':p['score']}
         if question:
             ans=row('''SELECT choice,correct,points FROM answers WHERE
                   game_id=? AND player_id=? AND question_index=?''',
@@ -335,6 +388,7 @@ def batched_player_snapshots(game, wanted_ids):
     common = {'type':'snapshot','game':info}
     if question:
         visible = {k:question[k] for k in ('id','category_id','category','text','options','type','difficulty')}
+        visible['multiplier']=settings(game)['multipliers'].get(question['id'],1)
         visible['number'] = game['current_index']+1
         if game['status'] in ('results','finished'):
             visible['correct'] = question['correct']
@@ -344,13 +398,14 @@ def batched_player_snapshots(game, wanted_ids):
         common['answered'] = stats['answered']
         answers = {r['player_id']:r for r in conn.execute("""SELECT player_id,choice,correct,points
             FROM answers WHERE game_id=? AND question_index=?""",(game['id'],game['current_index']))}
+    spent={r[0]:r[1] for r in conn.execute('SELECT player_id,SUM(wager) FROM score_details WHERE game_id=? GROUP BY player_id',(game['id'],))}
     snapshots={}
     for pid in wanted_ids:
         p=by_id.get(pid)
         if not p:
             continue
         snap=dict(common)
-        me={'nickname':p['nickname'],'score':p['score']}
+        me={'remainingBets':max(0,2-spent.get(pid,0)),'nickname':p['nickname'],'score':p['score']}
         if question:
             ans=answers.get(pid)
             me['answered']=bool(ans)
@@ -542,6 +597,7 @@ async def overview(request:Request):
     if game:
         result['snapshot']=public_snapshot(game,'host')
         if game['status']=='lobby':
+            result['settings']=settings(game)
             result['configurationRevision'] = deck_revision(game)
             frozen={r['question_id']:json.loads(r['payload']) for r in conn.execute(
                 'SELECT question_id,payload FROM game_questions WHERE game_id=?',(game['id'],))}
@@ -569,8 +625,8 @@ async def create_game(request:Request):
     reveal_on_complete = body.get('revealOnComplete', False)
     if type(reveal_on_complete) is not bool:
         raise HTTPException(400, detail='Impostazione di chiusura del round non valida.')
-    if not isinstance(chosen,list) or not (1<=len(chosen)<=100) or any(not isinstance(x,str) for x in chosen):
-        raise HTTPException(400,detail='Seleziona da 1 a 100 domande.')
+    if not isinstance(chosen,list) or not (1<=len(chosen)<=210) or any(not isinstance(x,str) for x in chosen):
+        raise HTTPException(400,detail='Seleziona da 1 a 210 domande.')
     if len(set(chosen))!=len(chosen):
         raise HTTPException(400,detail='La stessa domanda non può comparire due volte.')
     if type(duration) is not int or not 10<=duration<=120:
@@ -590,6 +646,7 @@ async def create_game(request:Request):
             conn.execute('''INSERT INTO games(id,pin,status,selected_json,duration,created_at,reveal_on_complete)
                 VALUES (?,?,?,?,?,?,?)''',(gid,pin,'lobby',json.dumps(chosen),duration,time.time(),reveal_on_complete))
             freeze_questions(gid,chosen)
+            save_settings(gid,body,chosen)
             conn.execute('COMMIT')
         except Exception:
             conn.execute('ROLLBACK')
@@ -603,8 +660,8 @@ async def edit_lobby(request:Request):
     body=await request.json()
     chosen=body.get('ids',[])
     duration=body.get('duration',20)
-    if not isinstance(chosen,list) or not (1<=len(chosen)<=100) or not all(isinstance(x,str) for x in chosen) or len(set(chosen))!=len(chosen):
-        raise HTTPException(400,detail='Seleziona da 1 a 100 domande distinte.')
+    if not isinstance(chosen,list) or not (1<=len(chosen)<=210) or not all(isinstance(x,str) for x in chosen) or len(set(chosen))!=len(chosen):
+        raise HTTPException(400,detail='Seleziona da 1 a 210 domande distinte.')
     if type(duration) is not int or not 10<=duration<=120:
         raise HTTPException(400,detail='Durata non valida.')
     async with lock:
@@ -624,6 +681,7 @@ async def edit_lobby(request:Request):
         conn.execute('BEGIN')
         try:
             freeze_questions(game['id'],chosen)
+            save_settings(game['id'],body,chosen)
             conn.execute('UPDATE games SET selected_json=?,duration=?,reveal_on_complete=? WHERE id=?',
                          (json.dumps(chosen),duration,reveal_on_complete,game['id']))
             conn.execute('COMMIT')
@@ -916,10 +974,26 @@ async def ws_play(ws:WebSocket):
                     now=time.time()
                     correct=int(choice==q['correct'])
                     remaining=min(game['duration'],max(0,game['deadline_at']-now))
-                    points=round(500+500*remaining/game['duration']) if correct else 0
-                    conn.execute('''INSERT INTO answers(game_id,player_id,question_index,choice,correct,points,answered_at)
-                        VALUES (?,?,?,?,?,?,?)''',(game['id'],pid,game['current_index'],choice,correct,points,now))
-                    ack={'type':'answer_ack','ok':True,'choice':choice,'questionIndex':game['current_index']}
+                    config=settings(game)
+                    wager=payload.get('wager',False)
+                    used=row('SELECT COUNT(*) FROM score_details WHERE game_id=? AND player_id=? AND wager=1',(game['id'],pid))[0]
+                    if type(wager) is not bool or (wager and (not config['bets'] or used>=2)):
+                        await safe_send(ws,dict(type='answer_ack',ok=False,questionIndex=question_index,message='Raddoppio non disponibile.'))
+                        continue
+                    base=round(500+500*remaining/game['duration']) if correct else 0
+                    bonus=base*(config['multipliers'].get(q['id'],1)-1)
+                    score=row('SELECT score FROM players WHERE id=?',(pid,))[0]
+                    stake=(base if correct else -min(500,score)) if wager else 0
+                    points=base+bonus+stake
+                    conn.execute('BEGIN')
+                    try:
+                        conn.execute('INSERT INTO answers VALUES (?,?,?,?,?,?,?)',(game['id'],pid,question_index,choice,correct,points,now))
+                        conn.execute('INSERT INTO score_details VALUES (?,?,?,?,?,?,?)',(game['id'],pid,question_index,base,bonus,int(wager),stake))
+                        conn.execute('COMMIT')
+                    except Exception:
+                        conn.execute('ROLLBACK')
+                        raise
+                    ack=dict(type='answer_ack',ok=True,choice=choice,questionIndex=question_index,remainingBets=2-used-int(wager))
                     schedule_counts()
             await safe_send(ws,ack)
             if ack['ok']:

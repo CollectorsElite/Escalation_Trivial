@@ -1514,5 +1514,1573 @@
     "explanation": "Il ripristino va provato dal punto di vista del servizio. Identità, rete e altri componenti possono condizionarne l’effettiva disponibilità.",
     "difficulty": "Avanzato",
     "type": "MULTI"
+  },
+  {
+    "id": "PHI-016",
+    "category_id": "PHI",
+    "category": "Phishing e ingegneria sociale",
+    "question": "Un fornitore cambia IBAN via email. Come confermi la variazione?",
+    "options": [
+      "Chiamo il numero indicato nella richiesta",
+      "Richiamo il contatto già registrato"
+    ],
+    "correct": 1,
+    "explanation": "Un canale già verificato evita di chiedere conferma allo stesso possibile impostore.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "PHI-017",
+    "category_id": "PHI",
+    "category": "Phishing e ingegneria sociale",
+    "question": "Un QR copre quello originale sul manifesto. Quale controllo viene prima del pagamento?",
+    "options": [
+      "Controllare che la pagina mostri il logo",
+      "Verificare l’indirizzo con il gestore"
+    ],
+    "correct": 1,
+    "explanation": "Un logo può essere copiato e il QR sostituito.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PHI-018",
+    "category_id": "PHI",
+    "category": "Phishing e ingegneria sociale",
+    "question": "Una voce familiare chiede un bonifico urgente. Quale riscontro è più solido?",
+    "options": [
+      "Riascoltare il messaggio vocale",
+      "Richiamare tramite rubrica interna"
+    ],
+    "correct": 1,
+    "explanation": "La voce può essere imitata; il numero noto offre un controllo indipendente.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PHI-019",
+    "category_id": "PHI",
+    "category": "Phishing e ingegneria sociale",
+    "question": "Ricevi due messaggi identici con mittenti visibili uguali. Cosa puoi dedurre?",
+    "options": [
+      "Sono stati inviati dallo stesso account",
+      "Il solo nome visualizzato non identifica l’autore"
+    ],
+    "correct": 1,
+    "explanation": "Il nome mostrato è un’etichetta e può essere duplicato.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PHI-020",
+    "category_id": "PHI",
+    "category": "Phishing e ingegneria sociale",
+    "question": "Una pagina di consenso chiede di leggere tutta la posta per mostrare un PDF. Come procedi?",
+    "options": [
+      "Interrompo e verifico i permessi richiesti",
+      "Concedo accesso perché uso il login aziendale"
+    ],
+    "correct": 0,
+    "explanation": "Anche un’autorizzazione autentica può attribuire privilegi eccessivi a un’app.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "AUT-016",
+    "category_id": "AUT",
+    "category": "Password e autenticazione",
+    "question": "Perché conservare separatamente i codici di recupero dal telefono?",
+    "options": [
+      "Servono anche se il telefono viene smarrito",
+      "Devono essere disponibili a tutto il team"
+    ],
+    "correct": 0,
+    "explanation": "Un metodo di recupero deve restare utilizzabile quando manca il dispositivo principale.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "AUT-017",
+    "category_id": "AUT",
+    "category": "Password e autenticazione",
+    "question": "Quale scelta permette di attribuire una modifica a un operatore?",
+    "options": [
+      "Account individuali con registrazione degli accessi",
+      "Un account condiviso con password lunga"
+    ],
+    "correct": 0,
+    "explanation": "La robustezza della password non distingue le persone che la condividono.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "AUT-018",
+    "category_id": "AUT",
+    "category": "Password e autenticazione",
+    "question": "Chiudi la finestra del browser su un PC condiviso. Cosa protegge meglio la sessione?",
+    "options": [
+      "Uscire dal servizio e chiudere il profilo temporaneo",
+      "Eliminare solo la cronologia degli indirizzi"
+    ],
+    "correct": 0,
+    "explanation": "Il cookie di sessione può sopravvivere alla chiusura della finestra.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "AUT-019",
+    "category_id": "AUT",
+    "category": "Password e autenticazione",
+    "question": "Un consulente termina l’incarico. Cosa fare del secondo fattore a lui associato?",
+    "options": [
+      "Revocare accesso e metodi di recupero collegati",
+      "Cambiare il solo nome visualizzato"
+    ],
+    "correct": 0,
+    "explanation": "I fattori e le sessioni residue possono consentire ulteriori accessi.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "AUT-020",
+    "category_id": "AUT",
+    "category": "Password e autenticazione",
+    "question": "Dove registrare una chiave di sicurezza di riserva?",
+    "options": [
+      "Nel modulo arrivato da un mittente sconosciuto",
+      "Nel proprio account tramite il percorso ufficiale"
+    ],
+    "correct": 1,
+    "explanation": "La registrazione di un nuovo fattore modifica chi può autenticarsi.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "MAL-016",
+    "category_id": "MAL",
+    "category": "Malware e ransomware",
+    "question": "Trovi una chiavetta smarrita in aula. Come la gestisci?",
+    "options": [
+      "La consegno al referente previsto",
+      "La apro sul PC del docente per identificarla"
+    ],
+    "correct": 0,
+    "explanation": "Un dispositivo sconosciuto può interagire con il sistema già al collegamento.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "MAL-017",
+    "category_id": "MAL",
+    "category": "Malware e ransomware",
+    "question": "Un browser propone un falso aggiornamento durante la lettura. Dove controlli?",
+    "options": [
+      "Nelle impostazioni ufficiali del browser",
+      "Nel collegamento della finestra comparsa"
+    ],
+    "correct": 0,
+    "explanation": "Il canale di aggiornamento integrato evita installer di provenienza incerta.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "MAL-018",
+    "category_id": "MAL",
+    "category": "Malware e ransomware",
+    "question": "Un allegato richiede di disattivare la protezione del documento. Come procedi?",
+    "options": [
+      "Verifico l’origine tramite un canale noto",
+      "Abilito il contenuto per vedere se è leggibile"
+    ],
+    "correct": 0,
+    "explanation": "Il contenuto attivo può eseguire operazioni prima della lettura.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "MAL-019",
+    "category_id": "MAL",
+    "category": "Malware e ransomware",
+    "question": "Dopo la pulizia di un PC, perché verificare gli altri dispositivi coinvolti?",
+    "options": [
+      "Perché tutti richiedono sempre la reinstallazione",
+      "Per individuare ulteriori effetti dello stesso incidente"
+    ],
+    "correct": 1,
+    "explanation": "La portata va ricostruita dalle evidenze prima di scegliere le misure.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "MAL-020",
+    "category_id": "MAL",
+    "category": "Malware e ransomware",
+    "question": "Quale caratteristica rende più affidabile un ripristino dopo ransomware?",
+    "options": [
+      "Copie isolate già provate in ripristino",
+      "Una replica sempre scrivibile con le stesse credenziali"
+    ],
+    "correct": 0,
+    "explanation": "Una replica accessibile può subire la stessa cifratura.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "NET-016",
+    "category_id": "NET",
+    "category": "Reti e sicurezza web",
+    "question": "Il Wi-Fi della sala ha due reti con nomi simili. A chi chiedi conferma?",
+    "options": [
+      "Alla prima pagina che chiede le credenziali",
+      "Al gestore tramite un recapito noto"
+    ],
+    "correct": 1,
+    "explanation": "Il nome di rete da solo non identifica il gestore.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "NET-017",
+    "category_id": "NET",
+    "category": "Reti e sicurezza web",
+    "question": "Quale indirizzo indica un dominio distinto da esempio.it?",
+    "options": [
+      "esempio.it.assistenza.test",
+      "supporto.esempio.it"
+    ],
+    "correct": 0,
+    "explanation": "Il nome sulla destra determina la gerarchia del dominio.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "NET-018",
+    "category_id": "NET",
+    "category": "Reti e sicurezza web",
+    "question": "Quale misura limita i contatti tra dispositivi ospiti e server interni?",
+    "options": [
+      "Usare un nome diverso per lo stesso segmento aperto",
+      "Una rete ospiti separata con regole di accesso"
+    ],
+    "correct": 1,
+    "explanation": "La separazione dipende dalle regole applicate al traffico.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "NET-019",
+    "category_id": "NET",
+    "category": "Reti e sicurezza web",
+    "question": "Una connessione HTTPS valida cosa garantisce sul negozio online?",
+    "options": [
+      "Affidabilità commerciale del venditore",
+      "Protezione del collegamento al dominio indicato"
+    ],
+    "correct": 1,
+    "explanation": "Il certificato non valuta le pratiche commerciali del sito.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "NET-020",
+    "category_id": "NET",
+    "category": "Reti e sicurezza web",
+    "question": "Un portale interno è raggiungibile solo tramite VPN. Chi deve poter leggere i documenti?",
+    "options": [
+      "Qualsiasi utente connesso alla VPN",
+      "I soli utenti autorizzati sui documenti"
+    ],
+    "correct": 1,
+    "explanation": "Accesso alla rete e autorizzazione al contenuto sono controlli distinti.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-011",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Devi registrare presenze a un webinar. Quale campo richiede una motivazione ulteriore?",
+    "options": [
+      "Il nome del partecipante se necessario all’attestato",
+      "L’indirizzo di casa"
+    ],
+    "correct": 1,
+    "explanation": "Ogni informazione raccolta deve essere pertinente alla finalità dichiarata.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-012",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Un interessato chiede copia dei propri dati. Come instradi la richiesta?",
+    "options": [
+      "La archivio perché arrivata alla casella ordinaria",
+      "La trasmetto alla funzione che gestisce i diritti"
+    ],
+    "correct": 1,
+    "explanation": "La gestione interna deve consentire di prendere in carico le richieste ricevute.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-013",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Un report sostituisce i nomi con codici. L’azienda conserva la tabella di raccordo. Cosa sono i dati?",
+    "options": [
+      "Dati pseudonimizzati",
+      "Dati aggregati irreversibili",
+      "Dati anonimi",
+      "Dati esclusivamente tecnici"
+    ],
+    "correct": 0,
+    "explanation": "La tabella rende possibile ricondurre i codici alle persone.",
+    "difficulty": "Intermedio",
+    "type": "MULTI"
+  },
+  {
+    "id": "PRI-014",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Un modulo ha uno spazio libero per osservazioni. Quale misura aiuta la minimizzazione?",
+    "options": [
+      "Chiedere una storia personale completa",
+      "Indicare quali informazioni servono e limitare il campo"
+    ],
+    "correct": 1,
+    "explanation": "I campi liberi possono raccogliere dettagli estranei allo scopo.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-015",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Devi inviare un avviso a destinatari esterni che non si conoscono. Quale opzione tutela gli indirizzi?",
+    "options": [
+      "Invii separati o copia nascosta",
+      "Inserire ogni indirizzo nel campo A"
+    ],
+    "correct": 0,
+    "explanation": "La visibilità degli indirizzi è una comunicazione ulteriore.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-016",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Un dipendente segnala un indirizzo personale errato in anagrafica. Quale principio è coinvolto?",
+    "options": [
+      "Portabilità del software",
+      "Esattezza dei dati"
+    ],
+    "correct": 1,
+    "explanation": "I dati inesatti devono poter essere corretti rispetto allo scopo.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-017",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Hai concluso una selezione del personale. Come decidi quanto conservare i CV?",
+    "options": [
+      "Applico tempi e criteri motivati per la finalità",
+      "Li conservo finché resta spazio sul disco"
+    ],
+    "correct": 0,
+    "explanation": "La capacità di archiviazione non determina il periodo necessario.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-018",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Un fornitore tratta dati per conto del cliente seguendone le istruzioni. Quale ruolo descrive questa attività?",
+    "options": [
+      "Contitolare per il solo fatto di essere pagato",
+      "Destinatario occasionale senza incarico",
+      "Interessato",
+      "Responsabile del trattamento"
+    ],
+    "correct": 3,
+    "explanation": "Il ruolo dipende dalle attività svolte per conto del titolare.",
+    "difficulty": "Intermedio",
+    "type": "MULTI"
+  },
+  {
+    "id": "PRI-019",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Un documento con dati personali è inviato al destinatario sbagliato. Qual è la prima azione interna?",
+    "options": [
+      "Attendere che il destinatario presenti reclamo",
+      "Segnalare tempestivamente l’evento secondo procedura"
+    ],
+    "correct": 1,
+    "explanation": "La segnalazione permette di valutare conseguenze e contenimento.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "PRI-020",
+    "category_id": "PRI",
+    "category": "Privacy e protezione dati",
+    "question": "Un servizio propone di riusare i dati degli iscritti per uno scopo diverso. Cosa va valutato prima?",
+    "options": [
+      "Compatibilità della finalità e base giuridica applicabile",
+      "Solo il costo della campagna"
+    ],
+    "correct": 0,
+    "explanation": "La disponibilità tecnica dei dati non autorizza automaticamente un nuovo utilizzo.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-011",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Devi lasciare la postazione solo per un minuto. Quale gesto protegge la sessione?",
+    "options": [
+      "Spegnere soltanto il monitor",
+      "Bloccare lo schermo"
+    ],
+    "correct": 1,
+    "explanation": "Il monitor spento non impedisce di usare una sessione aperta.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-012",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Come condividi una bozza riservata con un solo revisore?",
+    "options": [
+      "Link accessibile a chiunque lo riceva",
+      "Accesso nominativo al documento"
+    ],
+    "correct": 1,
+    "explanation": "L’accesso nominativo restringe la consultazione al destinatario previsto.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-013",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Un’app richiede accesso ai contatti per fare calcoli. Come valuti la richiesta?",
+    "options": [
+      "Verifico se il permesso serve alla funzione",
+      "Concedo ogni permesso richiesto alla prima apertura"
+    ],
+    "correct": 0,
+    "explanation": "I privilegi superflui ampliano l’esposizione dei dati.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-014",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Una stampa riservata resta sul vassoio comune. Quale misura preventiva scegli?",
+    "options": [
+      "Rilascio della stampa con identificazione",
+      "Stampa in caratteri più piccoli"
+    ],
+    "correct": 0,
+    "explanation": "Il rilascio controllato riduce il tempo in cui i fogli restano incustoditi.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-015",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Quale dispositivo usare per archiviare un file di lavoro riservato?",
+    "options": [
+      "Un supporto autorizzato e protetto",
+      "Il primo supporto libero disponibile"
+    ],
+    "correct": 0,
+    "explanation": "I supporti gestiti permettono di applicare i controlli aziendali.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-016",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Prima di condividere lo schermo in riunione cosa è più utile?",
+    "options": [
+      "Aprire anche il client di posta per comodità",
+      "Selezionare la sola finestra necessaria"
+    ],
+    "correct": 1,
+    "explanation": "La condivisione selettiva riduce le esposizioni involontarie.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-017",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Un collega cambia mansione. Cosa fare dei permessi precedenti?",
+    "options": [
+      "Rivederli rispetto ai nuovi compiti",
+      "Sommare sempre vecchi e nuovi permessi"
+    ],
+    "correct": 0,
+    "explanation": "La revisione previene l’accumulo di privilegi.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-018",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Come gestire un portatile dismesso contenente dati di lavoro?",
+    "options": [
+      "Spostare i file nel cestino prima della cessione",
+      "Seguire la procedura di cancellazione o distruzione approvata"
+    ],
+    "correct": 1,
+    "explanation": "Il cestino non rende irrecuperabili i dati.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-019",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Una richiesta di installazione sembra urgente. Qual è il canale appropriato?",
+    "options": [
+      "Un servizio gratuito suggerito in chat",
+      "Il catalogo o il supporto autorizzato"
+    ],
+    "correct": 1,
+    "explanation": "Il canale gestito permette di verificare provenienza e autorizzazione.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "OPS-020",
+    "category_id": "OPS",
+    "category": "Comportamenti sicuri",
+    "question": "Devi trasferire un file voluminoso. Come scegli lo strumento?",
+    "options": [
+      "Verifico classificazione del file e servizi approvati",
+      "Uso qualsiasi sito che non richieda registrazione"
+    ],
+    "correct": 0,
+    "explanation": "Il tipo di informazione determina le condizioni di condivisione.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-011",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Un alert arriva senza orario di riferimento. Quale dato chiedi?",
+    "options": [
+      "La dimensione del monitor dell’analista",
+      "Fuso orario e timestamp originale"
+    ],
+    "correct": 1,
+    "explanation": "I tempi devono essere confrontabili fra sistemi diversi.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-012",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Due eventi riguardano lo stesso nome utente. Cosa aiuta a correlarli?",
+    "options": [
+      "Riscontri su orari, dispositivi e sessioni",
+      "La sola somiglianza dei titoli degli alert"
+    ],
+    "correct": 0,
+    "explanation": "La correlazione richiede evidenze coerenti.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-013",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Un ticket passa al turno successivo. Quale annotazione serve?",
+    "options": [
+      "Azioni svolte, evidenze e verifiche pendenti",
+      "Solo il nome dell’analista uscente"
+    ],
+    "correct": 0,
+    "explanation": "Il passaggio deve rendere ripercorribile lo stato del caso.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-014",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Quale elemento distingue meglio un fatto da un’ipotesi nel rapporto?",
+    "options": [
+      "Il grado di sicurezza espresso a voce",
+      "Una fonte verificabile associata all’osservazione"
+    ],
+    "correct": 1,
+    "explanation": "L’evidenza consente ad altri di controllare la conclusione.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-015",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Dopo il contenimento, quale verifica precede il ritorno in esercizio?",
+    "options": [
+      "Controllare che il servizio sia integro e monitorato",
+      "Chiudere il ticket appena cala il numero di alert"
+    ],
+    "correct": 0,
+    "explanation": "L’assenza di nuovi avvisi non dimostra il recupero del servizio.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-016",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Chi decide le priorità di ripristino in caso di incidente esteso?",
+    "options": [
+      "Il primo operatore disponibile",
+      "Il proprietario del primo ticket aperto",
+      "Il fornitore del componente più costoso",
+      "I responsabili individuati dal piano considerando gli impatti"
+    ],
+    "correct": 3,
+    "explanation": "Le dipendenze operative guidano l’ordine del ripristino.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SOC-017",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Un reparto riferisce un’anomalia non visibile nei log. Come procedi?",
+    "options": [
+      "Scarto la segnalazione senza approfondire",
+      "Raccolgo i dettagli e verifico la copertura dei log"
+    ],
+    "correct": 1,
+    "explanation": "L’assenza di registrazioni può dipendere da lacune di visibilità.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-018",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Quale comunicazione è più utile durante un incidente in corso?",
+    "options": [
+      "Attribuzione immediata basata su supposizioni",
+      "Stato verificato, azioni in corso e prossimo aggiornamento"
+    ],
+    "correct": 1,
+    "explanation": "Aggiornamenti circostanziati aiutano a coordinare le decisioni.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-019",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Due sistemi mostrano orari discordanti. Come conservi l’informazione?",
+    "options": [
+      "Riscrivo i file di log originali",
+      "Registro lo scarto mantenendo i timestamp originali"
+    ],
+    "correct": 1,
+    "explanation": "La normalizzazione per l’analisi deve preservare i riferimenti originari.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "SOC-020",
+    "category_id": "SOC",
+    "category": "SOC e risposta agli incidenti",
+    "question": "Come rendere controllabile una misura emersa dopo un incidente?",
+    "options": [
+      "Registrare solo una raccomandazione generica",
+      "Assegnare un responsabile, una scadenza e un criterio di verifica"
+    ],
+    "correct": 1,
+    "explanation": "Un’azione verificabile permette di misurare il miglioramento.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-011",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Quale prova dimostra che un backup è utilizzabile?",
+    "options": [
+      "Leggere il nome del file di backup",
+      "Ripristino verificato di un campione rappresentativo"
+    ],
+    "correct": 1,
+    "explanation": "Il ripristino verifica disponibilità e leggibilità del contenuto.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-012",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Una sincronizzazione propaga una cancellazione. Cosa aiuta a recuperare?",
+    "options": [
+      "Versioni o copie precedenti recuperabili",
+      "Aumentare la frequenza della sola sincronizzazione"
+    ],
+    "correct": 0,
+    "explanation": "La copia corrente può riflettere lo stesso errore della sorgente.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-013",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Hai recuperato i dati ma manca la chiave di cifratura. Cosa doveva prevedere il piano?",
+    "options": [
+      "Solo una copia ulteriore dei dati cifrati",
+      "Recupero protetto anche delle chiavi"
+    ],
+    "correct": 1,
+    "explanation": "Il ripristino richiede anche le dipendenze critiche.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-014",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Quale obiettivo indica la perdita temporale di dati tollerabile?",
+    "options": [
+      "RPO",
+      "MTBF",
+      "SLA di disponibilità mensile",
+      "RTO"
+    ],
+    "correct": 0,
+    "explanation": "L’RPO esprime a quale punto temporale occorre poter recuperare i dati.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "BCP-015",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Quale obiettivo riguarda il tempo disponibile per tornare operativi?",
+    "options": [
+      "RPO",
+      "MTTR misurato a consuntivo",
+      "RTO",
+      "Numero massimo di copie"
+    ],
+    "correct": 2,
+    "explanation": "L’RTO descrive il tempo obiettivo di ripristino.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "BCP-016",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Un servizio dipende da un fornitore esterno. Cosa verificare nel piano?",
+    "options": [
+      "Solo la data di firma del contratto",
+      "Dipendenze, contatti e modalità di ripristino"
+    ],
+    "correct": 1,
+    "explanation": "Una dipendenza esterna può determinare i tempi reali di recupero.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-017",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "A cosa serve una copia immutabile per un periodo definito?",
+    "options": [
+      "A limitare modifica e cancellazione delle copie",
+      "A garantire che i file originali siano corretti"
+    ],
+    "correct": 0,
+    "explanation": "L’immutabilità protegge la copia; la qualità del contenuto richiede verifica.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-018",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Dopo un ripristino quale controllo compete anche agli utenti del servizio?",
+    "options": [
+      "Controllare solo che il server risponda",
+      "Verificare le funzioni operative essenziali"
+    ],
+    "correct": 1,
+    "explanation": "Una risposta tecnica positiva non garantisce un processo utilizzabile.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-019",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Durante una prova il recapito del fornitore è scaduto. Come chiudi il rilievo?",
+    "options": [
+      "Rimando il controllo al prossimo incidente",
+      "Aggiorno il contatto e verifico il canale sostitutivo"
+    ],
+    "correct": 1,
+    "explanation": "Un piano di continuità dipende da riferimenti raggiungibili.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "BCP-020",
+    "category_id": "BCP",
+    "category": "Cloud, backup e continuità",
+    "question": "Quali dati scegliere per la prima prova di ripristino di un processo critico?",
+    "options": [
+      "Soltanto il file più piccolo disponibile",
+      "Dati e dipendenze necessari a una funzione rappresentativa"
+    ],
+    "correct": 1,
+    "explanation": "La prova deve misurare la capacità di riprendere il processo.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-001",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un nuovo lavoratore nota un riparo danneggiato. A chi segnalarlo tempestivamente?",
+    "options": [
+      "Al preposto o al responsabile secondo procedura",
+      "Solo al collega del turno successivo"
+    ],
+    "correct": 0,
+    "explanation": "La segnalazione attiva chi può mettere in sicurezza la situazione.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-002",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Chi rappresenta i lavoratori sui temi di salute e sicurezza?",
+    "options": [
+      "Il rappresentante dei lavoratori per la sicurezza",
+      "Il medico competente",
+      "Il responsabile acquisti",
+      "Il responsabile del servizio di prevenzione e protezione"
+    ],
+    "correct": 0,
+    "explanation": "L’RLS rappresenta i lavoratori per gli aspetti della salute e sicurezza.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-003",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale ruolo sovrintende all’attività lavorativa e vigila sulle disposizioni ricevute?",
+    "options": [
+      "Il medico competente",
+      "Il rappresentante sindacale",
+      "Il preposto",
+      "Il visitatore esterno"
+    ],
+    "correct": 2,
+    "explanation": "La vigilanza operativa caratterizza il ruolo del preposto.",
+    "difficulty": "Intermedio",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-004",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un lavoratore riceve un’attrezzatura mai utilizzata. Cosa verifica prima dell’uso?",
+    "options": [
+      "Di avere istruzioni, formazione e addestramento previsti",
+      "Che un collega la consideri semplice"
+    ],
+    "correct": 0,
+    "explanation": "L’esperienza informale non sostituisce la preparazione necessaria.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-005",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "A cosa serve segnalare un mancato infortunio?",
+    "options": [
+      "Registrare soltanto il costo dei materiali",
+      "Individuare condizioni da correggere prima di un danno"
+    ],
+    "correct": 1,
+    "explanation": "Un evento senza lesioni può rivelare una carenza di prevenzione.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-006",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Chi deve sapere come segnalare un pericolo?",
+    "options": [
+      "Tutti i lavoratori interessati",
+      "Soltanto gli addetti alle emergenze"
+    ],
+    "correct": 0,
+    "explanation": "La segnalazione tempestiva dipende dalla conoscenza dei canali aziendali.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-007",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quando si introduce un nuovo processo cosa va riesaminato?",
+    "options": [
+      "Il rischio associato alle nuove modalità operative",
+      "Solo il nome del reparto"
+    ],
+    "correct": 0,
+    "explanation": "La modifica può introdurre pericoli o cambiare le esposizioni.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-008",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale informazione rende più utile una segnalazione?",
+    "options": [
+      "Un giudizio generico sulla prudenza dei colleghi",
+      "Luogo, situazione osservata e persone potenzialmente esposte"
+    ],
+    "correct": 1,
+    "explanation": "Dettagli osservabili consentono di individuare e valutare il problema.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-009",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "In una riunione di reparto emerge una difficoltà nell’uso dei DPI. Come gestirla?",
+    "options": [
+      "Lasciare ciascuno libero di rinunciarvi",
+      "Portarla ai referenti per verificare adeguatezza e modalità d’uso"
+    ],
+    "correct": 1,
+    "explanation": "La difficoltà segnala una possibile esigenza di adattamento o formazione.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-010",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale documento registra la valutazione dei rischi e le misure previste?",
+    "options": [
+      "Il DVR",
+      "Il registro delle presenze",
+      "Il verbale di consegna dei DPI",
+      "Il piano delle ferie"
+    ],
+    "correct": 0,
+    "explanation": "Il documento di valutazione collega i rischi alle misure di prevenzione e protezione.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-011",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un cavo attraversa il passaggio. Quale rischio riconosci?",
+    "options": [
+      "Inciampo",
+      "Esposizione a rumore"
+    ],
+    "correct": 0,
+    "explanation": "Il cavo crea un ostacolo sul percorso pedonale.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-012",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Vedi condensa su un pavimento liscio. Quale pericolo cambia subito?",
+    "options": [
+      "La presenza di radiazioni",
+      "La possibilità di scivolare"
+    ],
+    "correct": 1,
+    "explanation": "Il bagnato può ridurre l’aderenza delle calzature.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-013",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un carrello elevatore attraversa il percorso pedonale. Quale misura organizzativa è pertinente?",
+    "options": [
+      "Aumentare il numero di manifesti generici",
+      "Separare i flussi e regolare gli attraversamenti"
+    ],
+    "correct": 1,
+    "explanation": "La separazione dei percorsi riduce l’interferenza fra mezzi e persone.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-014",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Uno scaffale mostra una deformazione dopo un urto. Come ti comporti?",
+    "options": [
+      "Segnalo e faccio verificare prima di riutilizzare l’area interessata",
+      "Raddrizzo il montante con un attrezzo improvvisato"
+    ],
+    "correct": 0,
+    "explanation": "La deformazione può compromettere la capacità portante.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-015",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Una scatola nasconde la visuale durante il trasporto. Qual è il problema immediato?",
+    "options": [
+      "Variazione dell’umidità ambientale",
+      "Difficoltà a vedere ostacoli e persone"
+    ],
+    "correct": 1,
+    "explanation": "La visibilità è parte della valutazione del percorso.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-016",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Una tanica è priva di etichetta. Quale dato manca per utilizzarla in sicurezza?",
+    "options": [
+      "Identità del contenuto e indicazioni di pericolo",
+      "Prezzo di acquisto"
+    ],
+    "correct": 0,
+    "explanation": "L’aspetto del liquido non identifica sostanza e rischi.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-017",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Rumore intenso impedisce di sentire i segnali. Quale rischio aggiuntivo emerge?",
+    "options": [
+      "Aumento automatico della luce",
+      "Mancata percezione degli avvisi"
+    ],
+    "correct": 1,
+    "explanation": "Oltre all’esposizione sonora va considerata la comunicazione degli allarmi.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-018",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale situazione indica un possibile rischio da movimenti ripetitivi?",
+    "options": [
+      "Lavoro discontinuo con recupero completo",
+      "Alternanza regolare di compiti differenti",
+      "Serie frequenti dello stesso gesto con recupero insufficiente",
+      "Spostamenti occasionali a mani libere"
+    ],
+    "correct": 2,
+    "explanation": "Frequenza, forza e recupero contribuiscono al carico biomeccanico.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-019",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un punto di passaggio è poco illuminato. Cosa può diventare difficile?",
+    "options": [
+      "Leggere il certificato energetico",
+      "Riconoscere dislivelli e ostacoli"
+    ],
+    "correct": 1,
+    "explanation": "L’illuminazione deve consentire uno spostamento sicuro.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-020",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Due imprese lavorano contemporaneamente nella stessa zona. Quale rischio aggiuntivo valutare?",
+    "options": [
+      "Interferenze tra attività",
+      "Solo il numero di badge emessi"
+    ],
+    "correct": 0,
+    "explanation": "Attività singolarmente controllate possono creare pericoli quando si sovrappongono.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-021",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "È possibile eliminare alla fonte un pericolo. Come si colloca questa scelta?",
+    "options": [
+      "Ha priorità rispetto alla sola protezione individuale",
+      "È equivalente alla sola affissione di cartelli"
+    ],
+    "correct": 0,
+    "explanation": "La prevenzione privilegia l’eliminazione o riduzione del rischio alla fonte.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-022",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale misura è una protezione collettiva?",
+    "options": [
+      "Un paio di guanti protettivi",
+      "Un parapetto adeguato",
+      "Un elmetto individuale",
+      "Una visiera personale"
+    ],
+    "correct": 1,
+    "explanation": "Il parapetto protegge le persone esposte lungo il bordo.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-023",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un DPI è visibilmente danneggiato. Come procedi?",
+    "options": [
+      "Lo riparo con nastro e proseguo sempre",
+      "Ne segnalo il difetto e richiedo la sostituzione prima dell’uso"
+    ],
+    "correct": 1,
+    "explanation": "Il danno può compromettere la prestazione protettiva prevista.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-024",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Due DPI devono essere indossati insieme. Cosa verificare?",
+    "options": [
+      "La compatibilità e l’efficacia della combinazione",
+      "Solo che abbiano lo stesso colore"
+    ],
+    "correct": 0,
+    "explanation": "Un dispositivo può alterare la tenuta o il posizionamento dell’altro.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-025",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Come si seleziona un guanto per una sostanza chimica?",
+    "options": [
+      "In base a rischio, sostanza e indicazioni tecniche applicabili",
+      "Solo in base allo spessore visibile"
+    ],
+    "correct": 0,
+    "explanation": "Materiali diversi resistono diversamente al contatto con le sostanze.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-026",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale misura affronta i vapori direttamente al punto di emissione?",
+    "options": [
+      "Una barriera acustica",
+      "Un armadietto per i DPI",
+      "Spostamento del cartello di avviso",
+      "Aspirazione localizzata adeguata"
+    ],
+    "correct": 3,
+    "explanation": "La captazione alla sorgente limita la diffusione nell’ambiente.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-027",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Una protezione impedisce di raggiungere parti mobili. Quando può essere esclusa per velocizzare il lavoro?",
+    "options": [
+      "Mai per accelerare la produzione",
+      "Quando il lavoratore ha molta esperienza"
+    ],
+    "correct": 0,
+    "explanation": "L’esperienza non sostituisce la funzione di sicurezza del riparo.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-028",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un reparto introduce una sostanza meno pericolosa. Che tipo di intervento è?",
+    "options": [
+      "Sola protezione individuale",
+      "Sostituzione per ridurre il rischio alla fonte",
+      "Sorveglianza sanitaria",
+      "Formazione sui segnali"
+    ],
+    "correct": 1,
+    "explanation": "La sostituzione modifica il pericolo prima dell’esposizione.",
+    "difficulty": "Avanzato",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-029",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale elemento aiuta a verificare l’efficacia di una misura preventiva?",
+    "options": [
+      "Osservare e misurare il rischio residuo dopo l’intervento",
+      "Registrare soltanto la spesa sostenuta"
+    ],
+    "correct": 0,
+    "explanation": "La misura va giudicata rispetto alla riduzione effettiva del rischio.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-030",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quando si usa un DPI assegnato individualmente, quali indicazioni seguire per conservarlo?",
+    "options": [
+      "Quelle definite per il dispositivo e il luogo di lavoro",
+      "Quelle valide per qualunque capo di abbigliamento"
+    ],
+    "correct": 0,
+    "explanation": "Conservazione e manutenzione influiscono sulle prestazioni.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-031",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Per raggiungere un ripiano alto in ufficio quale scelta è corretta?",
+    "options": [
+      "Usare un’attrezzatura idonea secondo le istruzioni",
+      "Salire su una sedia con ruote bloccate"
+    ],
+    "correct": 0,
+    "explanation": "Una sedia da ufficio non è progettata come attrezzatura per accesso in altezza.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-032",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un riflesso sul monitor ostacola la lettura. Cosa modificare per prima cosa?",
+    "options": [
+      "Solo il volume degli altoparlanti",
+      "Orientamento dello schermo e illuminazione"
+    ],
+    "correct": 1,
+    "explanation": "La disposizione della postazione influenza riflessi e abbagliamento.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-033",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale regolazione facilita una postura confortevole al videoterminale?",
+    "options": [
+      "Adattare seduta e piano di lavoro alla persona",
+      "Usare la stessa altezza per tutti"
+    ],
+    "correct": 0,
+    "explanation": "La postazione deve tener conto delle caratteristiche dell’utilizzatore.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-034",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Prima di spostare un carico ingombrante cosa valuti oltre al peso?",
+    "options": [
+      "Presa, percorso, ingombro e ausili disponibili",
+      "Solo il colore dell’imballo"
+    ],
+    "correct": 0,
+    "explanation": "La movimentazione dipende anche da geometria, ambiente e modalità operative.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-035",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Una presa elettrica mostra segni di bruciatura. Cosa fai?",
+    "options": [
+      "Sospendo l’utilizzo e segnalo per verifica qualificata",
+      "Sposto la spina per cercare un contatto migliore"
+    ],
+    "correct": 0,
+    "explanation": "Il danno può indicare un guasto che richiede controllo competente.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-036",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quale condizione verificare prima di usare una scala portatile?",
+    "options": [
+      "Integrità, stabilità e idoneità all’attività",
+      "Il numero di persone in reparto",
+      "Il solo anno di acquisto",
+      "Solo l’altezza raggiungibile"
+    ],
+    "correct": 0,
+    "explanation": "La sicurezza dipende dall’attrezzatura e dalle condizioni di appoggio e impiego.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-037",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "La scheda di sicurezza di un prodotto dove aiuta concretamente?",
+    "options": [
+      "Nella determinazione del prezzo di vendita",
+      "Nella scelta di precauzioni per uso e stoccaggio"
+    ],
+    "correct": 1,
+    "explanation": "La scheda raccoglie informazioni sui pericoli e sulla gestione sicura.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-038",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Una macchina si inceppa durante il lavoro. Quale procedura seguire?",
+    "options": [
+      "Fermarla e applicare la procedura prevista per la messa in sicurezza",
+      "Inserire subito la mano nella zona di lavoro"
+    ],
+    "correct": 0,
+    "explanation": "L’energia residua o il riavvio possono causare lesioni.",
+    "difficulty": "Avanzato",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-039",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Il corridoio di esodo è usato come deposito temporaneo. Come gestirlo?",
+    "options": [
+      "Far ripristinare e mantenere libero il passaggio",
+      "Lasciare gli oggetti fino alla prossima esercitazione"
+    ],
+    "correct": 0,
+    "explanation": "Le vie di esodo devono essere disponibili anche per emergenze impreviste.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-040",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un collega propone una modifica artigianale a un utensile. Cosa serve prima di usarlo?",
+    "options": [
+      "Il solo consenso degli operatori del turno",
+      "Valutazione e autorizzazione secondo la procedura aziendale"
+    ],
+    "correct": 1,
+    "explanation": "Una modifica può cambiare funzionamento e condizioni di sicurezza.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-041",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Suona l’allarme di evacuazione previsto dal piano. Cosa segui?",
+    "options": [
+      "Il percorso più comodo anche se interdetto",
+      "I percorsi e le indicazioni degli addetti"
+    ],
+    "correct": 1,
+    "explanation": "Il piano coordina l’uscita e tiene conto delle vie previste.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-042",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Una volta al punto di raccolta cosa fai?",
+    "options": [
+      "Mi allontano senza informare nessuno",
+      "Resto disponibile per la verifica delle presenze"
+    ],
+    "correct": 1,
+    "explanation": "L’allontanamento può far risultare una persona dispersa.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-043",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Noti fumo in un locale. Quale informazione aiuta gli addetti?",
+    "options": [
+      "Posizione esatta e ciò che hai osservato da luogo sicuro",
+      "Una stima non verificata dei danni economici"
+    ],
+    "correct": 0,
+    "explanation": "Localizzazione e condizioni osservate aiutano ad attivare la risposta.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-044",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Quando si può rientrare dopo un’evacuazione?",
+    "options": [
+      "Dopo dieci minuti dal primo segnale",
+      "Al via libera dei responsabili previsti dal piano",
+      "Quando rientra un singolo collega",
+      "Appena l’allarme sonoro cessa"
+    ],
+    "correct": 1,
+    "explanation": "La cessazione del segnale non attesta da sola la sicurezza del rientro.",
+    "difficulty": "Base",
+    "type": "MULTI"
+  },
+  {
+    "id": "SSL-045",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un collega si infortuna. Qual è il riferimento per attivare i soccorsi interni?",
+    "options": [
+      "Il prossimo incontro periodico di reparto",
+      "La procedura di emergenza e gli addetti al primo soccorso"
+    ],
+    "correct": 1,
+    "explanation": "La risposta deve essere tempestiva e coordinata con personale preparato.",
+    "difficulty": "Intermedio",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-046",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un visitatore è presente durante un allarme. Come lo aiuti?",
+    "options": [
+      "Lo mando da solo a cercare l’ingresso principale",
+      "Gli indico le istruzioni di esodo previste sul posto"
+    ],
+    "correct": 1,
+    "explanation": "I visitatori possono non conoscere percorsi e punti di raccolta.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-047",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Perché non tornare alla scrivania per recuperare oggetti durante l’esodo?",
+    "options": [
+      "Il ritorno può esporre al pericolo e intralciare il flusso",
+      "Gli oggetti sono sempre sostituiti dall’azienda"
+    ],
+    "correct": 0,
+    "explanation": "La priorità è raggiungere il luogo sicuro secondo il piano.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-048",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Un’uscita indicata è impraticabile durante l’emergenza. Come ti orienti?",
+    "options": [
+      "Seguo le alternative previste e le indicazioni degli addetti",
+      "Forzo il passaggio anche in presenza di pericolo"
+    ],
+    "correct": 0,
+    "explanation": "L’esodo deve adattarsi alle condizioni reali e ai percorsi sicuri.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-049",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Cosa rende utile il confronto dopo una prova di evacuazione?",
+    "options": [
+      "Registrare soltanto il numero degli invitati",
+      "Raccogliere criticità e assegnare azioni correttive"
+    ],
+    "correct": 1,
+    "explanation": "Le osservazioni permettono di migliorare organizzazione e percorsi.",
+    "difficulty": "Base",
+    "type": "AB"
+  },
+  {
+    "id": "SSL-050",
+    "category_id": "SSL",
+    "category": "Salute e sicurezza nei luoghi di lavoro",
+    "question": "Durante una chiamata di soccorso quale informazione agevola l’arrivo della squadra?",
+    "options": [
+      "Indirizzo, accesso utile e natura dell’evento",
+      "Soltanto la denominazione commerciale dell’azienda"
+    ],
+    "correct": 0,
+    "explanation": "Indicazioni precise aiutano a localizzare il luogo e predisporre l’intervento.",
+    "difficulty": "Intermedio",
+    "type": "AB"
   }
 ]

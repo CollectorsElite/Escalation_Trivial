@@ -40,6 +40,7 @@ function enlargeLobbyQr() {
     <b class="zoom-pin">${esc(g.pin.slice(0,3))} ${esc(g.pin.slice(3))}</b></div>`);
 }
 
+function lobbyTitle(g){return `<div class="session-info">${g.title?`<strong>${esc(g.title)}</strong>`:''}${g.areas?.length?`<p>${g.areas.map(esc).join(' · ')}</p>`:''}</div>`;}
 function showLobby(g) {
   const screen = route === 'screen';
   const address = new URL(joinURL(g));
@@ -52,7 +53,7 @@ function showLobby(g) {
   show(`<div class="shell game-wrap ${screen?'projection':''}"><div class="page-title"><div>
     <div class="eyeline"><i class="pip mint"></i>Lobby aperta</div><h1>${screen?'Entra nella sfida':'Lobby della partita'}<em>.</em></h1>
     ${localOnly?'<p>Il PIN permette di partecipare dai browser aperti su questo computer.</p>':screen?`<p>Inquadra il QR oppure apri <strong>${esc(display)}</strong> e inserisci il PIN.</p>`:'<p>Condividi il codice con l’aula. Avvia la prima domanda quando tutti sono pronti.</p>'}</div></div>
-    <div class="lobby-grid"><section class="panel ticket paper"><div class="ticket-body">${pin}<img class="ticket-stamp" src="/static/assets/escalation-segno.svg" width="56" height="54" alt=""></div><div class="ticket-foot">${gameMeta(g)}</div></section>
+    ${lobbyTitle(g)}<div class="lobby-grid"><section class="panel ticket paper"><div class="ticket-body">${pin}<img class="ticket-stamp" src="/static/assets/escalation-segno.svg" width="56" height="54" alt=""></div><div class="ticket-foot">${gameMeta(g)}</div></section>
     ${localOnly?`<aside class="panel qr-panel local-invite"><span class="standby-mark" aria-hidden="true">${icon('screen')}</span><strong>Invito locale</strong><p>Per collegare i telefoni usa <b>Avvia-Aula</b> sul computer del docente oppure apri la regia dall’indirizzo di rete del servizio.</p></aside>`:
       `<aside class="panel qr-panel">${qr}<strong>Scansiona per entrare</strong><small class="qr-hint">Seleziona il QR per ingrandirlo</small>${screen?'':act('copy-link','Copia link di invito','copy','text-btn')}</aside>`}</div>
     ${screen?'':`<div class="command-bar"><div><strong>Comandi di regia</strong><p id="start-hint">${startHint(g)}</p></div><div class="actions">${act('cancel','Annulla','x','text-btn')}${act('edit','Modifica quiz','edit')}${act('start','Avvia partita','play','primary','data-start '+(g.players?'':'disabled'))}</div></div>`}
@@ -152,6 +153,12 @@ function podium(list) {
   return `<section class="podium-panel" aria-label="Podio"><ol class="podium" data-tiers="${ranks.length}">${tiers}</ol></section>`;
 }
 
+function lessonReport(report){
+  if(!report)return '';
+  const areas=Object.entries(report.areas).map(([name,[correct,total]])=>`<p>${esc(name)} · ${total?Math.round(100*correct/total)+'% corrette ('+correct+'/'+total+')':'nessuna risposta'}</p>`).join('');
+  const items=report.hardest.map(q=>`<li><strong>${esc(q.text)}</strong><p>${q.correct}/${q.answered} corrette · ${esc(q.solution)}</p><p>${esc(q.why)}</p></li>`).join('');
+  return `<section class="panel lesson"><h2>Riepilogo didattico</h2>${areas}${items?`<h3>Domande con meno risposte corrette in percentuale</h3><ol>${items}</ol>`:''}</section>`;
+}
 function finishScreen(s) {
   const {game:g} = s, teacher=route==='host', player=route==='player';
   if (g.status==='cancelled') {
@@ -165,7 +172,7 @@ function finishScreen(s) {
   show(`<div class="shell game-wrap ${teacher?'':'projection'}"><div class="page-title"><div><div class="eyeline"><i class="pip mint"></i>Partita conclusa</div>
     <h1>Classifica finale<em>.</em></h1><p>${fmt(g.players)} ${g.players===1?'partecipante':'partecipanti'} · ${g.current} ${g.current===1?'round disputato':'round disputati'}</p></div>
     ${teacher?`<div class="actions">${link(`/api/admin/export?gameId=${encodeURIComponent(g.id)}`,'Esporta CSV','save','soft')}${act('new','Nuova partita','arrow','primary')}</div>`:''}</div>
-    <div class="final-grid award-layout">${podium(list)}${ranking(list,list.length<g.players?`Classifica · primi ${fmt(list.length)}`:'Classifica')}</div></div>`,'final');
+    <div class="final-grid award-layout">${podium(list)}${ranking(list,list.length<g.players?`Classifica · primi ${fmt(list.length)}`:'Classifica')}</div>${teacher?lessonReport(s.lesson):''}</div>`,'final');
 }
 
 function screenIdle() {

@@ -7,7 +7,7 @@ const state = {
   questions: [], selected: new Set(), category:'all', level:'all', search:'', duration:30, shuffle:false, revealOnComplete:true,
   editing:false, studio:false, admin:false, game:null, snap:null, player:null, socket:null, reconnect:null,
   retry:0, online:false, phaseKey:'', offset:0, pending:null, busy:false, authenticating:false,
-  audio:null, sound:false, summary:null, review:null, joinDraft:null, deckRevision:null, syncTimer:null, tabLimit:false
+  drawCount:10,quizTitle:'', bets:true, wager:false, multipliers:{}, drawAreas:new Set(['Digitale','Privacy','Lavoro']), audio:null, sound:false, summary:null, review:null, joinDraft:null, deckRevision:null, syncTimer:null, tabLimit:false
 };
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = value => Number(value || 0).toLocaleString('it-IT');
@@ -42,11 +42,11 @@ function icon(name, cls='') {
   return `<svg class="ico ${cls}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.65" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="${glyphs[name] || glyphs.grid}"/></svg>`;
 }
 const topics = {
-  PHI:['mail','Phishing','#ffb183'], AUT:['key','Autenticazione','#ffce62'], MAL:['bug','Malware','#f1a6a1'],
+  SSL:['shield','Sicurezza sul lavoro','#f6c772'], PHI:['mail','Phishing','#ffb183'], AUT:['key','Autenticazione','#ffce62'], MAL:['bug','Malware','#f1a6a1'],
   NET:['net','Reti e web','#96c9ff'], PRI:['lock','Privacy','#c8adf4'], OPS:['shield','Pratiche sicure','#a5d99d'],
   SOC:['activity','SOC e incidenti','#91d8d0'], BCP:['cloud','Cloud e backup','#a5baff']
 };
-function topic(q) {const t=topics[q?.category_id] || ['layers',q?.category || 'Quiz','#b8c6bd'];return `<span class="topic" style="--t:${t[2]}">${icon(t[0])}${esc(t[1])}</span>`;}
+function topic(q) {const t=topics[q?.category_id] || ['layers',q?.category || 'Quiz','#b8c6bd'];return `<span class="topic" style="--t:${t[2]}">${icon(t[0])}${esc(t[1])}${q?.multiplier>1?' · Bonus ×'+q.multiplier:''}</span>`;}
 function act(name, label, sym, variant='soft', attrs='') {
   return `<button type="button" class="btn ${variant}" data-action="${name}" ${attrs}>${sym?icon(sym):''}<span>${label}</span></button>`;
 }
@@ -86,7 +86,7 @@ function modal(title,body,actions='') {
   dlg.innerHTML=`<div class="dialog-head"><h2 id="dialog-title">${esc(title)}</h2><button type="button" class="square-btn" data-action="close" aria-label="Chiudi">${icon('x')}</button></div>${body}${actions?`<div class="actions modal-actions">${actions}</div>`:''}`;
   dlg.showModal();
 }
-function rules(){modal('Come si gioca',`<ol class="rules"><li><b>Entra nella lobby</b><p>Inserisci il PIN proiettato in aula e scegli un nickname, oppure inquadra il QR della partita.</p></li><li><b>Scegli una risposta</b><p>Ogni round ha due o quattro opzioni. La prima scelta ricevuta dal server è definitiva.</p></li><li><b>Guadagna punti</b><p>Una risposta esatta vale da 500 a 1.000 punti in base al tempo rimasto. Una risposta errata o assente vale zero. A parità di punti si condivide la posizione.</p></li></ol>`,act('close','Ho capito','check','primary'));}
+function rules(){modal('Come si gioca',`<ol class="rules"><li><b>Entra nella lobby</b><p>Inserisci il PIN proiettato in aula e scegli un nickname, oppure inquadra il QR della partita.</p></li><li><b>Scegli una risposta</b><p>Ogni round ha due o quattro opzioni. La prima scelta ricevuta dal server è definitiva.</p></li><li><b>Guadagna punti</b><p>Una risposta esatta vale da 500 a 1.000 punti in base al tempo rimasto. Il bonus ×2 o ×3 moltiplica i punti base. Se attivo, il Raddoppio personale aggiunge un’altra quota base per una risposta esatta. Una puntata errata costa fino a 500 punti, senza scendere sotto zero. Hai due puntate: si consumano solo alla registrazione della risposta. A parità di punti si condivide la posizione.</p></li></ol>`,act('close','Ho capito','check','primary'));}
 function show(html,view) {document.body.dataset.view=view;app.innerHTML=html;}
 function connectionHelp(message,action='retry') {show(`<section class="single panel"><span class="eyeline">Connessione</span><h1>Collegamento interrotto</h1><p>${esc(message)}</p>${act(action,action==='retry-socket'?'Ricollega':'Riprova','arrow','primary')}</section>`,'error');}
 function readSaved(storage,key) {

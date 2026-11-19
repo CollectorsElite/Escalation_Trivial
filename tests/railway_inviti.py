@@ -40,7 +40,7 @@ def main():
                         response.raise_for_status()
                         assert response.headers['content-type'] == 'image/png'
                         assert response.content == qr_png(f'{target}/?pin={pin}')
-                assert browser.get('/health').json() == {'status':'ok','question_count':100}
+                assert browser.get('/health').json() == {'status':'ok','question_count':210}
     print('OK: Railway public domain, custom domain, request-origin fallback, QR, PIN and health')
 
 

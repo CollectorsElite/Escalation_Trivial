@@ -21,15 +21,15 @@ async def main(n=10,url='http://127.0.0.1:8128'):
     print('Test su',url,'con',n,'giocatori')
     async with httpx.AsyncClient(base_url=url,timeout=30,limits=httpx.Limits(max_connections=150,max_keepalive_connections=50)) as c:
         health=(await c.get('/health')).json()
-        assert health['question_count']==100,health
+        assert health['question_count']==210,health
         assert (await c.get('/api/admin/overview')).status_code==401
         r=await c.post('/api/admin/login',json={'password':'SuperSicuraDiTest-2026'})
         assert r.status_code==200,r.text
         info=(await c.get('/api/admin/overview')).json()
         qs=info['questions']
-        assert len(qs)==100
-        assert len({q['id'] for q in qs})==100
-        assert len({q['category_id'] for q in qs})==8
+        assert len(qs)==210
+        assert len({q['id'] for q in qs})==210
+        assert len({q['category_id'] for q in qs})==9
         assert sum(q['type']=='AB' for q in qs)>0
         selected=[next(q for q in qs if q['type']=='MULTI'),next(q for q in qs if q['type']=='AB')]
         active=info['game']
@@ -113,7 +113,7 @@ async def main(n=10,url='http://127.0.0.1:8128'):
         finals=await asyncio.gather(*(receive(s,'snapshot','finished') for s in sockets))
         assert all(m['me']['rank']>=1 for m in finals)
         await asyncio.gather(*(s.close() for s in sockets))
-        print('TUTTI I TEST SUPERATI:',n,'giocatori; 100 domande; 8 categorie; risposte; punteggi; export; finale.')
+        print('TUTTI I TEST SUPERATI:',n,'giocatori; 210 domande; 9 categorie; risposte; punteggi; export; finale.')
 
 if __name__=='__main__':
     ap=argparse.ArgumentParser()

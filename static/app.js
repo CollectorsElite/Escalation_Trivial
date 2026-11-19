@@ -62,6 +62,7 @@ function syncView(s, reconnected=false) {
   if (g?.status==='lobby' && old?.id!==g.id) { state.studio=false; state.editing=false; }
   if (g && g.status !== 'lobby') state.editing=false;
   if (phaseChanged) {
+    state.wager=false;
     if (dlg.open && !(route==='player' && !state.player)) dlg.close();
     if (previous && g) {
       tone(g.status);
@@ -94,7 +95,7 @@ function handleMessage(m) {
     state.pending=null;
     if ((m.ok || (m.alreadyAnswered && Number.isInteger(m.choice))) && state.snap?.me) {
       state.snap.me.answered=true;
-      state.snap.me.choice=m.choice;
+      state.snap.me.choice=m.choice; if(Number.isInteger(m.remainingBets))state.snap.me.remainingBets=m.remainingBets;
     } else if (!m.ok && !state.snap?.me?.answered) {
       notice(m.message);
       state.socket?.close();
@@ -193,19 +194,21 @@ async function playerInit() {
   showHome(); loadSummary();
 }
 function sendAnswer(i){if(state.game?.status!=='question'||state.pending||state.snap?.me?.answered||!state.online||state.socket?.readyState!==WebSocket.OPEN||remaining()<=0)return;
-  const g=state.game, ws=state.socket;const pending={choice:i,questionId:state.snap.question.id,questionIndex:g.current-1};state.pending=pending;
+  const g=state.game, ws=state.socket;const pending={wager:state.wager,choice:i,questionId:state.snap.question.id,questionIndex:g.current-1};state.pending=pending;
   try{ws.send(JSON.stringify({type:'answer',...pending}));updatePlayerAnswer();tick();setTimeout(()=>{if(state.pending===pending && state.socket===ws)ws.close();},6500);}catch{state.pending=null;state.online=false;updateLive();updatePlayerAnswer();state.socket?.close();}
 }
-async function saveDeck(){const edit=state.editing;const payload={ids:[...state.selected],duration:state.duration,shuffle:state.shuffle,revealOnComplete:state.revealOnComplete};if(edit){payload.gameId=state.game.id;payload.expectedRevision=state.deckRevision;}
+async function saveDeck(){const edit=state.editing;const payload={title:state.quizTitle,bets:state.bets,multipliers:Object.fromEntries(state.questions.filter(q=>state.selected.has(q.id)&&multiplier(q)>1).map(q=>[q.id,multiplier(q)])),ids:[...state.selected],duration:state.duration,shuffle:state.shuffle,revealOnComplete:state.revealOnComplete};if(edit){payload.gameId=state.game.id;payload.expectedRevision=state.deckRevision;}
   await api(edit?'/api/admin/questions':'/api/admin/create',edit?'PATCH':'POST',payload);state.editing=false;state.studio=false;const o=await overview();if(!state.snap?.game||state.snap.game.id!==o.game?.id||!state.online)syncView(o.snapshot);else renderGame();window.scrollTo(0,0);
 }
 async function hostAction(action){const g=state.game;if(!g)return;await api('/api/admin/action','POST',{action,gameId:g.id,index:g.current-1,status:g.status});if(!state.online){const o=await overview();syncView(o.snapshot);} }
-async function goStudio(edit){const o=await overview();if(edit&&o.game?.status!=='lobby'){syncView(o.snapshot);return;}state.game=o.game;state.snap=o.snapshot;state.deckRevision=edit?o.configurationRevision:null;state.duration=edit?o.game.duration:30;state.selected=new Set(edit?o.selected:[]);state.search='';state.category='all';state.level='all';state.shuffle=false;state.revealOnComplete=edit?o.game.reveal_on_complete:true;state.editing=edit;state.studio=!edit;renderGame();window.scrollTo(0,0);}
+async function goStudio(edit){const o=await overview();if(edit&&o.game?.status!=='lobby'){syncView(o.snapshot);return;}state.game=o.game;state.snap=o.snapshot;state.quizTitle=edit?(o.settings?.title||''):'';state.bets=edit?!!o.settings?.bets:true;state.multipliers=edit?Object.fromEntries(o.questions.map(q=>[q.id,o.settings?.multipliers?.[q.id]||1])):{};state.deckRevision=edit?o.configurationRevision:null;state.duration=edit?o.game.duration:30;state.selected=new Set(edit?o.selected:[]);state.search='';state.category='all';state.level='all';state.shuffle=false;state.revealOnComplete=edit?o.game.reveal_on_complete:true;state.editing=edit;state.studio=!edit;renderGame();window.scrollTo(0,0);}
+document.addEventListener('input',e=>{if(e.target.id==='quiz-title')state.quizTitle=e.target.value;});
 function confirmAction(title,description,action,label){modal(title,`<p>${esc(description)}</p>`,act('close','Indietro',null,'soft')+act(`confirm-${action}`,label,'check','primary'));}
 async function perform(action,id){switch(action){
   case 'retry-socket':
     state.tabLimit=false;state.retry=0;renderGame();connect();return;
   case 'reload-deck':dlg.close();return goStudio(true);
+  case 'wager': if(state.game?.bets && !state.snap.me.answered && !state.pending && state.snap.me.remainingBets>0){state.wager=!state.wager;updatePlayerAnswer();}return;
   case 'edit-pin':return editInvitePin();
   case 'enlarge-qr':return enlargeLobbyQr();
   case 'review':return openReview();
@@ -216,6 +219,7 @@ async function perform(action,id){switch(action){
   }
   case 'rules':return rules();case 'close':return dlg.close();case 'retry':return boot();case 'preview':return previewQuestion(id);
   case 'category':{const rows=state.questions.filter(q=>q.category_id===id),remove=rows.every(q=>state.selected.has(q.id));rows.forEach(q=>remove?state.selected.delete(q.id):state.selected.add(q.id));return refreshStudio();}
+  case 'browse-category':state.category=id;state.search='';state.level='all';renderStudio();$('#category-filter').focus();return;
   case 'mix':return balancedDraw();case 'select-visible':filtered().forEach(q=>state.selected.add(q.id));return refreshStudio();case 'clear':state.selected.clear();return refreshStudio();
   case 'save-deck':return saveDeck();case 'edit':return goStudio(true);case 'new':return goStudio(false);
   case 'back-lobby':{state.editing=false;const o=await overview();return syncView(o.snapshot);}
@@ -241,7 +245,7 @@ document.addEventListener('click',async e=>{const choice=e.target.closest('[data
 document.addEventListener('submit',async e=>{const f=e.target;if(!['login','join-form'].includes(f.id))return;e.preventDefault();const b=$('button[type=submit]',f);if(b.disabled)return;b.disabled=true;const err=$('#form-error');if(err)err.hidden=true;
   try{if(f.id==='login'){await api('/api/admin/login','POST',{password:$('#admin-password').value});await adminInit();}else{const pin=$('#join-pin').value.trim();await registerPlayer(draftFor(pin,$('#join-nick').value.trim()));}}catch(error){formError(error.message);}finally{if(b.isConnected)b.disabled=false;}});
 document.addEventListener('input',e=>{if(e.target.id==='question-search'){state.search=e.target.value;refreshStudio({cats:false});}if(e.target.id==='join-pin')e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);});
-document.addEventListener('change',e=>{const t=e.target;if(t.dataset.question){t.checked?state.selected.add(t.dataset.question):state.selected.delete(t.dataset.question);refreshStudio({rows:false});}else if(t.id==='duration'){state.duration=Number(t.value);refreshStudio({rows:false,cats:false});}else if(t.id==='shuffle'){state.shuffle=t.checked;}else if(t.id==='reveal-complete'){state.revealOnComplete=t.checked;}else if(t.id==='category-filter'||t.id==='level-filter'){state[t.id==='level-filter'?'level':'category']=t.value;refreshStudio({cats:false});}});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.bonus){state.multipliers[t.dataset.bonus]=Number(t.value);}else if(t.id==='bets'){state.bets=t.checked;}else if(t.dataset.area){if(t.checked)state.drawAreas.add(t.dataset.area);else state.drawAreas.delete(t.dataset.area);}else if(t.dataset.question){t.checked?state.selected.add(t.dataset.question):state.selected.delete(t.dataset.question);refreshStudio({rows:false});}else if(t.id==='duration'){state.duration=Number(t.value);refreshStudio({rows:false,cats:false});}else if(t.id==='shuffle'){state.shuffle=t.checked;}else if(t.id==='reveal-complete'){state.revealOnComplete=t.checked;}else if(t.id==='category-filter'||t.id==='level-filter'){state[t.id==='level-filter'?'level':'category']=t.value;refreshStudio({cats:false});}});
 dlg.addEventListener('click',e=>{if(e.target===dlg){const r=dlg.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dlg.close();}});
 document.addEventListener('fullscreenchange',header);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden) requestSync();});

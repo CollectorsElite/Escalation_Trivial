@@ -23,12 +23,12 @@ function showHome() {
         </form>
         ${act('rules','Come si gioca','info','text-btn entry-rules')}
       </section>
-      <aside class="poster" aria-label="Escalation Trivial, il quiz live sulla cybersicurezza">
+      <aside class="poster" aria-label="Escalation Trivial, il quiz live per la tua aula">
         <img class="cover-photo" src="/static/assets/mazzo-trivial.webp" width="984" height="656" alt="" fetchpriority="low">
         <div class="poster-copy" aria-hidden="true">
           <img class="cover-word" src="/static/assets/escalation-nome.svg" alt="" width="230" height="29">
           <div class="cover-title">Trivial<span>.</span></div>
-          <p>Il quiz in diretta sulla cybersicurezza.</p>
+          <p>Il quiz in diretta per la tua aula.</p>
         </div>
       </aside>
     </div>
@@ -53,7 +53,7 @@ function waitingPlayer(g) {
       <div class="eyeline"><i class="pip mint"></i>Lobby aperta</div>
       <h1 data-phase-focus tabindex="-1">Sei dentro, <em>${esc(state.player.nickname)}</em>.</h1>
     </div>
-    <div class="pass-body">
+    <div class="pass-body">${lobbyTitle(g)}
     <div class="wait-status" role="status" aria-live="polite" aria-atomic="true">
       <span class="wait-light" aria-hidden="true"></span>
       <div><strong data-wait-title></strong><p data-wait-copy></p></div>
@@ -91,7 +91,7 @@ function renderPlayerRound(s) {
     <section class="panel round player-card paper">
       <div class="round-line">${topic(q)}${timerBox()}</div>
       <h1 class="question" id="current-question" data-phase-focus tabindex="-1">${esc(q.text)}</h1>
-      <div class="answer-keys ${short ? 'short-keys' : 'long-keys'} ${q.options.length===2 ? 'two-keys' : 'four-keys'}" role="group" aria-labelledby="current-question">${choices}</div>
+       ${s.game.bets?`<div class="stake-box"><button class="btn soft" type="button" data-action="wager" aria-pressed="false">Raddoppio</button><small>Se indovini aggiungi i punti base. Se sbagli perdi fino a 500 punti.</small></div>`:''}<div class="answer-keys ${short ? 'short-keys' : 'long-keys'} ${q.options.length===2 ? 'two-keys' : 'four-keys'}" role="group" aria-labelledby="current-question">${choices}</div>
       <div class="receipt" data-receipt role="status" aria-live="polite" aria-atomic="true"><span class="receipt-sign" aria-hidden="true"></span><span data-receipt-text></span></div>
     </section>${playerFoot(s.me || {})}</div>`, 'player-round');
   updatePlayerAnswer();
@@ -104,6 +104,8 @@ function updatePlayerAnswer() {
   const me = state.snap.me;
   const choice = me.answered ? me.choice : state.pending?.choice;
   const mode = me.answered ? 'received' : !state.online ? 'offline' : state.pending ? 'sending' : remaining() <= 0 ? 'elapsed' : 'open';
+  const button=$('[data-action="wager"]');
+  if(button){button.disabled=mode!=='open'||me.remainingBets<1;button.setAttribute('aria-pressed',String(state.wager));button.textContent=(state.wager?'Raddoppio attivo':'Raddoppio')+' · '+me.remainingBets+' disponibili';}
   for (const key of all('[data-choice]')) {
     const selected = Number(key.dataset.choice) === choice;
     key.classList.toggle('selected', selected);
@@ -160,7 +162,7 @@ function renderPlayerResult(s) {
   show(`<div class="shell narrow player-stage">${progressTop(g,'Soluzione del round')}
     <article class="panel debrief paper" data-outcome="${outcome}">
       <div class="outcome-head"><span class="outcome-icon">${icon(symbol)}</span>
-        <h1 data-phase-focus tabindex="-1">${title}</h1><strong class="round-points">+${fmt(a?.points)} <small>pt</small></strong>
+        <h1 data-phase-focus tabindex="-1">${title}</h1><strong class="round-points">${(a?.points||0)>=0?'+':''}${fmt(a?.points)} <small>pt</small></strong>
       </div>
       ${solutionContent(q, a?.choice)}
       <details class="details-box"><summary>Rivedi domanda e opzioni</summary>
@@ -182,7 +184,7 @@ function renderPlayerFinal(s) {
     <div class="eyeline"><i class="pip mint"></i>Partita conclusa</div><h1 data-phase-focus tabindex="-1">${esc(me.nickname)}<em>.</em></h1>
     <div class="finish-score">${fmt(me.score)} <small>punti</small></div>
     <p class="finish-standing">${me.rank ? `<b>${rankText(me,true)}</b> su ${fmt(g.players)} ${g.players===1?'partecipante':'partecipanti'}.` : ''}</p>
-    ${metrics}<div class="finish-actions">${act('review','Ripassa le domande','cards','primary')}${act('exit-player','Torna all’ingresso','back','text-btn')}</div>
+    ${metrics}${counts?`<p class="finish-standing">Velocità <b>${fmt(counts.base)} pt</b> · Bonus <b>${fmt(counts.bonus)} pt</b> · Puntate <b>${fmt(counts.stake)} pt</b></p>`:''}<div class="finish-actions">${act('review','Ripassa le domande','cards','primary')}${act('exit-player','Torna all’ingresso','back','text-btn')}</div>
   </section></div>`, 'player-final');
 }
 
