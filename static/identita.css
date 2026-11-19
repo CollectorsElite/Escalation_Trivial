@@ -287,15 +287,36 @@ h1 em,.join-first h1 em,.join-card h2 span {color: var(--orange)}
   .paper :is(button,a,input,select,summary):focus-visible {outline-color: Highlight}
 }
 
-.area-pesca {display:flex;flex-wrap:wrap;gap:.6rem 1rem;border:0;padding:0;margin:0 0 1rem}
-.area-pesca legend {margin-bottom:.4rem;color:var(--muted)}
-.area-pesca label,.stake-box {display:flex;align-items:center;gap:.5rem}
-.qrow .bonus-select {width:auto;max-width:8rem;font-size:.8rem;flex:none}
+.stake-box {display:flex;align-items:center;gap:.5rem}
 .stake-box {flex-wrap:wrap;margin:0 0 1rem}
 .stake-box small {color:var(--muted)}
 .stake-box [aria-pressed=true] {background:#ffcd80;border-color:#784914}
 .session-info:not(:empty),.lesson {margin-bottom:1rem}
 .lesson {margin-top:1rem}.lesson h3,.lesson li {margin-top:1rem}
-@media(max-width:650px){.qrow{flex-wrap:wrap}.qrow label{flex-basis:100%}.qrow .bonus-select{margin-left:27px}}
 
-.category-group{display:grid;align-content:start;min-width:0}.category-group .category{width:100%}.category-group>.btn{min-height:36px}.area-pesca input[type=number]{width:5rem;min-height:36px}
+/* Il testo può andare a capo senza spostare i comandi. */
+.qrow {display:grid;grid-template-columns:minmax(0,1fr) 8rem 6rem;align-items:center;gap:.85rem}
+.qrow label,.qrow label span {min-width:0}
+.qrow .bonus-select {width:100%;max-width:none;min-height:42px;padding:8px 10px}
+.qrow>.btn {width:100%;min-height:42px}
+.qscroll {scrollbar-gutter:stable}
+.category-group {display:grid;grid-template-rows:1fr auto;min-width:0}
+.category-group .category {height:100%;width:100%}
+.category-group>.btn {min-height:40px}
+.draw-panel {min-width:0;margin:0 0 1.4rem;padding:12px 14px;border:1px solid var(--line);border-radius:10px}
+.draw-panel legend {padding:0 5px;font-weight:650}
+.draw-choices {display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,175px),1fr));gap:5px 12px}
+.draw-choice {display:grid;grid-template-columns:20px 1fr;align-items:center;gap:9px;min-height:44px;line-height:1.3;cursor:pointer}
+.draw-choice input {margin:0}
+.draw-footer {display:flex;align-items:center;gap:10px;margin-top:12px;padding-top:12px;border-top:1px solid var(--line);flex-wrap:wrap}
+.draw-footer input {width:5rem;min-height:44px}
+.draw-footer .btn {margin-left:auto}
+.manual-title {margin:0 0 12px}
+@container catalogue (max-width:520px){
+ .qrow {grid-template-columns:minmax(0,1fr) auto;gap:6px 10px}
+ .qrow label {grid-column:1/-1}
+ .qrow .bonus-select {margin-left:27px;width:8rem;max-width:calc(100% - 27px)}
+ .qrow>.btn {width:auto}
+}
+.qscroll {container:catalogue / inline-size}
+@media(max-width:520px){.draw-choices{grid-template-columns:1fr}.draw-footer .btn{width:100%}}

@@ -15,5 +15,5 @@ with tempfile.TemporaryDirectory(prefix='et-v1-') as data:
     for _ in range(2):subprocess.run([sys.executable,'-c','import app'],cwd=ROOT,env=env,check=True)
     with sqlite3.connect(path) as db:
         frozen=json.loads(db.execute('SELECT payload FROM game_questions').fetchone()[0]);assert frozen['correct']==3 and frozen['text']=='Testo originale della partita'
-        current=db.execute("SELECT correct,question FROM questions WHERE id='PHI-001'").fetchone();assert current[0]==1 and current[1]!=frozen['text'];assert db.execute('PRAGMA user_version').fetchone()[0]==3
+        current=db.execute("SELECT correct,question FROM questions WHERE id='PHI-001'").fetchone();assert current[0]==1 and current[1]!=frozen['text'];assert db.execute('PRAGMA user_version').fetchone()[0]==4
     print('OK: migration of a v1.1 database, frozen game, new catalogue and idempotent second start')

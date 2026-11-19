@@ -99,6 +99,24 @@ async function main() {
   first.context.navigator.onLine=true;
   first.handlers.online();
   assert.ok(first.run('state.socket'));
+  const demoQuestion={id:'one',number:1,category_id:'PRI',category:'Privacy',text:'Una prova?',options:['Sì','No'],correct:0,explanation:'Spiegazione.'};
+  for (const [i,outcome] of ['correct','wrong','missed'].entries()) {
+    const answer=outcome==='missed' ? undefined : {points:outcome==='wrong'?-500:900,correct:outcome==='correct',choice:i};
+    first.context.round={game:{...game,current:i+1,total:3},question:demoQuestion,me:{nickname:'Nova',rank:1,score:900,tied:1,answer}};
+    first.run('renderPlayerResult(round)');
+    const html=first.dom.get('#app').innerHTML;
+    assert.ok(html.includes('data-outcome="'+outcome+'" data-reveal="true"'));
+    assert.ok(html.includes('Spiegazione.'));
+    first.run('renderPlayerResult(round)');
+    assert.match(first.dom.get('#app').innerHTML,/data-reveal="false"/);
+  }
+  first.context.ties=[{rank:1,tied:2,score:900,nickname:'Nova'},{rank:1,tied:2,score:900,nickname:'Mira'},
+                       {rank:3,tied:1,score:600,nickname:'Vega'}];
+  assert.equal((first.run('ranking(ties)').match(/data-place="1"/g)||[]).length,2);
+  assert.match(first.run('podium(ties)'),/Pari merito/);
+  assert.doesNotMatch(first.run('podium(ties)'),/2° posto/);
+  assert.match(first.run('podium([{rank:1,tied:1,score:0}])'),/Punteggi a zero/);
+  console.log('OK: riscontri distinti e riproduzione singola, classifica con pari merito e punteggi a zero');
   console.log('OK: independent tabs, confirmed join retry, lost response, foreground sync, third-tab recovery, offline/online and notice cleanup');
 }
 main().catch(error=>{console.error(error);process.exitCode=1;});

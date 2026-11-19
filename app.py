@@ -22,7 +22,8 @@ from functools import lru_cache
 
 from PIL import Image
 from reportlab.graphics.barcode import qrencoder
-from catalogue import load_catalogue
+from catalogue import decode_question, load_catalogue, question_values
+from authoring import checked_ids, game_categories, install_authoring, quiz_options, read_object, teacher_routes
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
@@ -104,13 +105,6 @@ def latest_game():
     return active_game() or row('SELECT * FROM games ORDER BY created_at DESC LIMIT 1')
 
 
-def decode_question(q):
-    return dict(id=q['id'], category_id=q['category_id'], category=q['category'],
-                text=q['question'], options=json.loads(q['options_json']),
-                correct=q['correct'], explanation=q['explanation'],
-                difficulty=q['difficulty'], type=q['type'])
-
-
 def freeze_questions(game_id, ids):
     # A game keeps its wording and answer keys across catalogue updates.
     for qid in ids:
@@ -136,12 +130,15 @@ def install_catalogue():
             if 'reveal_on_complete' not in columns:
                 conn.execute('ALTER TABLE games ADD COLUMN reveal_on_complete INTEGER NOT NULL DEFAULT 0')
             conn.execute('PRAGMA user_version=3')
-        conn.executemany('''INSERT INTO questions VALUES (?,?,?,?,?,?,?,?,?)
+        if conn.execute('PRAGMA user_version').fetchone()[0] < 4:
+            install_authoring(conn)
+            conn.execute('PRAGMA user_version=4')
+        conn.executemany('''INSERT INTO questions(id,category_id,category,question,options_json,correct,explanation,difficulty,type)
+            VALUES (?,?,?,?,?,?,?,?,?)
             ON CONFLICT(id) DO UPDATE SET category_id=excluded.category_id, category=excluded.category,
             question=excluded.question, options_json=excluded.options_json, correct=excluded.correct,
-            explanation=excluded.explanation, difficulty=excluded.difficulty, type=excluded.type''',
-            [(q['id'],q['category_id'],q['category'],q['question'],json.dumps(q['options'],ensure_ascii=False),
-              q['correct'],q['explanation'],q['difficulty'],q['type']) for q in catalogue])
+            explanation=excluded.explanation, difficulty=excluded.difficulty, type=excluded.type WHERE questions.revision=0''',
+            [question_values(q) for q in catalogue])
         conn.execute('COMMIT')
     except Exception:
         conn.execute('ROLLBACK')
@@ -214,10 +211,6 @@ def connected_players(game_id):
     return sum(1 for group in player_clients.values() if group.game_id == game_id and group.sockets)
 
 
-def area_name(category):
-    return {'SSL':'Salute e sicurezza sul lavoro','PRI':'Privacy'}.get(category,'Sicurezza digitale')
-
-
 def settings(game):
     saved = row('SELECT config FROM quiz_settings WHERE game_id=?',(game['id'],))
     return json.loads(saved['config']) if saved else {'title':'','areas':[], 'bets':False,'multipliers':{}}
@@ -225,16 +218,8 @@ def settings(game):
 
 def save_settings(game_id, body, chosen):
     old = settings({'id':game_id})
-    title = body.get('title',old['title'])
-    bets = body.get('bets',old['bets'])
-    bonuses = body.get('multipliers',old['multipliers'])
-    if not isinstance(title,str) or len(title)>90 or type(bets) is not bool or not isinstance(bonuses,dict):
-        raise HTTPException(400,detail='Impostazioni del quiz non valide.')
-    ids = set(chosen)
-    if any(type(v) is not int or v not in (1,2,3) for v in bonuses.values()):
-        raise HTTPException(400,detail='Moltiplicatore non valido.')
-    areas = sorted({area_name(q['category_id']) for q in conn.execute('SELECT id,category_id FROM questions') if q['id'] in ids})
-    config = dict(title=title.strip(),bets=bets,areas=areas,multipliers={k:v for k,v in bonuses.items() if k in ids and v>1})
+    config = quiz_options(body, chosen, old)
+    config['areas'] = game_categories(conn, game_id, chosen)
     conn.execute('INSERT OR REPLACE INTO quiz_settings VALUES (?,?)',(game_id,json.dumps(config,sort_keys=True)))
 
 
@@ -246,7 +231,7 @@ def lesson_report(game):
     for index,qid in enumerate(ids):
         q = frozen[qid]
         answered, correct = counts.get(index,(0,0))
-        area = areas.setdefault(area_name(q['category_id']),[0,0])
+        area = areas.setdefault(q['category'],[0,0])
         area[0] += correct
         area[1] += answered
         if answered:
@@ -340,7 +325,7 @@ def public_snapshot(game, role, player_id=None):
         if role in ('host','screen') and (game['status'] in ('results','finished') or role=='host'):
             result['breakdown']=stats['breakdown']
     if role in ('host','screen') and game['status'] in ('results', 'finished'):
-        result['leaderboard']=leaderboard(game, 20 if role=='host' else 10)
+        result['leaderboard']=leaderboard(game, MAX_PLAYERS if role=='host' else 10)
     if role=='host' and game['status']=='finished':
         result['lesson']=lesson_report(game)
     if role == 'player' and player_id:
@@ -533,6 +518,7 @@ async def lifespan(app):
     conn.close()
 
 app=FastAPI(title='Escalation Trivial',docs_url=None,redoc_url=None,lifespan=lifespan)
+app.include_router(teacher_routes(conn, require_admin, lock))
 app.mount('/static',StaticFiles(directory=ROOT/'static'),name='static')
 
 @app.middleware('http')
@@ -590,7 +576,7 @@ async def logout():
 @app.get('/api/admin/overview')
 async def overview(request:Request):
     require_admin(request)
-    qs=[decode_question(q) for q in conn.execute('SELECT * FROM questions ORDER BY category_id,id')]
+    qs=[dict(**decode_question(q), revision=q['revision']) for q in conn.execute('SELECT * FROM questions ORDER BY category_id,id')]
     game=latest_game()
     result={'questions':qs,'game':game_info(game),'selected':json.loads(game['selected_json']) if game else [],
             'leaderboard':leaderboard(game,20)}
@@ -601,7 +587,7 @@ async def overview(request:Request):
             result['configurationRevision'] = deck_revision(game)
             frozen={r['question_id']:json.loads(r['payload']) for r in conn.execute(
                 'SELECT question_id,payload FROM game_questions WHERE game_id=?',(game['id'],))}
-            result['questions']=[frozen.get(q['id'],q) for q in qs]
+            result['questions']=[dict(frozen[q['id']], revision=q['revision'], frozen=True) if q['id'] in frozen else q for q in qs]
     return result
 
 @app.get('/api/screen')
@@ -619,22 +605,18 @@ async def catalogue_summary():
 @app.post('/api/admin/create')
 async def create_game(request:Request):
     require_admin(request)
-    body=await request.json()
-    chosen=body.get('ids',[])
+    body=await read_object(request)
+    chosen=checked_ids(conn, body.get('ids'))
+    if type(body.get('shuffle', False)) is not bool:
+        raise HTTPException(400, detail='Impostazione di ordinamento non valida.')
     duration=body.get('duration',20)
     reveal_on_complete = body.get('revealOnComplete', False)
     if type(reveal_on_complete) is not bool:
         raise HTTPException(400, detail='Impostazione di chiusura del round non valida.')
-    if not isinstance(chosen,list) or not (1<=len(chosen)<=210) or any(not isinstance(x,str) for x in chosen):
-        raise HTTPException(400,detail='Seleziona da 1 a 210 domande.')
-    if len(set(chosen))!=len(chosen):
-        raise HTTPException(400,detail='La stessa domanda non può comparire due volte.')
     if type(duration) is not int or not 10<=duration<=120:
         raise HTTPException(400,detail='Durata consentita: da 10 a 120 secondi.')
     async with lock:
         if active_game():raise HTTPException(409,detail='Esiste già una lobby o una partita attiva.')
-        found={r['id'] for r in conn.execute('SELECT id FROM questions')}
-        if not set(chosen)<=found:raise HTTPException(400,detail='Alcune domande non esistono.')
         if body.get('shuffle',False):secrets.SystemRandom().shuffle(chosen)
         gid=secrets.token_hex(12)
         for _ in range(20):
@@ -657,11 +639,11 @@ async def create_game(request:Request):
 @app.patch('/api/admin/questions')
 async def edit_lobby(request:Request):
     require_admin(request)
-    body=await request.json()
-    chosen=body.get('ids',[])
+    body=await read_object(request)
+    chosen=checked_ids(conn, body.get('ids'))
+    if type(body.get('shuffle', False)) is not bool:
+        raise HTTPException(400, detail='Impostazione di ordinamento non valida.')
     duration=body.get('duration',20)
-    if not isinstance(chosen,list) or not (1<=len(chosen)<=210) or not all(isinstance(x,str) for x in chosen) or len(set(chosen))!=len(chosen):
-        raise HTTPException(400,detail='Seleziona da 1 a 210 domande distinte.')
     if type(duration) is not int or not 10<=duration<=120:
         raise HTTPException(400,detail='Durata non valida.')
     async with lock:
@@ -670,8 +652,6 @@ async def edit_lobby(request:Request):
         reveal_on_complete = body.get('revealOnComplete', bool(game['reveal_on_complete']))
         if type(reveal_on_complete) is not bool:
             raise HTTPException(400, detail='Impostazione di chiusura del round non valida.')
-        found={r['id'] for r in conn.execute('SELECT id FROM questions')}
-        if not set(chosen)<=found:raise HTTPException(400,detail='Domande non valide.')
         if body.get('shuffle',False):secrets.SystemRandom().shuffle(chosen)
         if body.get('gameId',game['id'])!=game['id']:
             raise HTTPException(409,detail='La lobby è cambiata. Aggiorna la pagina.')

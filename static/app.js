@@ -156,7 +156,17 @@ function requestSync() {
     try{ws.send(JSON.stringify({type:'sync'}));}catch{ws.close();}
   } else if(!ws || ws.readyState===WebSocket.CLOSED) connect();
 }
-async function overview(){const o=await api('/api/admin/overview');state.questions=o.questions;return o;}
+async function overview() {
+  const overview=await api('/api/admin/overview');
+  const previous=new Set(state.questions.map(q=>q.category_id));
+  const current=new Set(overview.questions.map(q=>q.category_id));
+  if(state.drawCategories) {
+    const allEnabled=[...previous].every(id=>state.drawCategories.has(id));
+    state.drawCategories=new Set([...current].filter(id=>allEnabled || state.drawCategories.has(id)));
+  }
+  state.questions=overview.questions;
+  return overview;
+}
 async function adminInit(){try{let snap;if(route==='screen')snap=await api('/api/screen');else{const o=await overview();snap=o.snapshot||{game:null};}
   state.admin=true;syncView(snap);connect();}catch(e){if(e.status===401){state.admin=false;showLogin();}else connectionHelp(e.message);}}
 function enterPlayer(pin,data) {
@@ -197,14 +207,25 @@ function sendAnswer(i){if(state.game?.status!=='question'||state.pending||state.
   const g=state.game, ws=state.socket;const pending={wager:state.wager,choice:i,questionId:state.snap.question.id,questionIndex:g.current-1};state.pending=pending;
   try{ws.send(JSON.stringify({type:'answer',...pending}));updatePlayerAnswer();tick();setTimeout(()=>{if(state.pending===pending && state.socket===ws)ws.close();},6500);}catch{state.pending=null;state.online=false;updateLive();updatePlayerAnswer();state.socket?.close();}
 }
-async function saveDeck(){const edit=state.editing;const payload={title:state.quizTitle,bets:state.bets,multipliers:Object.fromEntries(state.questions.filter(q=>state.selected.has(q.id)&&multiplier(q)>1).map(q=>[q.id,multiplier(q)])),ids:[...state.selected],duration:state.duration,shuffle:state.shuffle,revealOnComplete:state.revealOnComplete};if(edit){payload.gameId=state.game.id;payload.expectedRevision=state.deckRevision;}
+async function saveDeck(){const edit=state.editing;const payload=deckPayload();if(edit){payload.gameId=state.game.id;payload.expectedRevision=state.deckRevision;}
   await api(edit?'/api/admin/questions':'/api/admin/create',edit?'PATCH':'POST',payload);state.editing=false;state.studio=false;const o=await overview();if(!state.snap?.game||state.snap.game.id!==o.game?.id||!state.online)syncView(o.snapshot);else renderGame();window.scrollTo(0,0);
 }
 async function hostAction(action){const g=state.game;if(!g)return;await api('/api/admin/action','POST',{action,gameId:g.id,index:g.current-1,status:g.status});if(!state.online){const o=await overview();syncView(o.snapshot);} }
-async function goStudio(edit){const o=await overview();if(edit&&o.game?.status!=='lobby'){syncView(o.snapshot);return;}state.game=o.game;state.snap=o.snapshot;state.quizTitle=edit?(o.settings?.title||''):'';state.bets=edit?!!o.settings?.bets:true;state.multipliers=edit?Object.fromEntries(o.questions.map(q=>[q.id,o.settings?.multipliers?.[q.id]||1])):{};state.deckRevision=edit?o.configurationRevision:null;state.duration=edit?o.game.duration:30;state.selected=new Set(edit?o.selected:[]);state.search='';state.category='all';state.level='all';state.shuffle=false;state.revealOnComplete=edit?o.game.reveal_on_complete:true;state.editing=edit;state.studio=!edit;renderGame();window.scrollTo(0,0);}
-document.addEventListener('input',e=>{if(e.target.id==='quiz-title')state.quizTitle=e.target.value;});
+async function goStudio(edit){const o=await overview();if(edit&&o.game?.status!=='lobby'){syncView(o.snapshot);return;}state.game=o.game;state.snap=o.snapshot;state.activeSet=null;state.drawCategories=null;state.quizTitle=edit?(o.settings?.title||''):'';state.bets=edit?!!o.settings?.bets:true;state.multipliers=edit?Object.fromEntries(o.questions.map(q=>[q.id,o.settings?.multipliers?.[q.id]||1])):{};state.deckRevision=edit?o.configurationRevision:null;state.duration=edit?o.game.duration:30;state.selected=new Set(edit?o.selected:[]);state.search='';state.category='all';state.level='all';state.shuffle=false;state.revealOnComplete=edit?o.game.reveal_on_complete:true;state.editing=edit;state.studio=!edit;renderGame();window.scrollTo(0,0);}
+document.addEventListener('input',e=>{if(e.target.id==='draw-count'&&e.target.validity.valid)state.drawCount=e.target.valueAsNumber;if(e.target.id==='quiz-title')state.quizTitle=e.target.value;});
 function confirmAction(title,description,action,label){modal(title,`<p>${esc(description)}</p>`,act('close','Indietro',null,'soft')+act(`confirm-${action}`,label,'check','primary'));}
-async function perform(action,id){switch(action){
+async function perform(action,id,revision){switch(action){
+  case 'sets':return savedSets();
+  case 'sets-archived':return savedSets(true);
+  case 'open-set':return openStoredSet(id);
+  case 'duplicate-set':return openStoredSet(id,true);
+  case 'archive-set':return changeArchive(id,revision,true);
+  case 'restore-set':return changeArchive(id,revision,false);
+  case 'name-set':return nameSet();
+  case 'copy-draft':return nameSet(true);
+  case 'new-question':return openQuestionEditor();
+  case 'edit-question':case 'reload-question':return openQuestionEditor(id);
+  case 'copy-question':return openQuestionEditor(id,true);
   case 'retry-socket':
     state.tabLimit=false;state.retry=0;renderGame();connect();return;
   case 'reload-deck':dlg.close();return goStudio(true);
@@ -232,20 +253,21 @@ async function perform(action,id){switch(action){
   case 'confirm-leave':{dlg.close();const p=state.player;await api('/api/leave','POST',{pin:p.pin,playerId:p.playerId,token:p.token});if(state.player?.playerId===p.playerId)resetPlayer(p);return;}
   case 'exit-player':return resetPlayer();
   case 'copy-link':{const u=joinURL(state.game);try{await navigator.clipboard.writeText(u);notice('Link di invito copiato.');}catch{modal('Link di invito',`<p>Seleziona il link per copiarlo.</p><input aria-label="Link di invito" id="invite-url" readonly value="${esc(u)}">`);$('#invite-url').select();}return;}
-  case 'logout':await api('/api/admin/logout','POST');stopSocket();state.admin=false;state.editing=false;state.studio=false;state.phaseKey='';showLogin();return;
+  case 'logout':await api('/api/admin/logout','POST');stopSocket();state.activeSet=null;state.selected.clear();state.quizTitle='';state.multipliers={};state.admin=false;state.editing=false;state.studio=false;state.phaseKey='';showLogin();return;
   case 'fullscreen':if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notice('Usa la modalità a schermo intero del browser.');return;
   case 'sound':{if(!state.audio){const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio){notice('Audio non disponibile su questo dispositivo.');return;}state.audio=new Audio();}await state.audio.resume();state.sound=!state.sound;if(state.sound)tone('question');header();return;}
 }}
-const mutations=new Set(['save-deck','start','next','finish','confirm-finish','confirm-cancel','confirm-reveal','confirm-leave','logout','reveal']);
+const mutations=new Set(['archive-set','restore-set','save-deck','start','next','finish','confirm-finish','confirm-cancel','confirm-reveal','confirm-leave','logout','reveal']);
 document.addEventListener('click',async e=>{const choice=e.target.closest('[data-choice]');if(choice){sendAnswer(Number(choice.dataset.choice));return;}const btn=e.target.closest('[data-action]');if(!btn)return;const action=btn.dataset.action;const lock=mutations.has(action);if(lock&&state.busy)return;if(lock){state.busy=true;btn.disabled=true;}
-  try{await perform(action,btn.dataset.id);}catch(err){if(err.status===401&&route!=='player'){stopSocket();state.admin=false;showLogin();}else if(err.code==='deck_changed' && state.editing) {
+  try{await perform(action,btn.dataset.id,Number(btn.dataset.revision));}catch(err){if(err.status===401&&route!=='player'){if(dlg.open)dlg.close();stopSocket();state.admin=false;showLogin();}else if(err.code==='deck_changed' && state.editing) {
     modal('La selezione è cambiata',`<p>${esc(err.message)} La tua bozza è ancora visibile.</p>`,
       act('close','Mantieni la bozza',null,'soft')+act('reload-deck','Ricarica selezione','cards','primary'));
-  } else {notice(err.message);if(err.status===409&&route==='host'&&!state.editing){const o=await overview().catch(()=>null);if(o?.snapshot)syncView(o.snapshot);}}}finally{if(lock){state.busy=false;if(btn.isConnected)btn.disabled=false;if(state.game?.status==='lobby')paintLobby(state.game);if($('#selected-count'))refreshStudio({cats:false,rows:false});}}});
+  } else if(dlg.open && $('#editor-error',dlg)) {dialogError(err.message);}
+  else {notice(err.message);if(err.status===409&&route==='host'&&!state.editing){const o=await overview().catch(()=>null);if(o?.snapshot)syncView(o.snapshot);}}}finally{if(lock){state.busy=false;if(btn.isConnected)btn.disabled=false;if(state.game?.status==='lobby')paintLobby(state.game);if($('#selected-count'))refreshStudio({cats:false,rows:false});}}});
 document.addEventListener('submit',async e=>{const f=e.target;if(!['login','join-form'].includes(f.id))return;e.preventDefault();const b=$('button[type=submit]',f);if(b.disabled)return;b.disabled=true;const err=$('#form-error');if(err)err.hidden=true;
   try{if(f.id==='login'){await api('/api/admin/login','POST',{password:$('#admin-password').value});await adminInit();}else{const pin=$('#join-pin').value.trim();await registerPlayer(draftFor(pin,$('#join-nick').value.trim()));}}catch(error){formError(error.message);}finally{if(b.isConnected)b.disabled=false;}});
 document.addEventListener('input',e=>{if(e.target.id==='question-search'){state.search=e.target.value;refreshStudio({cats:false});}if(e.target.id==='join-pin')e.target.value=e.target.value.replace(/\D/g,'').slice(0,6);});
-document.addEventListener('change',e=>{const t=e.target;if(t.dataset.bonus){state.multipliers[t.dataset.bonus]=Number(t.value);}else if(t.id==='bets'){state.bets=t.checked;}else if(t.dataset.area){if(t.checked)state.drawAreas.add(t.dataset.area);else state.drawAreas.delete(t.dataset.area);}else if(t.dataset.question){t.checked?state.selected.add(t.dataset.question):state.selected.delete(t.dataset.question);refreshStudio({rows:false});}else if(t.id==='duration'){state.duration=Number(t.value);refreshStudio({rows:false,cats:false});}else if(t.id==='shuffle'){state.shuffle=t.checked;}else if(t.id==='reveal-complete'){state.revealOnComplete=t.checked;}else if(t.id==='category-filter'||t.id==='level-filter'){state[t.id==='level-filter'?'level':'category']=t.value;refreshStudio({cats:false});}});
+document.addEventListener('change',e=>{const t=e.target;if(t.dataset.bonus){state.multipliers[t.dataset.bonus]=Number(t.value);}else if(t.id==='bets'){state.bets=t.checked;}else if(t.dataset.drawCategory){if(t.checked)state.drawCategories.add(t.dataset.drawCategory);else state.drawCategories.delete(t.dataset.drawCategory);}else if(t.dataset.question){t.checked?state.selected.add(t.dataset.question):state.selected.delete(t.dataset.question);refreshStudio({rows:false});}else if(t.id==='duration'){state.duration=Number(t.value);refreshStudio({rows:false,cats:false});}else if(t.id==='shuffle'){state.shuffle=t.checked;}else if(t.id==='reveal-complete'){state.revealOnComplete=t.checked;}else if(t.id==='category-filter'||t.id==='level-filter'){state[t.id==='level-filter'?'level':'category']=t.value;refreshStudio({cats:false});}});
 dlg.addEventListener('click',e=>{if(e.target===dlg){const r=dlg.getBoundingClientRect();if(e.clientX<r.left||e.clientX>r.right||e.clientY<r.top||e.clientY>r.bottom)dlg.close();}});
 document.addEventListener('fullscreenchange',header);
 document.addEventListener('visibilitychange',()=>{if(!document.hidden) requestSync();});

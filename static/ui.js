@@ -7,7 +7,7 @@ const state = {
   questions: [], selected: new Set(), category:'all', level:'all', search:'', duration:30, shuffle:false, revealOnComplete:true,
   editing:false, studio:false, admin:false, game:null, snap:null, player:null, socket:null, reconnect:null,
   retry:0, online:false, phaseKey:'', offset:0, pending:null, busy:false, authenticating:false,
-  drawCount:10,quizTitle:'', bets:true, wager:false, multipliers:{}, drawAreas:new Set(['Digitale','Privacy','Lavoro']), audio:null, sound:false, summary:null, review:null, joinDraft:null, deckRevision:null, syncTimer:null, tabLimit:false
+  activeSet:null,drawCount:10,quizTitle:'', bets:true, wager:false, multipliers:{}, drawCategories:null, audio:null, sound:false, summary:null, review:null, joinDraft:null, deckRevision:null, syncTimer:null, tabLimit:false
 };
 const esc = value => String(value ?? '').replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const fmt = value => Number(value || 0).toLocaleString('it-IT');

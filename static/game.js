@@ -40,7 +40,10 @@ function enlargeLobbyQr() {
     <b class="zoom-pin">${esc(g.pin.slice(0,3))} ${esc(g.pin.slice(3))}</b></div>`);
 }
 
-function lobbyTitle(g){return `<div class="session-info">${g.title?`<strong>${esc(g.title)}</strong>`:''}${g.areas?.length?`<p>${g.areas.map(esc).join(' · ')}</p>`:''}</div>`;}
+function lobbyTitle(g) {
+  return `<div class="session-info">${g.title?`<strong>${esc(g.title)}</strong>`:''}
+    ${g.areas?.length?`<ul class="session-topics" aria-label="Categorie del quiz">${g.areas.map(name=>`<li>${esc(name)}</li>`).join('')}</ul>`:''}</div>`;
+}
 function showLobby(g) {
   const screen = route === 'screen';
   const address = new URL(joinURL(g));
@@ -123,30 +126,38 @@ function renderGroupResult(s) {
   const host = route === 'host';
   const options = q.options.map((t,i)=>optionRow(t,i,{correct:i===q.correct,count:s.breakdown?.[i]||0,total})).join('');
   const next = g.current < g.total ? act('finish-early','Concludi qui','flag','text-btn') + act('next','Prossima domanda','arrow','primary') : act('finish','Mostra la classifica','award','primary');
+  const board=ranking(host?s.leaderboard:s.leaderboard?.slice(0,5), host?'Classifica provvisoria':'Prime posizioni');
   show(`<div class="shell game-wrap ${host?'':'projection'}">${progressTop(g,'Soluzione del round')}
-    <section class="panel round results"><div class="round-line">${topic(q)}<span class="mono muted">${fmt(total)} / ${fmt(g.players)} risposte</span></div>
+    <div class="${host?'host-result-grid':'screen-result-grid'}"><section class="panel round results"><div class="round-line">${topic(q)}<span class="mono muted">${fmt(total)} / ${fmt(g.players)} risposte</span></div>
     <h1 class="question">${esc(q.text)}</h1><div class="options ${q.options.length===2?'binary':''}">${options}</div>
     <div class="explain">${icon('info')}<div><strong>Perché questa risposta?</strong><p>${esc(q.explanation)}</p></div></div></section>
-    ${host?`<div class="command-bar"><div><strong>Confronto in aula</strong><p>${g.current===g.total?'Hai completato l’ultima domanda.':'La spiegazione resta visibile fino al prossimo round.'}</p></div><div class="actions">${next}</div></div>${ranking(s.leaderboard,'Classifica provvisoria')}`:''}
-    </div>`,host?'host-result':'screen-result');
+    ${host?`<div class="command-bar"><div><strong>Confronto in aula</strong><p>${g.current===g.total?'Hai completato l’ultima domanda.':'La spiegazione resta visibile fino al prossimo round.'}</p></div><div class="actions">${next}</div></div>`:''}
+    ${board}</div></div>`,host?'host-result':'screen-result');
 }
 
 function ranking(list=[], title='Classifica') {
-  const rows = list.map(p=>`<li><span class="rank-pos">${fmt(p.rank)}ª</span><span class="rank-name">${esc(p.nickname)}${p.tied>1?'<small>Pari merito</small>':''}</span><b>${fmt(p.score)}</b></li>`).join('');
+  const top=list[0]?.score || 0;
+  const rows=list.map(p=>{
+    const width=top ? Math.min(100, Math.round(100*p.score/top)) : 0;
+    return `<li data-place="${p.score>0?p.rank:0}"><span class="rank-pos" aria-label="Posizione ${fmt(p.rank)}">${fmt(p.rank)}ª</span>
+      <span class="rank-name">${esc(p.nickname)}${p.tied>1?'<small>Pari merito</small>':''}
+        <span class="score-line" aria-hidden="true"><i style="width:${width}%"></i></span></span>
+      <b class="rank-score">${fmt(p.score)}</b></li>`;
+  }).join('');
   return `<section class="panel rank-panel"><div class="section-head"><h2>${esc(title)}</h2><span class="eyeline">Punti</span></div>
-  ${rows?`<ol class="rank-list">${rows}</ol>`:'<p class="muted">Nessun giocatore in classifica.</p>'}</section>`;
+    ${rows?`<ol class="rank-list" ${list.length>6?'tabindex="0" aria-label="Elenco scorrevole delle posizioni"':''}>${rows}</ol>`:'<p class="muted">Nessun giocatore in classifica.</p>'}</section>`;
 }
 
 function podium(list) {
   const medalists = list.filter(p=>p.rank<=3 && p.score>0);
-  if (!medalists.length) return `<section class="panel podium-empty"><span class="standby-mark">${icon('flag')}</span><h2>Nessuna risposta corretta</h2><p>La classe ha concluso a zero punti.</p></section>`;
+  if (!medalists.length) return `<section class="panel podium-empty"><span class="standby-mark">${icon('flag')}</span><h2>Punteggi a zero</h2><p>Tutti i partecipanti condividono la prima posizione.</p></section>`;
   const ranks = [...new Set(medalists.map(p=>p.rank))];
   const tiers = ranks.map(rank=>{
     const people=medalists.filter(p=>p.rank===rank);
     const shown=people.slice(0,2), tied=people[0].tied || people.length;
     const rest=tied-shown.length;
     const shared=tied>1?`<small class="tie-caption">Pari merito${rest>0?` · altri ${fmt(rest)}`:''}</small>`:'';
-    return `<li class="podium-tier place-${rank}"><div class="podium-medal">${icon(rank===1?'award':'flag')}<span>${rank}° posto</span></div>
+    return `<li class="podium-tier place-${rank}"><div class="podium-medal"><span aria-hidden="true">${icon(rank===1?'award':'flag')}</span><span>${rank}° posto</span></div>
       <div class="podium-names">${shown.map(p=>`<strong>${esc(p.nickname)}</strong>`).join('')}${shared}</div>
       <div class="tier-points">${fmt(people[0].score)} <small>pt</small></div></li>`;
   }).join('');
@@ -169,10 +180,12 @@ function finishScreen(s) {
   }
   if (player) { renderPlayerFinal(s); return; }
   const list=s.leaderboard || [];
+  const reveal=readSaved('sessionStorage','esc_final_'+route)!==g.id;
+  if(reveal) writeSaved('sessionStorage','esc_final_'+route,g.id);
   show(`<div class="shell game-wrap ${teacher?'':'projection'}"><div class="page-title"><div><div class="eyeline"><i class="pip mint"></i>Partita conclusa</div>
     <h1>Classifica finale<em>.</em></h1><p>${fmt(g.players)} ${g.players===1?'partecipante':'partecipanti'} · ${g.current} ${g.current===1?'round disputato':'round disputati'}</p></div>
     ${teacher?`<div class="actions">${link(`/api/admin/export?gameId=${encodeURIComponent(g.id)}`,'Esporta CSV','save','soft')}${act('new','Nuova partita','arrow','primary')}</div>`:''}</div>
-    <div class="final-grid award-layout">${podium(list)}${ranking(list,list.length<g.players?`Classifica · primi ${fmt(list.length)}`:'Classifica')}</div>${teacher?lessonReport(s.lesson):''}</div>`,'final');
+    <div class="final-grid award-layout" data-reveal="${reveal}">${podium(list)}${ranking(list,list.length<g.players?`Classifica · primi ${fmt(list.length)}`:'Classifica')}</div>${teacher?lessonReport(s.lesson):''}</div>`,'final');
 }
 
 function screenIdle() {

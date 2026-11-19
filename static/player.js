@@ -152,16 +152,27 @@ function rankText(me, full=false) {
   return me.rank ? `${fmt(me.rank)}ª${full ? ' posizione' : ''}${me.tied > 1 ? ' a pari merito' : ''}` : '–';
 }
 
+function outcomeMark(outcome) {
+  if (outcome==='missed') return icon('timer');
+  const strokes = outcome==='correct' ? ['M11 24l8 8 18-19'] : ['M14 14l20 20','M34 14L14 34'];
+  return `<svg viewBox="0 0 48 48" fill="none" stroke="currentColor" stroke-width="4"
+    stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+    ${strokes.map(d=>`<path pathLength="1" d="${d}"/>`).join('')}</svg>`;
+}
+
 function renderPlayerResult(s) {
   const {game:g, question:q, me} = s;
   if (!q || !me) return;
   const a = me.answer;
   const outcome = !a ? 'missed' : a.correct ? 'correct' : 'wrong';
-  const [title, symbol] = outcomeInfo(outcome);
+  const [title] = outcomeInfo(outcome);
+  const effectKey=`${g.id}/${g.current}/${state.player?.playerId || ''}`;
+  const fresh=readSaved('sessionStorage','esc_last_outcome')!==effectKey;
+  if(fresh) writeSaved('sessionStorage','esc_last_outcome',effectKey);
   const options = q.options.map((t,i) => optionRow(t,i,{correct:i===q.correct,own:a?.choice===i,wrong:a?.choice===i && !a.correct})).join('');
   show(`<div class="shell narrow player-stage">${progressTop(g,'Soluzione del round')}
-    <article class="panel debrief paper" data-outcome="${outcome}">
-      <div class="outcome-head"><span class="outcome-icon">${icon(symbol)}</span>
+    <article class="panel debrief paper" data-outcome="${outcome}" data-reveal="${fresh}">
+      <div class="outcome-head"><span class="outcome-icon">${outcomeMark(outcome)}</span>
         <h1 data-phase-focus tabindex="-1">${title}</h1><strong class="round-points">${(a?.points||0)>=0?'+':''}${fmt(a?.points)} <small>pt</small></strong>
       </div>
       ${solutionContent(q, a?.choice)}
@@ -182,8 +193,9 @@ function renderPlayerFinal(s) {
   const metrics = counts ? `<div class="final-metrics">${Object.entries(names).map(([key,label])=>`<div data-outcome="${key}"><strong>${fmt(counts[key])}</strong><span>${label}</span></div>`).join('')}</div>` : '';
   show(`<div class="shell narrow player-stage"><section class="panel personal-finish paper">
     <div class="eyeline"><i class="pip mint"></i>Partita conclusa</div><h1 data-phase-focus tabindex="-1">${esc(me.nickname)}<em>.</em></h1>
-    <div class="finish-score">${fmt(me.score)} <small>punti</small></div>
-    <p class="finish-standing">${me.rank ? `<b>${rankText(me,true)}</b> su ${fmt(g.players)} ${g.players===1?'partecipante':'partecipanti'}.` : ''}</p>
+    <div class="finish-numbers"><div><span>Posizione finale</span><b>${me.rank?fmt(me.rank)+'ª':'–'}</b>
+    <small>${me.tied>1?'Pari merito · ':''}su ${fmt(g.players)}</small></div><div><span>Punteggio</span>
+    <b>${fmt(me.score)}</b><small>punti totali</small></div></div>
     ${metrics}${counts?`<p class="finish-standing">Velocità <b>${fmt(counts.base)} pt</b> · Bonus <b>${fmt(counts.bonus)} pt</b> · Puntate <b>${fmt(counts.stake)} pt</b></p>`:''}<div class="finish-actions">${act('review','Ripassa le domande','cards','primary')}${act('exit-player','Torna all’ingresso','back','text-btn')}</div>
   </section></div>`, 'player-final');
 }
