@@ -10,6 +10,13 @@ function stopSocket() {
   state.socket=null; state.online=false;
   if(ws){ws.onopen=null;ws.onclose=null;ws.onmessage=null;ws.close();}
 }
+function endAdminSession() {
+  stopSocket();
+  if(dlg.open) dlg.close();
+  Object.assign(state,{admin:false,editing:false,studio:false,game:null,snap:null,phaseKey:'',
+    activeSet:null,questions:[],selected:new Set(),quizTitle:'',multipliers:{},drawCategories:null});
+  showLogin();
+}
 function resetPlayer(p=state.player) {
   stopSocket();
   if(dlg.open) dlg.close();
@@ -52,6 +59,8 @@ function syncView(s, reconnected=false) {
   if (!phaseChanged && !reconnected && g?.status==='question' && priorAnswer?.answered && s.me && !s.me.answered) {
     s.me.answered = true;
     s.me.choice = priorAnswer.choice;
+    s.me.wager = priorAnswer.wager;
+    s.me.remainingBets = priorAnswer.remainingBets;
   }
   state.snap = s;
   state.game = g;
@@ -59,7 +68,7 @@ function syncView(s, reconnected=false) {
   state.phaseKey = key;
   if (g?.server_now) state.offset = g.server_now*1000 - Date.now();
   if (g?.id !== old?.id) state.review = null;
-  if (g?.status==='lobby' && old?.id!==g.id) { state.studio=false; state.editing=false; }
+  if (g && old?.id!==g.id && ['lobby','question','results'].includes(g.status)) { state.studio=false; state.editing=false; }
   if (g && g.status !== 'lobby') state.editing=false;
   if (phaseChanged) {
     state.wager=false;
@@ -72,7 +81,8 @@ function syncView(s, reconnected=false) {
     }
   } else {
     const view = document.body.dataset.view;
-    if (g?.status==='lobby' && ['player-lobby','host-lobby','screen-lobby'].includes(view)) {
+    if (g?.status==='lobby' && ['player-lobby','host-lobby','screen-lobby'].includes(view) &&
+        old?.title===g.title && JSON.stringify(old?.areas)===JSON.stringify(g.areas) && old?.public_url===g.public_url) {
       paintLobby(g); updateLive(); return;
     }
     if (route==='player' && view==='player-round' && g?.status==='question') {
@@ -88,6 +98,7 @@ function syncView(s, reconnected=false) {
 }
 
 function handleMessage(m) {
+  if (m.type==='admin_signed_out' && route!=='player') { endAdminSession(); return; }
   if (m.type==='snapshot') { const resumed=!state.online; clearTimeout(state.syncTimer);state.syncTimer=null;state.online=true; state.retry=0; syncView(m,resumed); return; }
   if (m.type==='counts') { updateCounters(m); return; }
   if (m.type==='answer_ack') {
@@ -95,7 +106,9 @@ function handleMessage(m) {
     state.pending=null;
     if ((m.ok || (m.alreadyAnswered && Number.isInteger(m.choice))) && state.snap?.me) {
       state.snap.me.answered=true;
-      state.snap.me.choice=m.choice; if(Number.isInteger(m.remainingBets))state.snap.me.remainingBets=m.remainingBets;
+      state.snap.me.choice=m.choice;
+      if(typeof m.wager==='boolean') state.snap.me.wager=m.wager;
+      if(Number.isInteger(m.remainingBets))state.snap.me.remainingBets=m.remainingBets;
     } else if (!m.ok && !state.snap?.me?.answered) {
       notice(m.message);
       state.socket?.close();
@@ -141,7 +154,7 @@ function connect() {
       if(state.socket!==ws) return;
       if(channel!=='play') {
         try{await api('/api/screen');}
-        catch(e){if(e.status===401 && state.socket===ws){stopSocket();state.admin=false;showLogin();return;}}
+        catch(e){if(e.status===401 && state.socket===ws){endAdminSession();return;}}
       }
       if(state.socket===ws) connect();
     },delay);
@@ -158,17 +171,11 @@ function requestSync() {
 }
 async function overview() {
   const overview=await api('/api/admin/overview');
-  const previous=new Set(state.questions.map(q=>q.category_id));
-  const current=new Set(overview.questions.map(q=>q.category_id));
-  if(state.drawCategories) {
-    const allEnabled=[...previous].every(id=>state.drawCategories.has(id));
-    state.drawCategories=new Set([...current].filter(id=>allEnabled || state.drawCategories.has(id)));
-  }
-  state.questions=overview.questions;
+  replaceStudioQuestions(overview.questions);
   return overview;
 }
 async function adminInit(){try{let snap;if(route==='screen')snap=await api('/api/screen');else{const o=await overview();snap=o.snapshot||{game:null};}
-  state.admin=true;syncView(snap);connect();}catch(e){if(e.status===401){state.admin=false;showLogin();}else connectionHelp(e.message);}}
+  state.admin=true;syncView(snap);connect();}catch(e){if(e.status===401){endAdminSession();}else connectionHelp(e.message);}}
 function enterPlayer(pin,data) {
   clearNotice();
   storePlayer({pin,playerId:data.playerId,token:data.token,nickname:data.nickname});
@@ -211,7 +218,26 @@ async function saveDeck(){const edit=state.editing;const payload=deckPayload();i
   await api(edit?'/api/admin/questions':'/api/admin/create',edit?'PATCH':'POST',payload);state.editing=false;state.studio=false;const o=await overview();if(!state.snap?.game||state.snap.game.id!==o.game?.id||!state.online)syncView(o.snapshot);else renderGame();window.scrollTo(0,0);
 }
 async function hostAction(action){const g=state.game;if(!g)return;await api('/api/admin/action','POST',{action,gameId:g.id,index:g.current-1,status:g.status});if(!state.online){const o=await overview();syncView(o.snapshot);} }
-async function goStudio(edit){const o=await overview();if(edit&&o.game?.status!=='lobby'){syncView(o.snapshot);return;}state.game=o.game;state.snap=o.snapshot;state.activeSet=null;state.drawCategories=null;state.quizTitle=edit?(o.settings?.title||''):'';state.bets=edit?!!o.settings?.bets:true;state.multipliers=edit?Object.fromEntries(o.questions.map(q=>[q.id,o.settings?.multipliers?.[q.id]||1])):{};state.deckRevision=edit?o.configurationRevision:null;state.duration=edit?o.game.duration:30;state.selected=new Set(edit?o.selected:[]);state.search='';state.category='all';state.level='all';state.shuffle=false;state.revealOnComplete=edit?o.game.reveal_on_complete:true;state.editing=edit;state.studio=!edit;renderGame();window.scrollTo(0,0);}
+async function goStudio(edit) {
+  const o=await overview();
+  const active=['lobby','question','results'].includes(o.game?.status);
+  if ((edit && o.game?.status!=='lobby') || (!edit && active)) {
+    state.editing=false; state.studio=false;
+    syncView(o.snapshot || {game:null});
+    return;
+  }
+  const ids=edit ? o.selected : [];
+  state.game=o.game; state.snap=o.snapshot; state.activeSet=null; state.drawCategories=null;
+  state.quizTitle=edit ? (o.settings?.title || '') : '';
+  state.bets=edit ? !!o.settings?.bets : true;
+  state.multipliers=Object.fromEntries(ids.map(id=>[id,o.settings?.multipliers?.[id] || 1]));
+  state.deckRevision=edit ? o.configurationRevision : null;
+  state.duration=edit ? o.game.duration : 30;
+  state.selected=new Set(ids); state.search=''; state.category='all'; state.level='all';
+  state.shuffle=false; state.revealOnComplete=edit ? o.game.reveal_on_complete : true;
+  state.editing=edit; state.studio=!edit;
+  renderGame(); window.scrollTo(0,0);
+}
 document.addEventListener('input',e=>{if(e.target.id==='draw-count'&&e.target.validity.valid)state.drawCount=e.target.valueAsNumber;if(e.target.id==='quiz-title')state.quizTitle=e.target.value;});
 function confirmAction(title,description,action,label){modal(title,`<p>${esc(description)}</p>`,act('close','Indietro',null,'soft')+act(`confirm-${action}`,label,'check','primary'));}
 async function perform(action,id,revision){switch(action){
@@ -253,13 +279,13 @@ async function perform(action,id,revision){switch(action){
   case 'confirm-leave':{dlg.close();const p=state.player;await api('/api/leave','POST',{pin:p.pin,playerId:p.playerId,token:p.token});if(state.player?.playerId===p.playerId)resetPlayer(p);return;}
   case 'exit-player':return resetPlayer();
   case 'copy-link':{const u=joinURL(state.game);try{await navigator.clipboard.writeText(u);notice('Link di invito copiato.');}catch{modal('Link di invito',`<p>Seleziona il link per copiarlo.</p><input aria-label="Link di invito" id="invite-url" readonly value="${esc(u)}">`);$('#invite-url').select();}return;}
-  case 'logout':await api('/api/admin/logout','POST');stopSocket();state.activeSet=null;state.selected.clear();state.quizTitle='';state.multipliers={};state.admin=false;state.editing=false;state.studio=false;state.phaseKey='';showLogin();return;
+  case 'logout':await api('/api/admin/logout','POST');endAdminSession();return;
   case 'fullscreen':if(document.fullscreenElement)await document.exitFullscreen();else if(document.documentElement.requestFullscreen)await document.documentElement.requestFullscreen();else notice('Usa la modalità a schermo intero del browser.');return;
   case 'sound':{if(!state.audio){const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio){notice('Audio non disponibile su questo dispositivo.');return;}state.audio=new Audio();}await state.audio.resume();state.sound=!state.sound;if(state.sound)tone('question');header();return;}
 }}
 const mutations=new Set(['archive-set','restore-set','save-deck','start','next','finish','confirm-finish','confirm-cancel','confirm-reveal','confirm-leave','logout','reveal']);
 document.addEventListener('click',async e=>{const choice=e.target.closest('[data-choice]');if(choice){sendAnswer(Number(choice.dataset.choice));return;}const btn=e.target.closest('[data-action]');if(!btn)return;const action=btn.dataset.action;const lock=mutations.has(action);if(lock&&state.busy)return;if(lock){state.busy=true;btn.disabled=true;}
-  try{await perform(action,btn.dataset.id,Number(btn.dataset.revision));}catch(err){if(err.status===401&&route!=='player'){if(dlg.open)dlg.close();stopSocket();state.admin=false;showLogin();}else if(err.code==='deck_changed' && state.editing) {
+  try{await perform(action,btn.dataset.id,Number(btn.dataset.revision));}catch(err){if(err.status===401&&route!=='player'){endAdminSession();}else if(err.code==='deck_changed' && state.editing) {
     modal('La selezione è cambiata',`<p>${esc(err.message)} La tua bozza è ancora visibile.</p>`,
       act('close','Mantieni la bozza',null,'soft')+act('reload-deck','Ricarica selezione','cards','primary'));
   } else if(dlg.open && $('#editor-error',dlg)) {dialogError(err.message);}

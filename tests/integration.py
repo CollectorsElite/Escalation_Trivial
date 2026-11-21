@@ -112,6 +112,19 @@ async def main(n=10,url='http://127.0.0.1:8128'):
         r=await c.post('/api/admin/action',json={'action':'finish'});assert r.status_code==200
         finals=await asyncio.gather(*(receive(s,'snapshot','finished') for s in sockets))
         assert all(m['me']['rank']>=1 for m in finals)
+        final_board=(await c.get('/api/admin/overview')).json()['snapshot']['leaderboard']
+        projected=(await c.get('/api/screen')).json()['leaderboard']
+        assert len(final_board)==n and projected==final_board[:10]
+        export_rows=list(csv.DictReader(io.StringIO((await c.get('/api/admin/export')).content.decode('utf-8-sig'))))
+        assert len(export_rows)==n
+        by_player={m['me']['nickname']:m['me'] for m in finals}
+        for participant, record in zip(final_board, export_rows):
+            me=by_player[participant['nickname']]
+            assert record['Nickname']==participant['nickname']
+            assert int(record['Punteggio'])==participant['score']==me['score']
+            assert int(record['Posizione'])==participant['rank']==me['rank']
+            assert me['tied']==participant['tied']
+        print(f'Classifica completa, prime {min(10,n)} in proiezione e {len(export_rows)} righe CSV coerenti.')
         await asyncio.gather(*(s.close() for s in sockets))
         print('TUTTI I TEST SUPERATI:',n,'giocatori; 210 domande; 9 categorie; risposte; punteggi; export; finale.')
 

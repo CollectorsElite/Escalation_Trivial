@@ -133,7 +133,7 @@ def editor_question(db, body, qid):
                 stored['category_id'] == cid and stored['difficulty'] == q['difficulty'] and
                 stored['correct'] == q['correct'] and normalized(stored['explanation']) == normalized(q['explanation']) and
                 [normalized(v) for v in json.loads(stored['options_json'])] == [normalized(v) for v in q['options']]):
-            raise HTTPException(409, detail='Il catalogo contiene già una domanda identica. Personalizza il contenuto della copia.')
+            raise HTTPException(409, detail='Nel catalogo esiste già una domanda con questi contenuti.')
     return q
 
 
@@ -246,10 +246,12 @@ def teacher_routes(db, require_admin, lock):
         async with lock:
             with transaction(db):
                 current = fetch_question(qid)
-                if not current['revision']:
-                    raise HTTPException(400, detail='Per personalizzare una domanda di base, creane una copia.')
                 check_revision(current, body, 'question_changed')
                 q = editor_question(db, body, qid)
+                # A base question saved without any edits still receives future catalogue updates.
+                fields = ('category_id', 'category', 'difficulty', 'options', 'correct', 'explanation', 'type')
+                if current['text'] == q['question'] and all(current[k] == q[k] for k in fields):
+                    return current
                 db.execute('''UPDATE questions SET category_id=?,category=?,question=?,options_json=?,correct=?,
                     explanation=?,difficulty=?,type=?,revision=revision+1 WHERE id=?''', (*question_values(q)[1:], qid))
             return fetch_question(qid)

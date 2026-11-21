@@ -49,7 +49,8 @@ async function savedSets(archived=false) {
   modal('Set salvati', `<div class="set-tabs" role="group" aria-label="Elenco dei set">
     ${act('sets','Disponibili',null,'soft',`aria-pressed="${!archived}"`)}
     ${act('sets-archived','Archiviati',null,'soft',`aria-pressed="${archived}"`)}
-    </div><div id="set-list"><p class="muted" role="status">Caricamento…</p></div>${editorErrorLine}`);
+    </div>${archived?'<p class="edit-hint">Qui trovi i set archiviati dai docenti. Con «Ripristina» un set torna tra quelli disponibili. Le sue domande restano nel catalogo.</p>':''}
+    <div id="set-list"><p class="muted" role="status">Caricamento…</p></div>${editorErrorLine}`);
   const list = $('#set-list');
   const items = await api('/api/admin/sets?archived=' + archived);
   if (!list.isConnected || !dlg.open) return;
@@ -128,7 +129,7 @@ async function submitTeacherForm(form, job) {
     await job();
   } catch(e) {
     if (!form.isConnected) return;
-    if(e.status===401) {dlg.close();stopSocket();state.admin=false;showLogin();return;}
+    if(e.status===401) {endAdminSession();return;}
     dialogError(e.message);
     if(e.code==='set_changed' && !form.querySelector('[data-action="copy-draft"]')) {
       error.insertAdjacentHTML('afterend', `<div class="saved-actions">${act('copy-draft','Salva la bozza come copia','copy','soft')}${act('sets','Riapri i set','cards','text-btn')}</div>`);
@@ -153,7 +154,7 @@ async function openQuestionEditor(id, copy=false) {
     q=await api('/api/admin/catalogue/'+encodeURIComponent(id));
     if (!dlg.open || !old?.isConnected) return;
   }
-  const existing=!!q?.revision && !copy;
+  const existing=Boolean(q) && !copy;
   const category=q?.category_id || (state.category==='all'?'':state.category);
   const choices=new Map(categoryList());
   if(q) choices.set(q.category_id,q.category);
@@ -175,9 +176,10 @@ async function openQuestionEditor(id, copy=false) {
       <p class="edit-hint">Seleziona il cerchio accanto all’alternativa corretta.</p></fieldset>
       <label>Spiegazione<textarea name="explanation" rows="2" required maxlength="1200">${esc(q?.explanation)}</textarea></label>
       ${copy?'<p class="edit-hint">Personalizza la domanda, le alternative o la spiegazione per salvare la copia.</p>':''}
+      ${existing?'<p class="edit-hint">La modifica si applica a tutti i set che contengono questa domanda.</p>':''}
       <details class="phone-preview"><summary>Anteprima sul telefono</summary><div data-phone-preview></div></details>
-      ${editorErrorLine}<div class="editor-actions"><button type="submit" class="btn soft" value="save">Salva domanda</button>
-      <button type="submit" class="btn primary" value="add">${icon('check')}Salva e aggiungi al set</button></div></form>`);
+      ${editorErrorLine}<div class="editor-actions"><button type="submit" class="btn ${existing?'primary':'soft'}" value="save">${existing?'Salva modifiche':'Salva domanda'}</button>
+      <button type="submit" class="btn ${existing?'soft':'primary'}" value="add">${icon('check')}Salva e aggiungi al set</button></div></form>`);
   const form=$('#question-form'), fields=form.elements, creation=creationKey();
   if (existing) form.dataset.questionId=q.id;
   const preview=$('details',form);
@@ -217,9 +219,8 @@ async function openQuestionEditor(id, copy=false) {
       if (!form.isConnected || !dlg.open) return;
       const index=state.questions.findIndex(item=>item.id===saved.id);
       const frozen=index>=0 && state.questions[index].frozen;
-      if(index<0) state.questions.push(saved);
-      else if(!frozen) state.questions[index]=saved;
-      if(state.drawCategories && !choices.has(saved.category_id)) state.drawCategories.add(saved.category_id);
+      if(!frozen) replaceStudioQuestions(index<0 ? [...state.questions,saved] :
+        state.questions.map(item=>item.id===saved.id ? saved : item));
       if(add) state.selected.add(saved.id);
       dlg.close(); renderStudio();
       notice(frozen?'Correzione salvata per le prossime partite. La lobby conserva la sua versione.':

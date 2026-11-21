@@ -14,15 +14,15 @@ import re
 import secrets
 import sqlite3
 import time
+import unicodedata
 from contextlib import asynccontextmanager
 from dataclasses import dataclass, field
-from http.cookies import SimpleCookie
 
 from functools import lru_cache
 
 from PIL import Image
 from reportlab.graphics.barcode import qrencoder
-from catalogue import decode_question, load_catalogue, question_values
+from catalogue import decode_question, load_catalogue, normalized, question_values
 from authoring import checked_ids, game_categories, install_authoring, quiz_options, read_object, teacher_routes
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
@@ -33,6 +33,7 @@ DATA_DIR = Path(os.getenv('DATA_DIR', str(ROOT / 'data')))
 DATA_DIR.mkdir(parents=True, exist_ok=True)
 DB_PATH = DATA_DIR / 'escalation-trivial.sqlite3'
 MAX_PLAYERS = 400
+ADMIN_SESSION_SECONDS = 12 * 60 * 60
 ADMIN_PASSWORD = os.getenv('ADMIN_PASSWORD', '')
 SESSION_SECRET = os.getenv('SESSION_SECRET', '')
 if not ADMIN_PASSWORD:
@@ -75,12 +76,14 @@ CREATE TABLE IF NOT EXISTS score_details (
  game_id TEXT NOT NULL, player_id TEXT NOT NULL, question_index INTEGER NOT NULL,
  base INTEGER NOT NULL, bonus INTEGER NOT NULL, wager INTEGER NOT NULL, stake_delta INTEGER NOT NULL,
  PRIMARY KEY(game_id,player_id,question_index));
+CREATE TABLE IF NOT EXISTS revoked_admin_sessions (
+ session_id TEXT PRIMARY KEY, expires_at INTEGER NOT NULL);
 CREATE INDEX IF NOT EXISTS idx_players_game ON players(game_id);
 CREATE INDEX IF NOT EXISTS idx_answers_question ON answers(game_id,question_index);
 ''')
 lock = asyncio.Lock()
-host_clients: set[WebSocket] = set()
-screen_clients: set[WebSocket] = set()
+host_clients: dict[WebSocket, str] = {}
+screen_clients: dict[WebSocket, str] = {}
 @dataclass
 class PlayerConnections:
     game_id: str
@@ -159,20 +162,27 @@ def selected_question(game):
     return json.loads(item['payload']) if item else None
 
 
-def authorized_cookie(value: str | None):
-    try:
-        stamp, signature = (value or '').split('.',1)
-        stamp_i = int(stamp)
-        if not (0 <= time.time() - stamp_i <= 43200):
-            return False
-        expected = hmac.new(SESSION_SECRET.encode(),stamp.encode(),hashlib.sha256).hexdigest()
-        return hmac.compare_digest(signature,expected)
-    except (ValueError, AttributeError):
-        return False
+def admin_session(value: str | None):
+    # Accept earlier timestamp-only signatures until the end of their original lifetime.
+    match = re.fullmatch(r'([0-9]{1,12})(?:\.[0-9a-f]{32})?\.[0-9a-f]{64}', value or '')
+    if not match:
+        return None
+    issued = int(match[1])
+    expires = issued + ADMIN_SESSION_SECONDS
+    if not issued <= time.time() < expires:
+        return None
+    payload, signature = value.rsplit('.', 1)
+    expected = hmac.new(SESSION_SECRET.encode(),payload.encode(),hashlib.sha256).hexdigest()
+    if not hmac.compare_digest(signature, expected):
+        return None
+    session_id = hashlib.sha256(value.encode()).hexdigest()
+    if row('SELECT 1 FROM revoked_admin_sessions WHERE session_id=?', (session_id,)):
+        return None
+    return session_id, expires
 
 
 def request_is_admin(request: Request):
-    return authorized_cookie(request.cookies.get('esc_admin'))
+    return admin_session(request.cookies.get('esc_admin')) is not None
 
 
 def require_admin(request: Request):
@@ -187,14 +197,6 @@ def websocket_origin_ok(ws: WebSocket):
         return True  # Non-browser clients need their own valid bearer credential.
     parsed = urlparse(origin)
     return parsed.scheme in ('http', 'https') and parsed.netloc.lower() == ws.headers.get('host','').lower()
-
-
-def admin_ws(ws: WebSocket):
-    if not websocket_origin_ok(ws):return False
-    jar = SimpleCookie()
-    try: jar.load(ws.headers.get('cookie',''))
-    except Exception: return False
-    return authorized_cookie(jar.get('esc_admin').value if jar.get('esc_admin') else None)
 
 
 def get_player(pid, token):
@@ -334,11 +336,12 @@ def public_snapshot(game, role, player_id=None):
         spent=row('SELECT COUNT(*) FROM score_details WHERE game_id=? AND player_id=? AND wager=1',(game['id'],player_id))[0]
         result['me']={'remainingBets':max(0,2-spent),'nickname':p['nickname'],'score':p['score']}
         if question:
-            ans=row('''SELECT choice,correct,points FROM answers WHERE
-                  game_id=? AND player_id=? AND question_index=?''',
+            ans=row('''SELECT a.choice,a.correct,a.points,COALESCE(d.wager,0) AS wager FROM answers a
+                  LEFT JOIN score_details d USING(game_id,player_id,question_index)
+                  WHERE a.game_id=? AND a.player_id=? AND a.question_index=?''',
                   (game['id'],player_id,game['current_index']))
             result['me']['answered']=bool(ans)
-            if ans: result['me']['choice']=ans['choice']
+            if ans: result['me'].update(choice=ans['choice'], wager=bool(ans['wager']))
             if ans and game['status'] in ('results','finished'):
                 result['me']['answer']={'choice':ans['choice'],'correct':bool(ans['correct']),
                                        'points':ans['points']}
@@ -381,8 +384,9 @@ def batched_player_snapshots(game, wanted_ids):
         common['question'] = visible
         stats=question_stats(game)
         common['answered'] = stats['answered']
-        answers = {r['player_id']:r for r in conn.execute("""SELECT player_id,choice,correct,points
-            FROM answers WHERE game_id=? AND question_index=?""",(game['id'],game['current_index']))}
+        answers = {r['player_id']:r for r in conn.execute("""SELECT a.player_id,a.choice,a.correct,a.points,COALESCE(d.wager,0) AS wager
+            FROM answers a LEFT JOIN score_details d USING(game_id,player_id,question_index)
+            WHERE a.game_id=? AND a.question_index=?""",(game['id'],game['current_index']))}
     spent={r[0]:r[1] for r in conn.execute('SELECT player_id,SUM(wager) FROM score_details WHERE game_id=? GROUP BY player_id',(game['id'],))}
     snapshots={}
     for pid in wanted_ids:
@@ -394,7 +398,7 @@ def batched_player_snapshots(game, wanted_ids):
         if question:
             ans=answers.get(pid)
             me['answered']=bool(ans)
-            if ans: me['choice']=ans['choice']
+            if ans: me.update(choice=ans['choice'], wager=bool(ans['wager']))
             if game['status'] in ('results','finished'):
                 if ans:
                     me['answer']={'choice':ans['choice'],'correct':bool(ans['correct']),'points':ans['points']}
@@ -546,7 +550,7 @@ async def homepage():
 
 @app.post('/api/admin/login')
 async def login(request:Request):
-    body=await request.json()
+    body=await read_object(request)
     pwd=body.get('password','')
     source=request.client.host if request.client else 'unknown'
     now=time.time()
@@ -559,16 +563,29 @@ async def login(request:Request):
         failures.append(now)
         raise HTTPException(401,detail='Password non corretta.')
     login_failures.pop(source,None)
-    stamp=str(int(time.time()))
-    sig=hmac.new(SESSION_SECRET.encode(),stamp.encode(),hashlib.sha256).hexdigest()
+    conn.execute('DELETE FROM revoked_admin_sessions WHERE expires_at<=?', (now,))
+    payload=f'{int(now)}.{secrets.token_hex(16)}'
+    sig=hmac.new(SESSION_SECRET.encode(),payload.encode(),hashlib.sha256).hexdigest()
     response=JSONResponse({'ok':True})
     secure=request.headers.get('x-forwarded-proto','')=='https' or request.url.scheme=='https'
-    response.set_cookie('esc_admin',stamp+'.'+sig,httponly=True,secure=secure,
-                        samesite='strict',max_age=43200,path='/')
+    response.set_cookie('esc_admin',payload+'.'+sig,httponly=True,secure=secure,
+                        samesite='strict',max_age=ADMIN_SESSION_SECONDS,path='/')
     return response
 
 @app.post('/api/admin/logout')
-async def logout():
+async def logout(request: Request):
+    session=admin_session(request.cookies.get('esc_admin'))
+    if session:
+        session_id=session[0]
+        conn.execute('INSERT OR REPLACE INTO revoked_admin_sessions VALUES (?,?)',session)
+        closing=[]
+        for clients in (host_clients,screen_clients):
+            for ws, sid in tuple(clients.items()):
+                if sid==session_id:
+                    del clients[ws]
+                    closing.append(sign_out_socket(ws))
+        if closing:
+            await asyncio.gather(*closing,return_exceptions=True)
     response=JSONResponse({'ok':True})
     response.delete_cookie('esc_admin',path='/')
     return response
@@ -643,12 +660,12 @@ async def edit_lobby(request:Request):
     chosen=checked_ids(conn, body.get('ids'))
     if type(body.get('shuffle', False)) is not bool:
         raise HTTPException(400, detail='Impostazione di ordinamento non valida.')
-    duration=body.get('duration',20)
-    if type(duration) is not int or not 10<=duration<=120:
-        raise HTTPException(400,detail='Durata non valida.')
     async with lock:
         game=active_game()
         if not game or game['status']!='lobby':raise HTTPException(409,detail='Le domande possono essere modificate solo in lobby.')
+        duration=body.get('duration',game['duration'])
+        if type(duration) is not int or not 10<=duration<=120:
+            raise HTTPException(400,detail='Durata non valida.')
         reveal_on_complete = body.get('revealOnComplete', bool(game['reveal_on_complete']))
         if type(reveal_on_complete) is not bool:
             raise HTTPException(400, detail='Impostazione di chiusura del round non valida.')
@@ -674,7 +691,7 @@ async def edit_lobby(request:Request):
 @app.post('/api/admin/action')
 async def host_action(request:Request):
     require_admin(request)
-    body=await request.json()
+    body=await read_object(request)
     action=body.get('action')
     async with lock:
         game=active_game()
@@ -720,10 +737,14 @@ async def export_results(request:Request):
     output=io.StringIO()
     writer=csv.writer(output)
     writer.writerow(['Posizione','Nickname','Punteggio','Risposte corrette','Risposte inviate'])
-    for r in conn.execute('''SELECT RANK() OVER (ORDER BY p.score DESC) AS rank,p.nickname,p.score,
-        (SELECT COUNT(*) FROM answers a WHERE a.player_id=p.id AND a.correct=1) AS correct_answers,
-        (SELECT COUNT(*) FROM answers a WHERE a.player_id=p.id) AS all_answers
-        FROM players p WHERE p.game_id=? ORDER BY p.score DESC,p.joined_at,p.id''',(game['id'],)):
+    last_published=game['current_index'] - int(game['status']=='question')
+    for r in conn.execute('''WITH published AS (
+        SELECT player_id,SUM(correct) AS correct_answers,COUNT(*) AS all_answers
+        FROM answers WHERE game_id=? AND question_index<=? GROUP BY player_id
+        ) SELECT RANK() OVER (ORDER BY p.score DESC) AS rank,p.nickname,p.score,
+        COALESCE(a.correct_answers,0) AS correct_answers,COALESCE(a.all_answers,0) AS all_answers
+        FROM players p LEFT JOIN published a ON a.player_id=p.id
+        WHERE p.game_id=? ORDER BY p.score DESC,p.joined_at,p.id''',(game['id'],last_published,game['id'])):
         nickname=r['nickname']
         if nickname and nickname[0] in '=+-@': nickname="'"+nickname
         writer.writerow([r['rank'],nickname,r['score'],r['correct_answers'],r['all_answers']])
@@ -767,9 +788,7 @@ def join_result(game, player_id, nickname, token, reconnected):
 
 @app.post('/api/join')
 async def join(request: Request):
-    body = await request.json()
-    if not isinstance(body, dict):
-        raise HTTPException(400, detail='Richiesta di ingresso non valida.')
+    body = await read_object(request)
     pin = str(body.get('pin','')).strip()
     if not re.fullmatch(r'[0-9]{6}', pin):
         raise HTTPException(400, detail='Inserisci un PIN di sei cifre.')
@@ -802,17 +821,23 @@ async def join(request: Request):
         nickname = body.get('nickname','')
         if not isinstance(nickname,str):
             raise HTTPException(400, detail='Nickname non valido.')
-        nickname = ' '.join(nickname.split())
+        nickname = unicodedata.normalize('NFC',' '.join(nickname.split()))
         if not 2 <= len(nickname) <= 24 or any(ord(ch) < 32 for ch in nickname):
             raise HTTPException(400, detail='Il nickname deve contenere da 2 a 24 caratteri.')
         count = row('SELECT COUNT(*) AS n FROM players WHERE game_id=?',(game['id'],))['n']
         if count >= MAX_PLAYERS:
             raise HTTPException(409, detail='Lobby piena. È stato raggiunto il limite di 400 giocatori.')
-        if row('SELECT id FROM players WHERE game_id=? AND nickname_key=?',(game['id'],nickname.casefold())):
+        key_name = normalized(nickname)
+        occupied = row('SELECT id FROM players WHERE game_id=? AND nickname_key=?',(game['id'],key_name))
+        # Existing lobbies may contain decomposed accent sequences saved by older clients.
+        if not occupied and not key_name.isascii():
+            occupied = any(normalized(r[0])==key_name for r in conn.execute(
+                'SELECT nickname_key FROM players WHERE game_id=?',(game['id'],)))
+        if occupied:
             raise HTTPException(409, detail='Nickname già utilizzato. Scegline un altro.')
         pid = secrets.token_hex(12)
         conn.execute('INSERT INTO players(id,game_id,nickname,nickname_key,token_hash,joined_at) VALUES (?,?,?,?,?,?)',
-                     (pid,game['id'],nickname,nickname.casefold(),digest,time.time()))
+                     (pid,game['id'],nickname,key_name,digest,time.time()))
         result = join_result(game,pid,nickname,token,False)
     schedule_counts()
     return result
@@ -820,9 +845,7 @@ async def join(request: Request):
 
 @app.post('/api/player/review')
 async def player_review(request: Request):
-    body = await request.json()
-    if not isinstance(body, dict):
-        raise HTTPException(400, detail='Richiesta non valida.')
+    body = await read_object(request)
     player = get_player(body.get('playerId'), body.get('token'))
     game = latest_game()
     if not player or not game or player['game_id'] != game['id'] or body.get('pin') != game['pin']:
@@ -849,7 +872,7 @@ async def player_review(request: Request):
 
 @app.post('/api/leave')
 async def leave_lobby(request: Request):
-    body = await request.json()
+    body = await read_object(request)
     async with lock:
         player = get_player(body.get('playerId'), body.get('token'))
         game = active_game()
@@ -867,33 +890,94 @@ async def leave_lobby(request: Request):
     schedule_counts()
     return {'ok': True}
 
+async def sign_out_socket(ws):
+    await safe_send(ws, {'type':'admin_signed_out'})
+    try:
+        await ws.close(code=1008)
+    except (RuntimeError, WebSocketDisconnect, OSError):
+        pass
+
+
+async def staff_socket(ws, role, clients):
+    cookie = ws.cookies.get('esc_admin')
+    if not websocket_origin_ok(ws) or not admin_session(cookie):
+        await ws.close(code=1008)
+        return
+    await ws.accept()
+    # Logout can run while the connection handshake is in progress.
+    session = admin_session(cookie)
+    if not session:
+        await sign_out_socket(ws)
+        return
+    session_id, expires = session
+    clients[ws] = session_id
+    try:
+        async with asyncio.timeout(max(0, expires-time.time())):
+            await safe_send(ws, public_snapshot(latest_game(), role))
+            while ws in clients:
+                msg = await ws.receive_json()
+                if ws not in clients:
+                    break
+                if not isinstance(msg, dict):
+                    continue
+                if msg.get('type') == 'sync':
+                    await safe_send(ws, public_snapshot(latest_game(), role))
+                elif msg.get('type') == 'ping':
+                    await safe_send(ws, {'type':'pong'})
+    except TimeoutError:
+        clients.pop(ws, None)
+        await sign_out_socket(ws)
+    except (WebSocketDisconnect,ValueError,RuntimeError):
+        pass
+    finally:
+        clients.pop(ws, None)
+
+
 @app.websocket('/ws/host')
 async def ws_host(ws:WebSocket):
-    if not admin_ws(ws):await ws.close(code=1008);return
-    await ws.accept();host_clients.add(ws)
-    await safe_send(ws,public_snapshot(latest_game(),'host'))
-    try:
-        while True:
-            msg=await ws.receive_json()
-            if not isinstance(msg,dict): continue
-            if msg.get('type')=='ping': await safe_send(ws,{'type':'pong'})
-            elif msg.get('type')=='sync': await safe_send(ws,public_snapshot(latest_game(),'host'))
-    except (WebSocketDisconnect,ValueError,RuntimeError):pass
-    finally:host_clients.discard(ws)
+    await staff_socket(ws, 'host', host_clients)
+
 
 @app.websocket('/ws/screen')
 async def ws_screen(ws:WebSocket):
-    if not admin_ws(ws):await ws.close(code=1008);return
-    await ws.accept();screen_clients.add(ws)
-    await safe_send(ws,public_snapshot(latest_game(),'screen'))
+    await staff_socket(ws, 'screen', screen_clients)
+
+
+def record_choice(game, question, player_id, choice, wager, received_at):
+    index = game['current_index']
+    keys = (game['id'], player_id, index)
+    used = row('SELECT COUNT(*) FROM score_details WHERE game_id=? AND player_id=? AND wager=1', keys[:2])[0]
+    previous = row('SELECT a.choice,COALESCE(d.wager,0) AS wager FROM answers a '
+                   'LEFT JOIN score_details d USING(game_id,player_id,question_index) '
+                   'WHERE a.game_id=? AND a.player_id=? AND a.question_index=?', keys)
+    ack = dict(type='answer_ack', questionIndex=index, remainingBets=max(0,2-used))
+    if previous:
+        return dict(**ack, ok=False, alreadyAnswered=True, choice=previous['choice'],
+                    wager=bool(previous['wager']), message='La prima scelta è già registrata.')
+    config = settings(game)
+    if type(wager) is not bool or (wager and (not config['bets'] or used>=2)):
+        return dict(**ack, ok=False, message='Raddoppio non disponibile.')
+    correct = int(choice == question['correct'])
+    remaining = min(game['duration'],max(0,game['deadline_at']-received_at))
+    base = round(500+500*remaining/game['duration']) if correct else 0
+    bonus = base*(config['multipliers'].get(question['id'],1)-1)
+    stake = 0
+    if wager:
+        score = row('SELECT score FROM players WHERE id=?', (player_id,))[0]
+        stake = base if correct else -min(500,score)
+    conn.execute('BEGIN')
     try:
-        while True:
-            msg=await ws.receive_json()
-            if not isinstance(msg,dict): continue
-            if msg.get('type')=='ping': await safe_send(ws,{'type':'pong'})
-            elif msg.get('type')=='sync': await safe_send(ws,public_snapshot(latest_game(),'screen'))
-    except (WebSocketDisconnect,ValueError,RuntimeError):pass
-    finally:screen_clients.discard(ws)
+        conn.execute('INSERT INTO answers VALUES (?,?,?,?,?,?,?)',
+                     (*keys,choice,correct,base+bonus+stake,received_at))
+        conn.execute('INSERT INTO score_details VALUES (?,?,?,?,?,?,?)', (*keys,base,bonus,int(wager),stake))
+        conn.execute('COMMIT')
+    except Exception:
+        conn.execute('ROLLBACK')
+        raise
+    schedule_counts()
+    ack['remainingBets'] -= int(wager)
+    return dict(**ack, ok=True, choice=choice, wager=wager)
+
 
 @app.websocket('/ws/play')
 async def ws_play(ws:WebSocket):
@@ -938,43 +1022,17 @@ async def ws_play(ws:WebSocket):
             question_id=payload.get('questionId')
             question_index=payload.get('questionIndex')
             async with lock:
+                received_at=time.time()
                 game=active_game()
                 q=selected_question(game)
                 if (not game or p['game_id']!=game['id'] or game['status']!='question'
-                    or time.time()>game['deadline_at'] or type(choice) is not int
+                    or received_at>=game['deadline_at'] or type(choice) is not int
                     or not q or not 0<=choice<len(q['options'])
                     or question_id!=q['id'] or type(question_index) is not int
                     or question_index!=game['current_index']):
                     ack={'type':'answer_ack','ok':False,'questionIndex':question_index,'message':'Risposta non accettata: tempo scaduto o domanda non attiva.'}
-                elif previous := row('''SELECT choice FROM answers WHERE game_id=? AND player_id=?
-                    AND question_index=?''',(game['id'],pid,game['current_index'])):
-                    ack={'type':'answer_ack','ok':False,'alreadyAnswered':True,'choice':previous['choice'],
-                         'questionIndex':question_index,'message':'La prima scelta è già registrata.'}
                 else:
-                    now=time.time()
-                    correct=int(choice==q['correct'])
-                    remaining=min(game['duration'],max(0,game['deadline_at']-now))
-                    config=settings(game)
-                    wager=payload.get('wager',False)
-                    used=row('SELECT COUNT(*) FROM score_details WHERE game_id=? AND player_id=? AND wager=1',(game['id'],pid))[0]
-                    if type(wager) is not bool or (wager and (not config['bets'] or used>=2)):
-                        await safe_send(ws,dict(type='answer_ack',ok=False,questionIndex=question_index,message='Raddoppio non disponibile.'))
-                        continue
-                    base=round(500+500*remaining/game['duration']) if correct else 0
-                    bonus=base*(config['multipliers'].get(q['id'],1)-1)
-                    score=row('SELECT score FROM players WHERE id=?',(pid,))[0]
-                    stake=(base if correct else -min(500,score)) if wager else 0
-                    points=base+bonus+stake
-                    conn.execute('BEGIN')
-                    try:
-                        conn.execute('INSERT INTO answers VALUES (?,?,?,?,?,?,?)',(game['id'],pid,question_index,choice,correct,points,now))
-                        conn.execute('INSERT INTO score_details VALUES (?,?,?,?,?,?,?)',(game['id'],pid,question_index,base,bonus,int(wager),stake))
-                        conn.execute('COMMIT')
-                    except Exception:
-                        conn.execute('ROLLBACK')
-                        raise
-                    ack=dict(type='answer_ack',ok=True,choice=choice,questionIndex=question_index,remainingBets=2-used-int(wager))
-                    schedule_counts()
+                    ack=record_choice(game,q,pid,choice,payload.get('wager',False),received_at)
             await safe_send(ws,ack)
             if ack['ok']:
                 group = player_clients.get(pid)

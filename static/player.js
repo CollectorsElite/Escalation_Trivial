@@ -105,7 +105,13 @@ function updatePlayerAnswer() {
   const choice = me.answered ? me.choice : state.pending?.choice;
   const mode = me.answered ? 'received' : !state.online ? 'offline' : state.pending ? 'sending' : remaining() <= 0 ? 'elapsed' : 'open';
   const button=$('[data-action="wager"]');
-  if(button){button.disabled=mode!=='open'||me.remainingBets<1;button.setAttribute('aria-pressed',String(state.wager));button.textContent=(state.wager?'Raddoppio attivo':'Raddoppio')+' · '+me.remainingBets+' disponibili';}
+  if(button){
+    const wager=me.answered ? !!me.wager : (state.pending?.wager ?? state.wager);
+    const label=me.answered ? (wager?'Raddoppio giocato':'Risposta senza Raddoppio') : (wager?'Raddoppio attivo':'Raddoppio');
+    button.disabled=mode!=='open'||me.remainingBets<1;
+    button.setAttribute('aria-pressed',String(wager));
+    button.textContent=label+' · '+me.remainingBets+(me.remainingBets===1?' disponibile':' disponibili');
+  }
   for (const key of all('[data-choice]')) {
     const selected = Number(key.dataset.choice) === choice;
     key.classList.toggle('selected', selected);

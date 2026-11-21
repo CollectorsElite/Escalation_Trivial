@@ -1,6 +1,10 @@
-# Escalation Trivial 3.2 per Railway
+# Escalation Trivial 3.3 per Railway
 
 Quiz multi-argomento in italiano. Un servizio Railway ospita una partita condivisa, con regia docente, proiezione e fino a 400 giocatori. Il catalogo iniziale comprende 210 domande in nove categorie. Il docente può ampliarlo dalla regia e preparare set condivisi per le proprie lezioni. Docente e studenti usano il browser. I partecipanti possono collegarsi dalla rete mobile o dal Wi-Fi.
+
+La 3.3 comprende la revisione linguistica delle 210 domande, delle 564 alternative e delle 210 spiegazioni. Dalla regia il docente può correggere anche una domanda di base. I set che la contengono usano il testo aggiornato alla prossima apertura della lobby.
+
+La 3.2.1 corregge 11 difetti riscontrati nella 3.2. La lobby aggiorna titolo e categorie anche sui dispositivi già collegati. Dopo un rientro, il giocatore ritrova la scelta registrata, l’eventuale Raddoppio e le puntate residue. Il CSV comprende i risultati dei round già rivelati dal docente o chiusi dal server. [Rapporto di verifica della 3.2.1](Rapporto-verifica-Escalation-Trivial-3.2.1.pdf)
 
 ## 1. Pubblicazione su Railway
 
@@ -41,11 +45,13 @@ In regia puoi selezionare categorie intere o singole domande, cercare per parola
 
 Per preparare un corso, scegli le domande dal catalogo o con la pesca automatica. Configura i bonus e il tempo, poi premi **Salva come set** e assegna un nome. Puoi chiudere il browser prima di aprire la lobby. Nella visita successiva apri **Set salvati** e scegli **Apri**. L’elenco riporta nome, categorie, numero di domande e ultima modifica. Tutti i docenti che accedono alla stessa installazione vedono lo stesso archivio.
 
-Il set conserva gli identificativi dei quesiti selezionati, il loro ordine, il titolo della partita, il tempo, i moltiplicatori, il raddoppio e la chiusura anticipata del round. Se hai attivato **Mescola l’ordine delle domande**, ogni nuova partita rimescola quei quesiti. Con **Apri la lobby** le modifiche alla selezione valgono per quella classe. Per conservarle nel modello usa **Aggiorna set**. **Duplica** e **Salva come copia** creano set indipendenti. Puoi archiviare un set e ritrovarlo in **Archiviati → Ripristina**. Se due regie aggiornano la stessa versione, la seconda riceve un avviso e può conservare la propria bozza come copia.
+Il set conserva gli identificativi dei quesiti selezionati, il loro ordine, il titolo della partita, il tempo, i moltiplicatori, il raddoppio e la chiusura anticipata del round. Se hai attivato **Mescola l’ordine delle domande**, ogni nuova partita rimescola quei quesiti. Con **Apri la lobby** le modifiche alla selezione valgono per quella classe. Per conservarle nel modello usa **Aggiorna set**. **Duplica** e **Salva come copia** creano set indipendenti. Se due regie aggiornano la stessa versione, la seconda riceve un avviso e può conservare la propria bozza come copia.
+
+**Archivia** sposta il set da **Disponibili** ad **Archiviati**. Le domande restano nel catalogo e puoi usarle in altri quiz. Per riutilizzare la selezione con le sue impostazioni, apri **Set salvati → Archiviati** e scegli **Ripristina**.
 
 Con **Nuova domanda** puoi scegliere o creare la categoria, impostare il livello, inserire due o quattro alternative, indicare l’unica risposta corretta e scrivere la spiegazione. **Anteprima sul telefono** mostra come si leggono testo e alternative. **Salva domanda** inserisce il quesito nel catalogo. **Salva e aggiungi al set** lo seleziona anche per il quiz aperto. Per conservare questa composizione premi **Salva come set** o **Aggiorna set**.
 
-Da **Dettagli** puoi modificare una domanda del docente o personalizzare una copia di una domanda di base. Il codice del quesito personalizzato inizia con `DOC-`. I set richiamano il testo corrente al momento dell’apertura della lobby. Ogni partita conserva una copia dei quesiti già associati. Puoi quindi correggere il catalogo mentre una classe utilizza la versione precedente. Il numero di domande per set o partita può arrivare al numero di quesiti distinti disponibili nel catalogo.
+Per correggere una domanda già presente, cercala per testo o codice in **Catalogo domande**, apri **Dettagli → Modifica domanda** e premi **Salva modifiche**. Puoi cambiare il testo, le alternative, la risposta corretta, la spiegazione, la categoria e il livello. Il quesito mantiene il suo codice e la correzione vale per tutti i set che lo richiamano, anche se erano già salvati. Per creare una variante destinata a una sola classe, scegli **Crea una copia**, personalizzala e aggiungila alla selezione desiderata. Le copie e le nuove domande ricevono un codice che inizia con `DOC-`.
 
 ### Lobby e round
 
@@ -71,7 +77,7 @@ Per i contenuti di privacy e sicurezza sul lavoro i riferimenti sono il Regolame
 
 Collega il servizio allo stesso volume SQLite. Il campo dedicato alla chiusura quando tutti hanno risposto viene aggiunto al primo avvio con una versione dalla 2.1 in poi. Per le partite preesistenti il valore iniziale mantiene il comportamento basato sulla scadenza o sul comando del docente. Prima di aggiornare, conserva una copia del volume o un backup coerente del database. Al primo avvio la migrazione salva i testi, le alternative e le soluzioni delle partite già presenti. Il nuovo catalogo diventa disponibile per le nuove partite. Per una lobby precedente, le domande già associate mantengono il contenuto originale. Le sessioni e i punteggi già registrati restano nel database. Il progetto può anche partire da una cartella dati vuota.
 
-Il catalogo di base proviene da `questions.json`. I quesiti creati dalla regia e i set condivisi vengono salvati nel database su volume. La 3.2 aggiorna automaticamente lo schema di una 3.1 esistente e ricostruisce i nomi delle categorie delle partite a partire dai testi salvati. Per modificare il catalogo di base, intervieni su `questions.json`. Dopo una modifica, esegui `python tools/check_questions.py` e riavvia il servizio. Mantieni identificativi stabili. Le partite conservano una copia dei quesiti selezionati. Le personalizzazioni con gli stessi ID dei quesiti distribuiti vanno riportate nel JSON prima di aggiornare. Per il ripristino copia il database a servizio fermo includendo gli eventuali file SQLite `-wal` e `-shm`, oppure usa un backup SQLite coerente. I dati rimangono sul volume finché il gestore ne cura la conservazione.
+Il catalogo di base proviene da `questions.json`. Al riavvio il servizio importa gli aggiornamenti per i quesiti che conservano la versione distribuita. Quando correggi una domanda dal portale docente, il database su volume conserva la tua versione anche dopo un riavvio o un aggiornamento dell’applicazione. Sullo stesso volume vengono salvati i nuovi quesiti e i set condivisi. La 3.2 ha introdotto l’aggiornamento automatico dello schema dalla 3.1 e la ricostruzione delle categorie a partire dai testi salvati. Per il ripristino copia il database a servizio fermo includendo gli eventuali file SQLite `-wal` e `-shm`, oppure usa un backup SQLite coerente.
 
 ## 5. Revisione, catalogo e materiale tecnico
 
@@ -79,7 +85,7 @@ La versione 2.3 riprende il prompt verde, la chiave gialla e la scritta ambra e 
 
 Il file vettoriale autonomo `Marchio/Logo-Escalation-Trivial.svg` include il fondo blu e può essere inserito in una slide o su una pagina chiara.
 
-La cartella `Schermate/` contiene cinque schermate della 3.2: set salvati, editor delle domande, riscontro corretto, riscontro errato e classifica finale. Include inoltre due viste della regia 3.1 e otto immagini della 2.3. Documentano ingresso, regia, attesa del giocatore, lobby in proiezione, primo round su telefono e proiettore, soluzione e classifica. Il PIN e il dominio nelle immagini appartengono alla sessione locale dimostrativa.
+La cartella `Schermate/` include la conferma della risposta dopo un rientro nella 3.2.1. Le cinque schermate della 3.2 illustrano i set salvati, l’editor delle domande, il riscontro corretto, quello errato e la classifica finale. Due viste della regia 3.1 e otto immagini della 2.3 documentano ingresso, regia, attesa del giocatore, lobby in proiezione, primo round su telefono e proiettore, soluzione e classifica. Il PIN e il dominio nelle immagini appartengono alla sessione dimostrativa.
 
 `Verifica-Escalation-Trivial-2.2.md` documenta i difetti riprodotti, le modifiche alla lobby e le verifiche della 2.2. `node tests/ui_lobby.cjs` ripete i casi del controller del browser con Node.js. Questo comando è facoltativo per chi desidera verificare il software.
 
@@ -100,7 +106,7 @@ Estrai tutto lo ZIP in una cartella scrivibile. Occorre **Python 3.12 o successi
 
 **Per giocare con i telefoni della classe** apri `Avvia-Aula-Windows.cmd` su Windows oppure `Avvia-Aula-macOS-Linux.command` su macOS o Linux. Collega i telefoni alla rete che raggiunge il computer del docente. La regia mostrerà il QR e il link con l’indirizzo di rete. Se l’indirizzo invita al solo computer locale, la lobby indica come attivare la modalità aula.
 
-Il launcher prepara le dipendenze, apre la regia nel browser e indica il percorso della password. Al primo avvio locale genera credenziali casuali in **`data/accesso-locale.env`**. Per accedere copia il valore accanto ad `ADMIN_PASSWORD`. Conserva il file sul computer del docente. Agli studenti serve soltanto il PIN della lobby. Per fermare il servizio premi `Ctrl+C` nella finestra di avvio.
+Il launcher prepara le dipendenze al primo avvio e apre la regia nel browser. Se hai configurato la variabile `ADMIN_PASSWORD`, usa quella password. Negli altri casi il launcher indica il file privato che contiene la password. Per impostazione predefinita è **`data/accesso-locale.env`**. Copia il valore accanto ad `ADMIN_PASSWORD` e conserva il file sul computer del docente. Agli studenti serve soltanto il PIN della lobby. Per fermare il servizio premi `Ctrl+C` nella finestra di avvio.
 
 Nella regia scegli **Pesca domande**, poi **Apri la lobby**. Apri **Proiettore** e sposta la nuova scheda sullo schermo dell’aula. Seleziona il QR sul proiettore per ingrandirlo nelle aule profonde. Gli studenti possono inquadrarlo e inserire il nickname, oppure aprire l’indirizzo giocatori e digitare il PIN. Premi **Avvia partita** in regia quando l’aula è pronta. Il comando si abilita con il primo iscritto.
 

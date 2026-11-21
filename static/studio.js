@@ -1,4 +1,13 @@
 'use strict';
+function replaceStudioQuestions(questions) {
+  const categories=new Set(questions.map(q=>q.category_id));
+  if (state.drawCategories) {
+    const allSelected=state.questions.every(q=>state.drawCategories.has(q.category_id));
+    state.drawCategories=new Set([...categories].filter(id=>allSelected || state.drawCategories.has(id)));
+  }
+  if (state.category!=='all' && !categories.has(state.category)) state.category='all';
+  state.questions=questions;
+}
 function categoryList(){const names=new Map(state.questions.map(q=>[q.category_id,q.category]));return [...new Set([...Object.keys(topics),...names.keys()])].filter(id=>names.has(id)).map(id=>[id,names.get(id)]);}
 function categoryCards(){return categoryList().map(([id,name])=>{
   const qs=state.questions.filter(q=>q.category_id===id), n=qs.filter(q=>state.selected.has(q.id)).length;
@@ -45,11 +54,13 @@ function refreshStudio({rows=true,cats=true}={}){
 function previewQuestion(id) {
   const q=state.questions.find(item=>item.id===id);
   if(!q) return;
+  const origin=q.id.startsWith('DOC-') ? 'Creata dal docente' :
+    (q.revision ? 'Catalogo di base · Modificata dal docente' : 'Catalogo di base');
   modal('Dettaglio domanda',`${topic(q)}
-    <div class="muted small gap-top">${esc(questionCode(q))} · ${esc(q.difficulty)} · ${q.revision?'Docente':'Catalogo di base'}</div>
+    <div class="muted small gap-top">${esc(questionCode(q))} · ${esc(q.difficulty)} · ${origin}</div>
     <h3 class="preview-title">${esc(q.text)}</h3><div class="options preview-options">${q.options.map((v,i)=>optionRow(v,i,{correct:i===q.correct})).join('')}</div>
     <div class="explain">${icon('info')}<p>${esc(q.explanation)}</p></div>`,
-    q.revision ? act('edit-question','Modifica domanda','edit','soft',`data-id="${esc(id)}"`):
+    act('edit-question','Modifica domanda','edit','primary',`data-id="${esc(id)}"`) +
       act('copy-question','Crea una copia','copy','soft',`data-id="${esc(id)}"`));
 }
 function balancedDraw(){

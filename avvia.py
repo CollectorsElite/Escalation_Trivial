@@ -33,6 +33,8 @@ def dependencies_available():
 if not dependencies_available():
     envdir = ROOT / '.venv'
     py = envdir / ('Scripts/python.exe' if os.name == 'nt' else 'bin/python')
+    if py.is_file() and Path(sys.prefix).resolve() != envdir.resolve():
+        sys.exit(subprocess.call([str(py), str(Path(__file__).resolve()), *sys.argv[1:]]))
     if not py.exists():
         print('Preparazione dell’ambiente Python locale…', flush=True)
         venv.EnvBuilder(with_pip=True).create(envdir)
@@ -49,6 +51,7 @@ import uvicorn
 data = Path(os.environ.get('DATA_DIR', str(ROOT/'data'))).resolve()
 data.mkdir(parents=True, exist_ok=True)
 os.environ['DATA_DIR'] = str(data)
+external_password = bool(os.environ.get('ADMIN_PASSWORD'))
 private = data/'accesso-locale.env'
 if not private.exists() and not (os.environ.get('ADMIN_PASSWORD') and os.environ.get('SESSION_SECRET')):
     try:
@@ -60,8 +63,8 @@ if not private.exists() and not (os.environ.get('ADMIN_PASSWORD') and os.environ
 if private.exists():
     for line in private.read_text(encoding='utf-8').splitlines():
         key, _, value = line.partition('=')
-        if key in ('ADMIN_PASSWORD','SESSION_SECRET') and value:
-            os.environ.setdefault(key, value)
+        if key in ('ADMIN_PASSWORD','SESSION_SECRET') and value and not os.environ.get(key):
+            os.environ[key] = value
 if not os.environ.get('ADMIN_PASSWORD') or not os.environ.get('SESSION_SECRET'):
     sys.exit('Credenziali locali incomplete. Controlla il file accesso-locale.env nella cartella dati.')
 
@@ -83,7 +86,10 @@ if args.rete and not os.environ.get('PUBLIC_URL'):
     os.environ['PUBLIC_URL']=f'http://{ip}:{args.porta}'
 print('\nEscalation Trivial\n', flush=True)
 print(f'Regia docente   {base}/docente\nProiettore      {base}/schermo\nGiocatori       {os.environ.get("PUBLIC_URL",base)}/',flush=True)
-if private.exists(): print(f'Password docente e chiave di sessione nel file privato {private}',flush=True)
+if external_password:
+    print('Per la regia usa la password configurata nella variabile ADMIN_PASSWORD.',flush=True)
+else:
+    print(f'La password docente è nel file privato {private}.',flush=True)
 print('Per terminare, premi Ctrl+C nella finestra del server.\n',flush=True)
 if not args.senza_browser:
     timer=Timer(1.2, webbrowser.open, args=(base+'/docente',));timer.daemon=True;timer.start()

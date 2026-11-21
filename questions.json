@@ -6,9 +6,9 @@
     "question": "Un’email annuncia il blocco del tuo account. Dove controlli se esiste davvero un avviso?",
     "options": [
       "Nel portale aperto dal link dell’email",
-      "Nel portale, aperto dal segnalibro abituale",
+      "Nel portale che apri dal tuo segnalibro abituale",
       "Nel messaggio, verificando la firma grafica",
-      "Nella pagina indicata dal QR allegato"
+      "Nella pagina indicata dal codice QR allegato"
     ],
     "correct": 1,
     "explanation": "Aprire il servizio da un indirizzo già noto permette di verificare la richiesta senza seguire il percorso scelto dal mittente.",
@@ -19,13 +19,13 @@
     "id": "PHI-002",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Un SMS chiede il pagamento di una consegna che stai aspettando. Come verifichi?",
+    "question": "Un SMS ti chiede di pagare per una consegna che stai aspettando. Come verifichi la richiesta?",
     "options": [
       "Apri l’app ufficiale del corriere",
-      "Rispondi al numero che ha inviato l’SMS"
+      "Rispondi al numero da cui proviene il messaggio"
     ],
     "correct": 0,
-    "explanation": "Il tracciamento nell’app usa un canale indipendente. La coincidenza con una consegna reale rende l’esca più credibile.",
+    "explanation": "Nell’app del corriere puoi controllare la spedizione senza usare i recapiti indicati nel messaggio. Se aspetti davvero un pacco, la richiesta può sembrarti più credibile.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -33,7 +33,7 @@
     "id": "PHI-003",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Una voce al telefono si presenta come assistenza bancaria e chiede un codice. Come si chiama questo tipo di inganno?",
+    "question": "Chi ti chiama si spaccia per un operatore della tua banca e ti chiede un codice. Come si chiama questo tipo di inganno?",
     "options": [
       "Vishing",
       "Smishing",
@@ -41,7 +41,7 @@
       "Pharming"
     ],
     "correct": 0,
-    "explanation": "Il vishing usa la voce. Lo smishing usa SMS, mentre il pharming riguarda il reindirizzamento verso un sito fraudolento.",
+    "explanation": "Il vishing avviene per telefono e lo smishing tramite SMS. Nel pharming l’utente viene reindirizzato verso un sito fraudolento.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -53,11 +53,11 @@
     "options": [
       "Richiami il numero lasciato nel messaggio vocale",
       "Confronti la voce con una registrazione di una riunione precedente",
-      "Richiami al recapito noto e segui la procedura",
+      "Richiami il direttore al numero che conosci e segui la procedura",
       "Conservi l’audio come seconda approvazione del bonifico"
     ],
     "correct": 2,
-    "explanation": "Un recapito verificato e l’approvazione prevista proteggono anche quando una voce è imitata o il mittente apparente è falsificato.",
+    "explanation": "Se una voce può essere imitata, richiamare il direttore a un recapito noto permette di verificare la richiesta. Per autorizzare il bonifico serve l’approvazione prevista.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -65,10 +65,10 @@
     "id": "PHI-005",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Il nome della tua banca compare in un indirizzo web più lungo e insolito. Quale controllo conta?",
+    "question": "Il nome della tua banca compare in un indirizzo web insolito. Come verifichi se il sito è davvero della banca?",
     "options": [
-      "Contare quante volte compare il nome della banca",
-      "Confrontare il dominio con quello ufficiale già noto"
+      "Conti quante volte compare il nome della banca",
+      "Confronti il dominio con quello ufficiale della banca"
     ],
     "correct": 1,
     "explanation": "Il nome del marchio può comparire in un sottodominio o nel percorso di un sito gestito da altri.",
@@ -83,7 +83,7 @@
     "options": [
       "Il destinatario è indicato con nome e cognome",
       "La firma riporta l’indirizzo della sede del fornitore",
-      "Il campo «Rispondi a» usa un dominio estraneo",
+      "Nel campo «Rispondi a» compare un dominio estraneo al fornitore",
       "L’oggetto contiene il numero della pratica in corso"
     ],
     "correct": 2,
@@ -111,10 +111,10 @@
     "id": "PHI-008",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Un adesivo copre il QR originale di un parchimetro. Come paghi in modo prudente?",
+    "question": "Un adesivo copre il codice QR originale di un parchimetro. Come paghi in sicurezza?",
     "options": [
-      "Scansioni l’adesivo e controlli soltanto il logo",
-      "Usi un metodo indicato dall’ente su un canale verificato"
+      "Inquadri il codice sull’adesivo e controlli soltanto il logo",
+      "Usi un metodo di pagamento indicato sul sito ufficiale del gestore"
     ],
     "correct": 1,
     "explanation": "Chi sostituisce il codice può cambiare la destinazione lasciando intatto l’aspetto del parchimetro.",
@@ -129,7 +129,7 @@
     "options": [
       "Verifichi la richiesta senza attivare le macro",
       "Attivi le macro dopo aver salvato una copia",
-      "Ti basi sull’icona di Excel per autorizzarlo",
+      "Ti fidi dell’icona di Excel e attivi le macro",
       "Rinomini il file prima di abilitare il contenuto"
     ],
     "correct": 0,
@@ -143,7 +143,7 @@
     "category": "Phishing e ingegneria sociale",
     "question": "Il sito aperto da un messaggio usa HTTPS. Quale conclusione puoi trarre?",
     "options": [
-      "La connessione è cifrata verso il dominio visualizzato",
+      "La connessione al dominio visualizzato è cifrata",
       "Il dominio appartiene certamente al marchio mostrato"
     ],
     "correct": 0,
@@ -158,12 +158,12 @@
     "question": "Un visitatore con alcune scatole ti chiede di tenergli aperto il varco riservato. Cosa fai?",
     "options": [
       "Verifichi il logo sulla sua giacca",
-      "Lo accompagni in reception per l’identificazione",
+      "Lo accompagni alla reception per l’identificazione",
       "Gli presti il badge per un singolo passaggio",
       "Lo fai entrare e comunichi il suo nominativo in seguito"
     ],
     "correct": 1,
-    "explanation": "La procedura per i visitatori consente di verificare identità e autorizzazione prima dell’accesso.",
+    "explanation": "La procedura per i visitatori consente di verificarne l’identità e l’autorizzazione prima dell’accesso.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -179,7 +179,7 @@
       "Chiedi al tecnico di confermare il tuo nome"
     ],
     "correct": 0,
-    "explanation": "Il codice autorizza un’operazione. Un account di chat conosciuto può essere compromesso.",
+    "explanation": "Il codice può autorizzare un’operazione. Anche l’account di un contatto conosciuto può essere compromesso.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -187,13 +187,13 @@
     "id": "PHI-013",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Un fornitore scrive dalla vera casella, nella conversazione abituale, per cambiare IBAN. Basta questa continuità?",
+    "question": "Un fornitore comunica un nuovo IBAN dalla sua solita casella, rispondendo a un’email precedente. Come verifichi la richiesta?",
     "options": [
-      "Basta controllare che la conversazione contenga le vecchie email",
-      "Serve una verifica indipendente con il contatto già censito"
+      "Controlli soltanto che la conversazione contenga le email precedenti",
+      "Contatti il fornitore usando un recapito già verificato"
     ],
     "correct": 1,
-    "explanation": "Una casella compromessa permette di leggere la corrispondenza e inserirsi in una trattativa autentica.",
+    "explanation": "Chi controlla una casella compromessa può leggere la corrispondenza e inserirsi in una trattativa autentica.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -201,7 +201,7 @@
     "id": "PHI-014",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Il fornitore chiede un cambio di IBAN via email. Il messaggio supera SPF, DKIM e DMARC. Che cosa resta da verificare?",
+    "question": "Il fornitore chiede un cambio di IBAN via email. Il messaggio supera i controlli SPF, DKIM e DMARC. Che cosa resta da verificare?",
     "options": [
       "Che la casella compaia tra i contatti già approvati",
       "Che il dominio coincida con quello delle fatture precedenti",
@@ -233,9 +233,9 @@
     "id": "AUT-001",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Per un nuovo servizio, quale scelta protegge meglio la tua password?",
+    "question": "Devi scegliere una password per un nuovo servizio. Quale usi?",
     "options": [
-      "Una password lunga, casuale e usata solo qui",
+      "Una password lunga, casuale e usata solo per quel servizio",
       "La password aziendale con un suffisso diverso",
       "Una citazione famosa trascritta senza spazi",
       "Il nome del servizio e la data corrente"
@@ -249,13 +249,13 @@
     "id": "AUT-002",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Un sito usava la stessa password della tua casella email e ha subito una violazione. Quale account è esposto?",
+    "question": "Hai usato la password della tua casella email anche su un sito che ha subito una violazione. Quale account è a rischio?",
     "options": [
       "Solo il sito che ha subito la violazione",
       "Anche la casella email"
     ],
     "correct": 1,
-    "explanation": "Chi ottiene una credenziale può provarla altrove. Sostituisci la password in ogni servizio in cui era riutilizzata.",
+    "explanation": "Chi ottiene la password può tentare di usarla anche su altri servizi. Cambiala ovunque tu l’abbia riutilizzata.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -271,7 +271,7 @@
       "PIN e risposta segreta"
     ],
     "correct": 1,
-    "explanation": "La password prova una conoscenza, la chiave prova il possesso. Due segreti memorizzati appartengono allo stesso tipo di fattore.",
+    "explanation": "La password è qualcosa che conosci. La chiave fisica è qualcosa che possiedi. Due segreti memorizzati appartengono allo stesso tipo di fattore.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -287,7 +287,7 @@
       "Impronta digitale"
     ],
     "correct": 3,
-    "explanation": "La biometria verifica una caratteristica della persona. PIN e codici sono segreti, una chiave fisica è un oggetto posseduto.",
+    "explanation": "La biometria verifica una caratteristica della persona. PIN e codici sono segreti che conosci, mentre una chiave fisica è un oggetto che possiedi.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -309,13 +309,13 @@
     "id": "AUT-006",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Ricevi una richiesta MFA sul telefono senza aver avviato un accesso. Come reagisci?",
+    "question": "Ricevi sul telefono una richiesta di autenticazione a più fattori (MFA) senza aver tentato di accedere. Come reagisci?",
     "options": [
       "Approvi per far cessare le notifiche",
-      "Rifiuti la richiesta e la segnali secondo procedura"
+      "Rifiuti la richiesta e la segnali secondo la procedura aziendale"
     ],
     "correct": 1,
-    "explanation": "Una richiesta inattesa può accompagnare un accesso altrui. Annotare ora e servizio aiuta il team a verificarla.",
+    "explanation": "Qualcuno potrebbe aver tentato di accedere al tuo account. L’orario e il nome del servizio aiutano a verificare la segnalazione.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -327,7 +327,7 @@
     "options": [
       "Il browser nasconde i caratteri digitati",
       "Il codice visualizzato cambia ogni trenta secondi",
-      "La firma è legata al servizio per cui è registrata",
+      "La firma è legata al servizio per cui hai registrato la credenziale",
       "Il server invia un SMS dopo la password"
     ],
     "correct": 2,
@@ -339,7 +339,7 @@
     "id": "AUT-008",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Il SOC osserva tentativi su molti account con coppie email-password già esposte altrove. Come li classifica?",
+    "question": "Il SOC osserva tentativi di accesso a molti account con coppie di indirizzi email e password già esposte altrove. Come li classifica?",
     "options": [
       "Password spraying con una sola password",
       "Errori di rinnovo dei certificati",
@@ -355,13 +355,13 @@
     "id": "AUT-009",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Secondo le indicazioni NIST, quando va imposto il cambio di una password che il servizio ritiene compromessa?",
+    "question": "Secondo il NIST, quando un servizio deve imporre il cambio della password?",
     "options": [
-      "Quando emergono elementi di compromissione",
-      "Alla prossima rotazione periodica del calendario"
+      "Quando emergono indizi di compromissione",
+      "A intervalli regolari, secondo un calendario prestabilito"
     ],
     "correct": 0,
-    "explanation": "Il NIST richiede il cambio in presenza di evidenze di compromissione e prevede di non imporre cambi periodici di routine.",
+    "explanation": "Il NIST richiede il cambio della password quando emergono indizi di compromissione ed esclude l’obbligo di cambiarla a intervalli regolari.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -374,7 +374,7 @@
       "Account amministrativo personale sia per la posta sia per il server",
       "Account amministrativo del gruppo IT per entrambe le attività",
       "Account ordinario per la posta e credenziali condivise per il server",
-      "Account personale ordinario per la posta e privilegiato per il server"
+      "Due account personali, uno ordinario per la posta e uno privilegiato per il server"
     ],
     "correct": 3,
     "explanation": "Separare gli usi riduce i privilegi disponibili se viene compromessa la sessione usata per attività quotidiane.",
@@ -388,10 +388,10 @@
     "question": "Ricevi un codice SMS inatteso. Che cosa puoi concludere da questo solo elemento?",
     "options": [
       "L’accesso al tuo account è certamente riuscito",
-      "È un segnale da verificare nei canali ufficiali"
+      "È un segnale da verificare attraverso i canali ufficiali"
     ],
     "correct": 1,
-    "explanation": "Il codice può essere stato richiesto da terzi o per errore. Il registro degli accessi aiuta a distinguere tentativo e accesso riuscito.",
+    "explanation": "Il codice può essere stato richiesto da terzi o per errore. Il registro degli accessi aiuta a distinguere un tentativo da un accesso riuscito.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -402,7 +402,7 @@
     "question": "Un consulente deve leggere alcune cartelle per due settimane. Quale permesso rispetta il minimo privilegio?",
     "options": [
       "Ruolo standard dell’ufficio, con accesso a tutte le cartelle del reparto",
-      "Lettura su tutto il reparto per due settimane",
+      "Lettura di tutte le cartelle del reparto per due settimane",
       "Scrittura sulle cartelle necessarie senza scadenza",
       "Lettura delle sole cartelle richieste per due settimane"
     ],
@@ -415,13 +415,13 @@
     "id": "AUT-013",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Un log indica che l’account amministratore condiviso ha cancellato un file. Dimostra chi ha agito?",
+    "question": "Un log indica che un account amministrativo condiviso ha cancellato un file. Il log basta a identificare la persona che ha agito?",
     "options": [
       "Il proprietario formale dell’account è necessariamente l’autore",
       "Occorrono ulteriori evidenze per attribuire l’azione"
     ],
     "correct": 1,
-    "explanation": "Il log identifica l’account utilizzato. Se più persone conoscono la credenziale, il nominativo dell’autore non è dimostrato dal solo evento.",
+    "explanation": "Il log identifica l’account usato. Se più persone ne conoscono le credenziali, occorrono altri elementi per risalire a chi ha cancellato il file.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -429,10 +429,10 @@
     "id": "AUT-014",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Una credenziale cloud è compromessa. L’app mantiene valide le sessioni dopo il cambio password. Cosa aggiungi alla risposta?",
+    "question": "Una credenziale cloud è compromessa. Le sessioni restano attive dopo il cambio della password. Come intervieni?",
     "options": [
       "Cambi soltanto il suggerimento di recupero",
-      "Revochi sessioni e token e verifichi gli accessi",
+      "Revochi le sessioni e i token e verifichi gli accessi",
       "Rinomini il profilo visibile nella rubrica",
       "Disattivi le notifiche dei dispositivi conosciuti"
     ],
@@ -447,7 +447,7 @@
     "category": "Password e autenticazione",
     "question": "Dove conservi i codici di recupero MFA per poterli usare se perdi il telefono?",
     "options": [
-      "Solo in una foto salvata sul telefono protetto dall’MFA",
+      "Solo in una foto sul telefono che usi per autenticarti",
       "In un luogo protetto accessibile anche senza quel telefono"
     ],
     "correct": 1,
@@ -459,7 +459,7 @@
     "id": "MAL-001",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Documenti prima leggibili sono cifrati e compare una richiesta di riscatto. Quale incidente sospetti?",
+    "question": "Non riesci più ad aprire i tuoi documenti. Risultano cifrati e sullo schermo compare una richiesta di riscatto. Quale incidente sospetti?",
     "options": [
       "Guasto al sistema DNS",
       "Scadenza del certificato web",
@@ -467,7 +467,7 @@
       "Ransomware"
     ],
     "correct": 3,
-    "explanation": "La cifratura accompagnata dall’estorsione è tipica del ransomware. Avvisa il referente previsto dal piano di incidente.",
+    "explanation": "La cifratura dei file accompagnata da una richiesta di riscatto è tipica del ransomware. Avvisa il referente indicato nel piano di risposta agli incidenti.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -481,7 +481,7 @@
       "La scansione autorizza l’apertura anche se il contesto è anomalo"
     ],
     "correct": 0,
-    "explanation": "Un risultato negativo dipende da ciò che il motore riesce a riconoscere. Anche provenienza e contesto contano.",
+    "explanation": "L’antivirus potrebbe non riconoscere una minaccia. Prima di aprire l’allegato, verifica chi lo ha inviato e se lo stavi aspettando.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -489,7 +489,7 @@
     "id": "MAL-003",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Un documento scaricato porta il nome «Fattura.pdf.exe». Su Windows, cosa indica l’ultima estensione?",
+    "question": "Un file scaricato si chiama «Fattura.pdf.exe». In Windows, che cosa indica l’ultima estensione?",
     "options": [
       "È un archivio di due documenti",
       "È un PDF con firma esterna",
@@ -521,13 +521,13 @@
     "id": "MAL-005",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Un worm raggiunge altri dispositivi. Ogni nuovo utente deve aprire per forza un allegato?",
+    "question": "Un worm può passare a un altro dispositivo senza che l’utente apra un allegato?",
     "options": [
-      "Può propagarsi senza una nuova azione dell’utente",
-      "Richiede sempre un allegato aperto su ogni dispositivo"
+      "Sì, può propagarsi autonomamente",
+      "No, su ogni dispositivo qualcuno deve aprire un allegato"
     ],
     "correct": 0,
-    "explanation": "La capacità di propagazione autonoma distingue i worm da altre modalità di diffusione.",
+    "explanation": "Un worm può passare autonomamente da un dispositivo all’altro.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -535,11 +535,11 @@
     "id": "MAL-006",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Un PC mostra segni di ransomware. Il piano prevede di isolarlo dalla rete e avvisare il SOC. Qual è la prima risposta?",
+    "question": "Un PC aziendale mostra segni di ransomware. Come intervieni secondo il piano di risposta?",
     "options": [
       "Aspetti la comparsa dei sintomi su un secondo PC",
       "Ripristini i file sul dispositivo ancora collegato",
-      "Applichi l’isolamento previsto e avvisi il SOC",
+      "Isoli il PC dalla rete come previsto dal piano e avvisi il SOC",
       "Riavvii il PC per verificare se il problema persiste"
     ],
     "correct": 2,
@@ -551,13 +551,13 @@
     "id": "MAL-007",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Il ripristino dei file è riuscito dopo un ransomware. La possibile sottrazione dei dati è risolta?",
+    "question": "Hai ripristinato i file dopo un attacco ransomware. Che cosa puoi concludere sull’eventuale sottrazione di dati?",
     "options": [
-      "Resta da verificare un’eventuale esfiltrazione",
-      "Il recupero dei file esclude la sottrazione"
+      "Devi ancora verificare se siano stati sottratti dati",
+      "Il recupero dei file esclude che siano stati sottratti dati"
     ],
     "correct": 0,
-    "explanation": "Il ripristino riguarda la disponibilità. L’analisi della riservatezza richiede evidenze su accessi e trasferimenti.",
+    "explanation": "Il ripristino rende i file di nuovo disponibili. Per verificare se siano stati copiati da terzi occorre esaminare gli accessi e i trasferimenti.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -573,7 +573,7 @@
       "Spostare la cartella dei backup nello stesso dominio"
     ],
     "correct": 0,
-    "explanation": "La separazione amministrativa e l’isolamento limitano la capacità di compromettere contemporaneamente originale e copie.",
+    "explanation": "Credenziali separate e copie isolate o immutabili riducono il rischio che un unico account comprometta sia i dati originali sia i backup.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -584,7 +584,7 @@
     "question": "Quale informazione può raccogliere un keylogger?",
     "options": [
       "Il solo elenco delle reti Wi-Fi",
-      "I tasti digitati dall’utente",
+      "Ciò che l’utente digita sulla tastiera",
       "La scadenza dei certificati pubblici",
       "Il solo spazio libero del disco"
     ],
@@ -600,10 +600,10 @@
     "question": "Trovi una chiavetta USB senza etichetta nel parcheggio dell’ufficio. Come la gestisci?",
     "options": [
       "La colleghi al PC aziendale per cercare il proprietario",
-      "La consegni al referente previsto senza collegarla"
+      "La consegni alla persona incaricata senza collegarla"
     ],
     "correct": 1,
-    "explanation": "La provenienza sconosciuta rende rischioso il collegamento. Il personale incaricato può gestirla secondo procedura.",
+    "explanation": "Collegare una chiavetta di origine sconosciuta espone il computer a rischi. Il personale incaricato può gestirla secondo la procedura aziendale.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -611,13 +611,13 @@
     "id": "MAL-011",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "È disponibile una correzione per una vulnerabilità del tuo gestionale. Quale verifica conferma l’intervento?",
+    "question": "È disponibile una correzione per una vulnerabilità del tuo gestionale. Come verifichi che sia stata applicata?",
     "options": [
-      "Il pacchetto è stato scaricato e archiviato dall’IT",
-      "La versione corretta risulta installata sul sistema interessato"
+      "Controlli che l’IT abbia scaricato e archiviato il pacchetto",
+      "Controlli che sul sistema interessato sia installata la versione corretta"
     ],
     "correct": 1,
-    "explanation": "Scaricare la patch prepara l’intervento. L’inventario o una verifica tecnica deve confermare l’installazione effettiva.",
+    "explanation": "Puoi verificare la versione direttamente sul sistema o nell’inventario aggiornato. Il solo download della correzione non ne dimostra l’installazione.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -641,13 +641,13 @@
     "id": "MAL-013",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Il mittente invia nello stesso messaggio uno ZIP cifrato e la password. Che cosa implica per i controlli?",
+    "question": "Ricevi nello stesso messaggio un archivio ZIP cifrato e la password. Quale effetto può avere la cifratura sui controlli?",
     "options": [
       "La password certifica la provenienza dell’archivio",
       "Alcuni filtri potrebbero non ispezionarne il contenuto"
     ],
     "correct": 1,
-    "explanation": "La cifratura protegge l’accesso al contenuto. La provenienza del messaggio richiede una verifica separata.",
+    "explanation": "Alcuni filtri di posta non riescono ad analizzare i file all’interno di un archivio cifrato. La password, da sola, non dimostra chi ha inviato il messaggio.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -655,9 +655,9 @@
     "id": "MAL-014",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Un allarme segnala attività sospetta in memoria e nessun eseguibile nuovo su disco. Cosa consulta il SOC?",
+    "question": "Un allarme segnala attività sospette in memoria, ma sul disco non risultano nuovi eseguibili. Che cosa consulta il SOC?",
     "options": [
-      "Processi in esecuzione e legami padre-figlio",
+      "I processi in esecuzione e i processi che li hanno avviati",
       "Elenco dei file scaricati nella giornata sul dispositivo",
       "Inventario delle applicazioni installate nell’ultimo mese",
       "Firme digitali dei programmi presenti sul disco"
@@ -679,7 +679,7 @@
       "Isola il traffico di rete generato dalle applicazioni dell’utente"
     ],
     "correct": 2,
-    "explanation": "Il codice eseguito eredita di norma i privilegi della sessione. Anche un account standard può comunque accedere ai dati dell’utente.",
+    "explanation": "Il codice eseguito eredita di norma i privilegi della sessione. Un malware eseguito con un account standard può comunque accedere ai dati di quell’utente.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -687,7 +687,7 @@
     "id": "NET-001",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Quale proprietà offre HTTPS quando il certificato del sito è verificato correttamente?",
+    "question": "Quale protezione offre HTTPS quando il browser verifica correttamente il certificato del sito?",
     "options": [
       "Anonimato dell’utente nei confronti del sito visitato",
       "Autorizzazione aziendale all’uso di quel servizio",
@@ -703,13 +703,13 @@
     "id": "NET-002",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Il Wi-Fi dell’albergo richiede una password. Basta per proteggere i dati fino al sito visitato?",
+    "question": "Il Wi-Fi dell’albergo richiede una password. Basta a proteggere i dati lungo l’intero percorso fino al sito visitato?",
     "options": [
       "La password Wi-Fi protegge già l’intero percorso",
       "Va verificata anche la connessione HTTPS al sito"
     ],
     "correct": 1,
-    "explanation": "Il collegamento radio e il collegamento applicativo hanno estremi diversi. HTTPS protegge il tratto tra browser e servizio.",
+    "explanation": "La protezione del Wi-Fi riguarda il tratto tra il dispositivo e il punto di accesso. HTTPS protegge la comunicazione tra il browser e il sito.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -741,7 +741,7 @@
       "SMTP"
     ],
     "correct": 1,
-    "explanation": "Il DNS pubblica record, fra cui quelli che associano un nome a un indirizzo. DHCP configura i dispositivi, NTP sincronizza l’ora.",
+    "explanation": "Tra i record del DNS ci sono quelli che associano un nome a un indirizzo IP. DHCP configura i dispositivi e NTP ne sincronizza gli orologi.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -749,13 +749,13 @@
     "id": "NET-005",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Una VPN aziendale usa lo split tunneling. Ogni sito visitato passa necessariamente nel tunnel?",
+    "question": "La VPN aziendale usa lo split tunneling. Il traffico verso tutti i siti passa nel tunnel?",
     "options": [
       "Il percorso dipende dalle rotte configurate",
       "L’intero traffico passa sempre nel tunnel"
     ],
     "correct": 0,
-    "explanation": "Con lo split tunneling solo le destinazioni configurate usano la VPN. Verifica le regole previste dall’organizzazione.",
+    "explanation": "Con lo split tunneling passa nella VPN soltanto il traffico per le destinazioni previste dalla configurazione.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -763,7 +763,7 @@
     "id": "NET-006",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Un servizio è irraggiungibile per una massa di richieste da molte sorgenti. Quale proprietà colpisce un DDoS?",
+    "question": "Un attacco DDoS rende irraggiungibile un servizio sovraccaricandolo di richieste. Quale proprietà del servizio viene compromessa?",
     "options": [
       "Disponibilità",
       "Integrità dei file",
@@ -779,13 +779,13 @@
     "id": "NET-007",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Un log mostra una connessione sulla porta TCP 443. La porta da sola dimostra l’uso corretto di TLS?",
+    "question": "Un log mostra una connessione sulla porta TCP 443. Il numero della porta basta a confermare che TLS sia usato correttamente?",
     "options": [
       "La porta dimostra che il traffico è cifrato correttamente",
       "Servono evidenze sul protocollo effettivamente negoziato"
     ],
     "correct": 1,
-    "explanation": "443 è la porta convenzionale per HTTPS. Il numero della porta non verifica protocollo, certificato o configurazione.",
+    "explanation": "La porta TCP 443 è quella convenzionale per HTTPS. Per verificare l’uso di TLS occorre esaminare anche il protocollo, il certificato e la configurazione.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -795,13 +795,13 @@
     "category": "Reti e sicurezza web",
     "question": "Le postazioni degli ospiti raggiungono un server amministrativo interno. Quale intervento riduce l’esposizione?",
     "options": [
-      "Separare i segmenti e filtrare le comunicazioni necessarie",
+      "Separare le reti e consentire soltanto le comunicazioni necessarie",
       "Spostare il server su un altro indirizzo nello stesso segmento",
       "Nascondere il nome del server dalla pagina iniziale",
       "Cambiare soltanto il nome della rete ospiti"
     ],
     "correct": 0,
-    "explanation": "La segmentazione diventa efficace quando le regole tra i segmenti limitano realmente i percorsi consentiti.",
+    "explanation": "Le regole di accesso tra i segmenti stabiliscono quali dispositivi possono comunicare con i server interni.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -809,10 +809,10 @@
     "id": "NET-009",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Cento dispositivi escono su Internet con lo stesso IP pubblico. Un log remoto riporta solo quell’IP. Identifica il dispositivo?",
+    "question": "Cento dispositivi condividono un indirizzo IP pubblico. Un servizio remoto registra solo quell’indirizzo. Può identificare il singolo dispositivo?",
     "options": [
       "Basta l’IP pubblico anche senza altri registri",
-      "Servono altri elementi, come ora e registri di traduzione"
+      "Servono altri dati, come l’orario e i log di traduzione degli indirizzi"
     ],
     "correct": 1,
     "explanation": "La traduzione degli indirizzi consente a più dispositivi di condividere un IP pubblico. La correlazione richiede informazioni aggiuntive.",
@@ -823,7 +823,7 @@
     "id": "NET-010",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Quale situazione illustra un’intercettazione «man in the middle»?",
+    "question": "Quale situazione descrive un attacco «man-in-the-middle»?",
     "options": [
       "Un account scade durante l’accesso",
       "Un disco si guasta durante un backup",
@@ -861,7 +861,7 @@
       "Registrazione delle ricerche nei log"
     ],
     "correct": 0,
-    "explanation": "Con i parametri, il motore riceve separatamente la struttura SQL e i valori. Un limite grafico o TLS non garantiscono questa separazione.",
+    "explanation": "Nelle query parametrizzate il motore distingue la struttura del comando dai valori inseriti. Né un limite grafico del campo né la cifratura del canale garantiscono questa separazione.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -869,10 +869,10 @@
     "id": "NET-013",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Un sito deve mostrare in una pagina HTML i commenti degli utenti come testo. Quale scelta riduce il rischio XSS?",
+    "question": "In una pagina HTML i commenti degli utenti devono apparire come testo. Quale scelta riduce il rischio di cross-site scripting (XSS)?",
     "options": [
       "Considerare attendibili tutti gli utenti registrati",
-      "Usare un’API che inserisce testo, come textContent",
+      "Inserire i commenti come testo, usando la proprietà textContent",
       "Affidarsi al fatto che il sito usa HTTPS",
       "Inserire il commento come HTML per conservarne l’aspetto"
     ],
@@ -885,10 +885,10 @@
     "id": "NET-014",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Un reverse proxy termina TLS e contatta il backend via HTTP. Il secondo tratto è cifrato da quel TLS?",
+    "question": "Un reverse proxy riceve una connessione HTTPS e contatta il backend via HTTP. La sessione TLS del client protegge anche il secondo tratto?",
     "options": [
-      "Il TLS del client si estende automaticamente al backend",
-      "Il secondo tratto richiede una propria protezione"
+      "Sì, la sessione TLS del client si estende al backend",
+      "No, il collegamento al backend richiede una protezione propria"
     ],
     "correct": 1,
     "explanation": "La sessione TLS termina sul proxy. La comunicazione a valle segue il protocollo configurato tra proxy e backend.",
@@ -899,7 +899,7 @@
     "id": "NET-015",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Due reti mostrano lo stesso nome dell’hotspot aziendale. Quel nome prova quale sia autentica?",
+    "question": "Due reti Wi-Fi mostrano il nome dell’hotspot aziendale. Il nome basta a riconoscere la rete autentica?",
     "options": [
       "Il nome può essere imitato",
       "Il nome è riservato all’azienda"
@@ -913,7 +913,7 @@
     "id": "PRI-001",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Per iscrivere un collega a un webinar servono nome ed email. Quale scelta applica la minimizzazione?",
+    "question": "Per iscrivere un collega a un webinar servono il nome e l’indirizzo email. Quale scelta rispetta il principio di minimizzazione dei dati?",
     "options": [
       "Copiare l’intera scheda del personale",
       "Raccogliere solo i dati necessari all’iscrizione",
@@ -921,7 +921,7 @@
       "Chiedere anche il codice fiscale per usi futuri"
     ],
     "correct": 1,
-    "explanation": "L’art. 5, par. 1, lett. c), GDPR richiede di limitare i dati a quanto necessario rispetto alla finalità.",
+    "explanation": "L’art. 5, par. 1, lett. c), del GDPR richiede di limitare i dati a quanto necessario per la finalità del trattamento.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -929,13 +929,13 @@
     "id": "PRI-002",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Il titolare viene a conoscenza di un data breach con un rischio concreto per le persone. Quando notifica all’autorità?",
+    "question": "Il titolare scopre una violazione dei dati personali che comporta un rischio per le persone. Quando deve notificarla all’autorità di controllo?",
     "options": [
       "Entro 72 ore dalla conclusione dell’indagine tecnica",
-      "Senza ingiustificato ritardo e, ove possibile, entro 72 ore dalla conoscenza"
+      "Senza ingiustificato ritardo e, ove possibile, entro 72 ore da quando ne viene a conoscenza"
     ],
     "correct": 1,
-    "explanation": "L’art. 33 GDPR fa decorrere il termine dalla conoscenza. L’eccezione riguarda il rischio improbabile. Un ritardo oltre le 72 ore va motivato e le informazioni possono essere integrate per fasi.",
+    "explanation": "L’art. 33 del GDPR esclude l’obbligo di notifica quando è improbabile che la violazione presenti un rischio per le persone. Se la notifica avviene oltre le 72 ore, il titolare ne spiega il motivo. Le informazioni possono essere fornite in più fasi.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -943,15 +943,15 @@
     "id": "PRI-003",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Quale informazione, in questo contesto, è un dato personale?",
+    "question": "Quale delle seguenti informazioni è un dato personale?",
     "options": [
-      "Il consumo totale nazionale di energia di un anno",
-      "Il numero di sedie vuote in una sala senza persone",
-      "Un indirizzo professionale che identifica un dipendente",
+      "Il consumo nazionale complessivo di energia in un anno",
+      "Il numero di sedie in una sala vuota",
+      "Un indirizzo email di lavoro che identifica un dipendente",
       "La temperatura esterna di una stazione meteo pubblica"
     ],
     "correct": 2,
-    "explanation": "L’art. 4, punto 1, GDPR include le informazioni riferite a una persona identificata o identificabile, anche in ambito professionale.",
+    "explanation": "Ai sensi dell’art. 4, punto 1, del GDPR, è personale qualsiasi informazione che riguardi una persona fisica identificata o identificabile, anche in ambito professionale.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -959,13 +959,13 @@
     "id": "PRI-004",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "I nomi sono sostituiti da codici. Il titolare conserva la chiave di collegamento. Come tratta il dataset?",
+    "question": "Il titolare sostituisce i nomi con codici e conserva separatamente la tabella che li collega alle persone. Come vanno trattati questi dati?",
     "options": [
       "Come dati personali pseudonimizzati",
       "Come informazioni ormai anonime"
     ],
     "correct": 0,
-    "explanation": "La possibilità di ricollegare i codici alle persone tramite informazioni aggiuntive è propria della pseudonimizzazione, art. 4, punto 5, GDPR.",
+    "explanation": "La tabella consente al titolare di risalire alle persone. È un caso di pseudonimizzazione (art. 4, punto 5, del GDPR).",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -973,7 +973,7 @@
     "id": "PRI-005",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un nuovo trattamento può presentare un rischio elevato per le persone. Quale valutazione svolge il titolare prima di iniziare?",
+    "question": "Un nuovo trattamento può presentare un rischio elevato per i diritti e le libertà delle persone. Quale valutazione svolge il titolare prima di iniziare?",
     "options": [
       "Prova di ripristino dei sistemi",
       "Valutazione d’impatto sulla protezione dei dati",
@@ -981,7 +981,7 @@
       "Verifica contabile del fornitore"
     ],
     "correct": 1,
-    "explanation": "La DPIA prevista dall’art. 35 GDPR valuta necessità, proporzionalità, rischi per le persone e misure per affrontarli.",
+    "explanation": "La valutazione d’impatto (DPIA) prevista dall’art. 35 del GDPR esamina la necessità e la proporzionalità del trattamento, i rischi per le persone e le misure per affrontarli.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -989,13 +989,13 @@
     "id": "PRI-006",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Una norma impone al titolare di trattare alcuni dati. Deve acquisire il consenso per quel solo trattamento?",
+    "question": "Una norma impone al titolare di trattare determinati dati. Per quel trattamento occorre anche il consenso?",
     "options": [
-      "Deve sommare il consenso all’obbligo legale in ogni caso",
-      "Può fondarlo sull’obbligo legale, se ne ricorrono i presupposti"
+      "Sì, il consenso va sempre acquisito anche in presenza di un obbligo legale",
+      "No, il titolare può basarsi sull’obbligo legale se ne ricorrono i presupposti"
     ],
     "correct": 1,
-    "explanation": "L’art. 6, par. 1, lett. c), GDPR riconosce l’obbligo legale come base giuridica. Occorre individuare la norma applicabile.",
+    "explanation": "L’art. 6, par. 1, lett. c), del GDPR riconosce l’obbligo legale come base giuridica. Occorre individuare la norma applicabile.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1003,15 +1003,15 @@
     "id": "PRI-007",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un archivio conserva dati nominativi oltre il termine previsto. Quale verifica guida la decisione?",
+    "question": "Un archivio contiene dati nominativi oltre il termine previsto. Che cosa occorre verificare per decidere se conservarli ancora?",
     "options": [
       "Quanto spazio libero ha il server",
       "Quanto costa copiare l’archivio",
       "Quante persone possono visualizzarlo",
-      "Se restano finalità o obblighi che giustificano la conservazione"
+      "Se sussistono finalità o obblighi che ne giustifichino la conservazione"
     ],
     "correct": 3,
-    "explanation": "L’art. 5, par. 1, lett. e), GDPR lega la conservazione identificabile alle finalità. Alla scadenza occorre applicare le regole di cancellazione o anonimizzazione previste.",
+    "explanation": "L’art. 5, par. 1, lett. e), del GDPR limita il tempo per cui si possono conservare i dati in forma identificabile. Alla scadenza si applicano le regole previste per la cancellazione o l’anonimizzazione.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -1019,13 +1019,13 @@
     "id": "PRI-008",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un errore cancella dati personali e li rende definitivamente indisponibili. Può esserci un data breach anche senza accessi esterni?",
+    "question": "Un errore cancella definitivamente alcuni dati personali. Può trattarsi di un data breach anche senza accessi esterni?",
     "options": [
-      "Sì, la perdita o distruzione può integrare una violazione",
+      "Sì, anche la perdita definitiva dei dati può costituire una violazione",
       "No, occorre sempre la divulgazione a terzi"
     ],
     "correct": 0,
-    "explanation": "La definizione dell’art. 4, punto 12, GDPR comprende anche distruzione e perdita accidentali o illecite.",
+    "explanation": "La definizione di violazione dei dati personali comprende anche la distruzione o la perdita accidentale o illecita dei dati (art. 4, punto 12, del GDPR).",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1033,13 +1033,13 @@
     "id": "PRI-009",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Il titolare documenta un data breach e ritiene improbabile il rischio per le persone. Deve conservarne la documentazione?",
+    "question": "Il titolare ritiene improbabile che un data breach comporti un rischio per le persone. Deve comunque documentarlo?",
     "options": [
       "Sì, anche quando conclude che la notifica non è dovuta",
       "No, il registro riguarda soltanto le violazioni notificate"
     ],
     "correct": 0,
-    "explanation": "L’art. 33, par. 5, GDPR richiede di documentare ogni violazione, i fatti, gli effetti e i rimedi. La valutazione sostiene la decisione sulla notifica.",
+    "explanation": "L’art. 33, par. 5, del GDPR richiede di documentare ogni violazione, le circostanze, le conseguenze e i provvedimenti adottati. La valutazione del rischio aiuta a motivare la decisione sulla notifica.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -1047,13 +1047,13 @@
     "id": "PRI-010",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Una violazione presenta un rischio elevato per le persone e non ricorrono le eccezioni dell’art. 34. Cosa fa il titolare verso gli interessati?",
+    "question": "Una violazione presenta un rischio elevato per le persone. In assenza delle eccezioni previste dall’art. 34 del GDPR, che cosa deve fare il titolare?",
     "options": [
-      "Comunica la violazione senza ingiustificato ritardo",
+      "Comunica la violazione agli interessati senza ingiustificato ritardo",
       "Attende necessariamente una richiesta del Garante"
     ],
     "correct": 0,
-    "explanation": "L’art. 34 GDPR richiede una comunicazione chiara alle persone interessate. Presupposti e destinatari sono distinti dalla notifica all’autorità.",
+    "explanation": "L’art. 34 del GDPR richiede un linguaggio semplice e chiaro nella comunicazione agli interessati. La notifica all’autorità di controllo segue le condizioni dell’art. 33.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -1063,13 +1063,13 @@
     "category": "Comportamenti sicuri",
     "question": "Stai lasciando la scrivania per pochi minuti. Quale azione protegge la sessione aperta?",
     "options": [
-      "Minimizzare le finestre aperte",
+      "Ridurre a icona le finestre aperte",
       "Abbassare la luminosità del monitor",
-      "Lasciare attivo il salvaschermo privo di blocco",
+      "Lasciare attivo il salvaschermo senza bloccare la sessione",
       "Bloccare la sessione prima di allontanarsi"
     ],
     "correct": 3,
-    "explanation": "Il blocco richiede una nuova autenticazione per usare la sessione. Oscurare lo schermo da solo non impedisce l’accesso.",
+    "explanation": "Dopo il blocco serve una nuova autenticazione per usare la sessione. Se lo schermo è soltanto oscurato, chi si avvicina alla postazione può ancora usarla.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -1077,10 +1077,10 @@
     "id": "OPS-002",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Ti serve un programma assente dal catalogo aziendale. Qual è il percorso appropriato?",
+    "question": "Ti serve un programma che manca dal catalogo aziendale. Come procedi?",
     "options": [
-      "Lo installi subito se il produttore è conosciuto",
-      "Richiedi la valutazione tramite il canale IT"
+      "Lo installi direttamente se conosci il produttore",
+      "Invii la richiesta attraverso il canale IT aziendale"
     ],
     "correct": 1,
     "explanation": "La valutazione considera sicurezza, licenze, compatibilità e dati trattati. Anche un prodotto noto può richiedere una configurazione specifica.",
@@ -1091,15 +1091,15 @@
     "id": "OPS-003",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Un portatile aziendale non riceve più aggiornamenti di sicurezza dal produttore. Quale azione affronta la causa?",
+    "question": "Un portatile aziendale non riceve più aggiornamenti di sicurezza dal produttore. Come affronti il problema?",
     "options": [
-      "Installare un antivirus con un abbonamento ancora attivo",
-      "Rinnovare soltanto il certificato Wi-Fi",
-      "Aumentare la frequenza del backup locale",
-      "Concordare con l’IT la migrazione o la sostituzione"
+      "Installi un antivirus con un abbonamento ancora attivo",
+      "Rinnovi soltanto il certificato Wi-Fi",
+      "Aumenti la frequenza del backup locale",
+      "Concordi con l’IT la migrazione o la sostituzione"
     ],
     "correct": 3,
-    "explanation": "Un sistema fuori supporto può restare esposto a difetti senza correzioni. L’IT gestisce la transizione e le eventuali misure temporanee.",
+    "explanation": "Quando termina il supporto, alcune vulnerabilità possono restare senza correzione. L’IT gestisce il passaggio a un sistema supportato e le eventuali misure temporanee.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -1109,11 +1109,11 @@
     "category": "Comportamenti sicuri",
     "question": "Un file cloud è accessibile a chiunque abbia il link. Se il destinatario inoltra il link, cosa può accadere?",
     "options": [
-      "Chi lo riceve può ottenere accesso secondo i permessi del link",
+      "Chi lo riceve può accedere al file con i permessi associati al link",
       "Il sistema riconosce sempre il primo destinatario dell’email"
     ],
     "correct": 0,
-    "explanation": "Un collegamento aperto può circolare oltre i destinatari previsti. I permessi nominativi consentono un controllo diverso.",
+    "explanation": "Un link aperto a chiunque può circolare oltre i destinatari previsti. L’accesso nominativo permette di scegliere chi può consultare il file.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1121,15 +1121,15 @@
     "id": "OPS-005",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Devi inviare un allegato riservato e la posta completa automaticamente il destinatario. Cosa controlli?",
+    "question": "Devi inviare un allegato riservato. Il programma di posta completa da solo l’indirizzo del destinatario. Che cosa controlli prima dell’invio?",
     "options": [
       "La presenza della firma aziendale in fondo al messaggio",
       "L’indirizzo completo e il file allegato",
-      "L’oggetto della conversazione a cui sto rispondendo",
+      "L’oggetto della conversazione a cui stai rispondendo",
       "Il nome visualizzato per il contatto suggerito"
     ],
     "correct": 1,
-    "explanation": "Nomi simili e versioni differenti dei file causano invii errati. Il controllo finale deve riguardare entrambi.",
+    "explanation": "Due destinatari possono avere nomi simili e uno stesso file può avere più versioni. Prima dell’invio controlla sia l’indirizzo sia l’allegato.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -1139,11 +1139,11 @@
     "category": "Comportamenti sicuri",
     "question": "Durante una riunione devi mostrare una tabella. Come riduci il rischio di esporre chat e notifiche?",
     "options": [
-      "Condividi la sola finestra necessaria e silenzia le notifiche",
+      "Condividi solo la finestra necessaria e disattivi le notifiche",
       "Condividi l’intero schermo riducendo lo zoom"
     ],
     "correct": 0,
-    "explanation": "Limitare la superficie condivisa evita che altre finestre compaiano davanti al pubblico.",
+    "explanation": "Se condividi solo la finestra della tabella, le altre finestre restano fuori dalla presentazione.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1151,9 +1151,9 @@
     "id": "OPS-007",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Un pop-up allarma su un virus e mostra un numero di assistenza. A chi ti rivolgi?",
+    "question": "Un pop-up segnala la presenza di un virus e mostra un numero da chiamare. A chi ti rivolgi?",
     "options": [
-      "Al primo numero mostrato dal pop-up",
+      "A chi risponde al numero mostrato dal pop-up",
       "Alla chat aperta dal pulsante del pop-up",
       "Al supporto IT, usando il recapito noto",
       "All’indirizzo indicato nella stessa finestra"
@@ -1169,8 +1169,8 @@
     "category": "Comportamenti sicuri",
     "question": "Un collega autorizzato a leggere un contratto ti chiede di inoltrarlo a un consulente esterno. Che cosa verifichi?",
     "options": [
-      "L’autorizzazione anche per quel destinatario e quella finalità",
-      "Solo l’autorizzazione del collega che te lo ha chiesto"
+      "Se puoi inviarlo a quel destinatario per lo scopo indicato",
+      "Solo se il collega che te lo chiede può leggere il contratto"
     ],
     "correct": 0,
     "explanation": "Il diritto di lettura del collega non dimostra che il destinatario esterno sia autorizzato a ricevere il documento.",
@@ -1181,7 +1181,7 @@
     "id": "OPS-009",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Hai inviato per errore un link riservato a un esterno. Il sistema permette la revoca. Cosa fai subito?",
+    "question": "Hai inviato per errore un link riservato a una persona esterna all’azienda. Puoi revocarlo. Che cosa fai subito?",
     "options": [
       "Revochi il link e segnali l’accaduto con i dettagli disponibili",
       "Aspetti che il destinatario chieda l’accesso",
@@ -1189,7 +1189,7 @@
       "Rinomini il documento senza cambiare i permessi"
     ],
     "correct": 0,
-    "explanation": "La revoca limita gli accessi futuri. Log e segnalazione servono a valutare eventuali consultazioni o copie già avvenute.",
+    "explanation": "La revoca limita gli accessi futuri. I log e i dettagli della segnalazione aiutano a capire se il documento sia già stato consultato o copiato.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -1203,7 +1203,7 @@
       "Solo dopo aver verificato un accesso ai dati"
     ],
     "correct": 0,
-    "explanation": "Una segnalazione tempestiva consente di revocare sessioni, applicare le misure previste e valutare l’esposizione.",
+    "explanation": "Una segnalazione tempestiva consente di revocare le sessioni attive, applicare le misure previste e valutare l’eventuale esposizione dei dati.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1216,10 +1216,10 @@
       "Approvare tutte le fatture dei fornitori informatici",
       "Monitorare segnalazioni di sicurezza e coordinarne l’analisi",
       "Definire gli obiettivi commerciali del reparto",
-      "Gestire soltanto le licenze dei software"
+      "Gestire soltanto le licenze software"
     ],
     "correct": 1,
-    "explanation": "Il SOC monitora eventi e avvisi, svolge il triage e supporta la risposta agli incidenti secondo i ruoli assegnati.",
+    "explanation": "Il SOC monitora gli eventi di sicurezza, stabilisce quali avvisi approfondire e contribuisce alla risposta agli incidenti secondo i ruoli assegnati.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -1227,15 +1227,15 @@
     "id": "SOC-002",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Un solo tentativo di accesso fallito genera un evento. Che cosa serve per classificarlo come incidente?",
+    "question": "Nel log compare un tentativo di accesso non riuscito. Che cosa serve per classificarlo come incidente?",
     "options": [
       "La presenza del record in un file di log",
-      "Contesto ed evidenze valutati con i criteri di incidente",
+      "Una valutazione del contesto e dei riscontri secondo i criteri di classificazione",
       "L’assegnazione automatica di un identificativo",
       "La sola visualizzazione nell’interfaccia SIEM"
     ],
     "correct": 1,
-    "explanation": "Un evento registra un fatto. Impatto, contesto e criteri di classificazione guidano la decisione di aprire un incidente.",
+    "explanation": "Il log registra l’evento. Il team ne valuta il contesto e l’impatto per stabilire se si tratti di un incidente.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -1243,12 +1243,12 @@
     "id": "SOC-003",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Perché un SIEM raccoglie log da sistemi differenti?",
+    "question": "Perché un SIEM raccoglie i log di sistemi diversi?",
     "options": [
       "Per installare direttamente ogni patch",
       "Per sostituire ogni copia di sicurezza",
       "Per assegnare permessi agli utenti",
-      "Per correlare segnali che isolatamente dicono poco"
+      "Per collegare eventi che, presi singolarmente, dicono poco"
     ],
     "correct": 3,
     "explanation": "Centralizzazione e correlazione aiutano a leggere accessi, attività sugli endpoint ed eventi applicativi come parti di un’unica cronologia.",
@@ -1259,13 +1259,13 @@
     "id": "SOC-004",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Due log sembrano invertirsi nel tempo. Uno usa UTC e l’altro l’ora locale. Come avvii la ricostruzione?",
+    "question": "Due eventi sembrano comparire in ordine inverso nei log. Un sistema usa l’ora UTC e l’altro l’ora locale. Come ricostruisci la sequenza?",
     "options": [
-      "Conservi gli originali e normalizzi tempi e fusi nell’analisi",
+      "Conservi i log originali e riporti gli orari allo stesso fuso per l’analisi",
       "Riscrivi gli orari dei log originali per farli coincidere"
     ],
     "correct": 0,
-    "explanation": "Conservare la fonte e documentare le conversioni permette di verificare la sequenza anche in presenza di scarti tra orologi.",
+    "explanation": "Conservare i log originali e documentare le conversioni permette di verificare la sequenza anche in presenza di scarti tra gli orologi.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -1281,7 +1281,7 @@
       "Falso positivo"
     ],
     "correct": 3,
-    "explanation": "Il rilevatore ha segnalato una minaccia assente. Un falso negativo è una minaccia reale che la rilevazione non segnala.",
+    "explanation": "L’allarme indica come dannoso uno strumento innocuo. Si ha un falso negativo quando una minaccia reale sfugge al rilevamento.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -1289,7 +1289,7 @@
     "id": "SOC-006",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Un endpoint compromesso continua a comunicare con altri sistemi. Quale azione è di contenimento?",
+    "question": "Un endpoint compromesso continua a comunicare con altri sistemi. Quale azione serve a contenere l’incidente?",
     "options": [
       "Rinnovare le licenze dell’EDR",
       "Isolarlo secondo il piano di risposta",
@@ -1297,7 +1297,7 @@
       "Redigere il rapporto conclusivo"
     ],
     "correct": 1,
-    "explanation": "Il contenimento limita propagazione e impatto mentre il team conserva le evidenze e prepara le fasi successive.",
+    "explanation": "Il contenimento limita la propagazione e l’impatto dell’incidente mentre il team conserva gli elementi utili all’analisi e prepara le fasi successive.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -1305,15 +1305,15 @@
     "id": "SOC-007",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Un IP presente in un elenco di indicatori compare nei log. È usato anche da un servizio condiviso. Qual è il passo corretto?",
+    "question": "Nei log compare un indirizzo IP segnalato come indicatore di compromissione. Lo usa anche un servizio condiviso. Come procedi?",
     "options": [
-      "Cancellare l’indicatore da tutti gli strumenti",
-      "Correlare indirizzo, orario, destinazione e attività osservata",
-      "Dichiarare compromessi tutti gli utenti del servizio",
-      "Attribuire l’incidente al proprietario dell’indirizzo"
+      "Cancelli l’indicatore da tutti gli strumenti",
+      "Confronti l’indirizzo, l’orario e la destinazione con l’attività osservata",
+      "Dichiari compromessi tutti gli utenti del servizio",
+      "Attribuisci l’incidente al proprietario dell’indirizzo"
     ],
     "correct": 1,
-    "explanation": "Un indicatore orienta l’indagine. L’infrastruttura condivisa e il contesto temporale possono cambiare il significato della corrispondenza.",
+    "explanation": "Lo stesso indirizzo può essere usato da più soggetti. Per interpretare la corrispondenza occorre considerare quando e per quale attività è stato usato.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -1324,7 +1324,7 @@
     "question": "Vuoi capire quale processo ha aperto una connessione su un portatile. Quale fonte è più pertinente?",
     "options": [
       "Registro delle prenotazioni delle sale",
-      "Telemetria EDR dell’endpoint"
+      "I dati raccolti dall’EDR sul portatile"
     ],
     "correct": 1,
     "explanation": "Un EDR può associare processo, utente e attività di rete sul dispositivo. La verifica dipende dalla telemetria effettivamente raccolta.",
@@ -1335,11 +1335,11 @@
     "id": "SOC-009",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Due avvisi hanno lo stesso livello tecnico. Quale criterio aiuta a stabilire la priorità operativa?",
+    "question": "Due avvisi hanno la stessa gravità tecnica. Quale criterio aiuta a stabilire quale gestire per primo?",
     "options": [
       "Il numero di righe di log prodotte dal singolo sensore",
       "La data di aggiornamento delle regole del prodotto",
-      "Criticità del servizio e impatto osservato",
+      "La criticità del servizio e l’impatto osservato",
       "L’ordine di arrivo degli avvisi nella coda di lavoro"
     ],
     "correct": 2,
@@ -1351,15 +1351,15 @@
     "id": "SOC-010",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Dopo il ripristino, quale esito trasforma le lezioni apprese in attività da svolgere?",
+    "question": "Dopo il ripristino, quale risultato del riesame aiuta il team a correggere i problemi emersi?",
     "options": [
       "Una cronologia dettagliata archiviata insieme al ticket",
       "Una copia del rapporto condivisa con il team operativo",
-      "Azioni di miglioramento assegnate con una scadenza",
+      "Un elenco di interventi, ciascuno con un responsabile e una scadenza",
       "Un riepilogo delle notifiche spedite durante l’incidente"
     ],
     "correct": 2,
-    "explanation": "Le lezioni apprese sono utilizzabili quando diventano attività assegnate e verificabili nel tempo.",
+    "explanation": "Per dare seguito a quanto emerso occorre sapere chi si occupa di ogni intervento ed entro quando verificarne l’esito.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -1367,13 +1367,13 @@
     "id": "BCP-001",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Cancellando un file, la cancellazione si propaga su tutti i dispositivi sincronizzati. Cosa serve per recuperarlo?",
+    "question": "Elimini un file e la modifica si propaga a tutti i dispositivi sincronizzati. Che cosa ti permette di recuperarlo?",
     "options": [
-      "Una versione precedente recuperabile o un backup",
+      "Una versione precedente del file o un backup da cui ripristinarlo",
       "Un altro dispositivo che ha già completato la sincronizzazione"
     ],
     "correct": 0,
-    "explanation": "Sincronizzare replica lo stato corrente. Versioni precedenti e backup offrono punti a cui tornare.",
+    "explanation": "La sincronizzazione replica anche le cancellazioni. Una copia precedente permette di recuperare il file com’era prima dell’eliminazione.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1385,11 +1385,11 @@
     "options": [
       "Tre versioni sulla stessa unità e un account di recupero",
       "Tre backup più l’originale, tutti sullo stesso disco",
-      "Tre copie totali, due tipi di supporto, una copia fuori sede",
+      "Tre copie in tutto, su due tipi di supporto, di cui una fuori sede",
       "Tre sedi, due utenti e una sola copia totale"
     ],
     "correct": 2,
-    "explanation": "Nel conteggio classico l’originale è una delle tre copie. La diversificazione limita i guasti comuni, la copia fuori sede protegge da eventi locali.",
+    "explanation": "Nel conteggio delle tre copie è compreso l’originale. Usare supporti diversi riduce il rischio di un guasto comune. La copia fuori sede protegge dagli eventi che colpiscono la sede.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -1397,7 +1397,7 @@
     "id": "BCP-003",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Un servizio si interrompe alle 09:00 e il suo RTO è di quattro ore. Entro quale ora è previsto il ripristino?",
+    "question": "Un servizio si interrompe alle 09:00 e il suo RTO è di quattro ore. Entro che ora è previsto il ripristino?",
     "options": [
       "13:00",
       "09:04",
@@ -1405,7 +1405,7 @@
       "17:00"
     ],
     "correct": 0,
-    "explanation": "Il Recovery Time Objective fissa il tempo obiettivo per ripristinare il servizio dopo l’interruzione.",
+    "explanation": "Il Recovery Time Objective (RTO) indica il tempo previsto per ripristinare il servizio. Quattro ore dopo le 09:00 sono le 13:00.",
     "difficulty": "Intermedio",
     "type": "MULTI"
   },
@@ -1413,15 +1413,15 @@
     "id": "BCP-004",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Il sistema si ferma alle 15:00. L’ultimo punto recuperabile è delle 14:10 e l’RPO è di 30 minuti. Qual è l’esito?",
+    "question": "Il sistema si ferma alle 15:00. L’ultimo punto di ripristino risale alle 14:10 e l’RPO è di 30 minuti. L’obiettivo è rispettato?",
     "options": [
       "Impossibile valutarlo senza conoscere l’RTO",
-      "Obiettivo rispettato con 10 minuti di margine",
-      "Obiettivo superato di 20 minuti",
-      "Obiettivo superato di 50 minuti"
+      "Sì, con 10 minuti di margine",
+      "No, il limite è stato superato di 20 minuti",
+      "No, il limite è stato superato di 50 minuti"
     ],
     "correct": 2,
-    "explanation": "Il divario tra il fermo e l’ultimo punto recuperabile è di 50 minuti. Il limite accettato è di 30 minuti, quindi lo scostamento è di 20 minuti.",
+    "explanation": "Tra le 14:10 e le 15:00 passano 50 minuti. L’RPO ne ammette 30, quindi il limite è stato superato di 20 minuti.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -1429,10 +1429,10 @@
     "id": "BCP-005",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Il backup di ieri risulta completato. Quale prova dimostra che l’applicazione si ripristina davvero?",
+    "question": "Il backup di ieri risulta completato. Come verifichi che l’applicazione possa essere ripristinata?",
     "options": [
-      "Un ripristino di prova con verifica funzionale",
-      "La sola presenza dell’esito verde nella console"
+      "Esegui un ripristino di prova e controlli che l’applicazione funzioni",
+      "Controlli soltanto l’indicatore verde nella console di backup"
     ],
     "correct": 0,
     "explanation": "Il test controlla leggibilità, dipendenze, credenziali e funzionamento. Il messaggio di completamento riguarda il processo di copia.",
@@ -1443,10 +1443,10 @@
     "id": "BCP-006",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "In un servizio SaaS il provider protegge l’infrastruttura. Chi deve verificare i permessi assegnati ai propri utenti?",
+    "question": "In un servizio SaaS il fornitore protegge l’infrastruttura. Chi deve verificare i permessi degli utenti del cliente?",
     "options": [
       "Sempre e soltanto il provider del data center",
-      "Il cliente secondo le responsabilità concordate"
+      "Il cliente, secondo le responsabilità concordate"
     ],
     "correct": 1,
     "explanation": "Il modello condiviso dipende dal contratto. La gestione degli utenti e dei ruoli del cliente resta normalmente a suo carico.",
@@ -1473,7 +1473,7 @@
     "id": "BCP-008",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Un archivio cloud contenente contratti risulta leggibile pubblicamente. Qual è la prima risposta operativa?",
+    "question": "Chiunque può leggere un archivio cloud che contiene contratti. Qual è il primo intervento?",
     "options": [
       "Limitare l’accesso e conservare le evidenze per l’analisi",
       "Cambiare la grafica della pagina di accesso",
@@ -1481,7 +1481,7 @@
       "Rinominare l’archivio lasciando invariati i permessi"
     ],
     "correct": 0,
-    "explanation": "Correggere i permessi riduce l’esposizione futura. I registri disponibili aiutano a valutare l’esposizione già avvenuta.",
+    "explanation": "Limitare i permessi riduce l’esposizione futura. I log disponibili aiutano a verificare se i documenti siano già stati consultati.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -1489,13 +1489,13 @@
     "id": "BCP-009",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Una copia di backup è immutabile per trenta giorni. Cosa protegge principalmente questa proprietà?",
+    "question": "Un backup è immutabile per trenta giorni. Da che cosa lo protegge l’immutabilità in quel periodo?",
     "options": [
-      "La copia contro modifiche o cancellazioni durante quel periodo",
-      "La completezza dei dati prima che fossero copiati"
+      "Da modifiche o cancellazioni della copia",
+      "Da errori già presenti nei dati originali"
     ],
     "correct": 0,
-    "explanation": "L’immutabilità preserva lo stato scritto entro le condizioni configurate. Una copia può comunque contenere dati già incompleti o compromessi.",
+    "explanation": "Per il periodo configurato, l’immutabilità protegge la copia da modifiche e cancellazioni. I dati copiati potrebbero però essere già incompleti o compromessi.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1503,15 +1503,15 @@
     "id": "BCP-010",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Un test ripristina il database in tempo, ma il servizio resta inutilizzabile perché manca l’identità centralizzata. Che cosa aggiorni?",
+    "question": "Durante una prova ripristini il database in tempo. Il servizio resta fermo perché manca l’autenticazione centralizzata. Che cosa aggiorni nel piano?",
     "options": [
-      "Dipendenze e ordine di ripristino nel piano",
+      "Le dipendenze tra i sistemi e l’ordine di ripristino",
       "La sola frequenza programmata dei backup del database",
       "Solo il numero di account degli amministratori",
       "Solo la descrizione commerciale del servizio"
     ],
     "correct": 0,
-    "explanation": "Il ripristino va provato dal punto di vista del servizio. Identità, rete e altri componenti possono condizionarne l’effettiva disponibilità.",
+    "explanation": "La prova deve verificare che il servizio torni utilizzabile. L’autenticazione, la rete e altri componenti possono condizionarne la disponibilità.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -1519,10 +1519,10 @@
     "id": "PHI-016",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Un fornitore cambia IBAN via email. Come confermi la variazione?",
+    "question": "Un fornitore ti comunica un nuovo IBAN via email. Come confermi la variazione?",
     "options": [
-      "Chiamo il numero indicato nella richiesta",
-      "Richiamo il contatto già registrato"
+      "Chiami il numero indicato nella richiesta",
+      "Richiami il fornitore al numero già registrato"
     ],
     "correct": 1,
     "explanation": "Un canale già verificato evita di chiedere conferma allo stesso possibile impostore.",
@@ -1533,13 +1533,13 @@
     "id": "PHI-017",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Un QR copre quello originale sul manifesto. Quale controllo viene prima del pagamento?",
+    "question": "Su un manifesto, un adesivo copre il codice QR originale. Come verifichi la pagina di pagamento?",
     "options": [
-      "Controllare che la pagina mostri il logo",
-      "Verificare l’indirizzo con il gestore"
+      "Controlli soltanto che la pagina mostri il logo del gestore",
+      "Verifichi l’indirizzo della pagina con il gestore"
     ],
     "correct": 1,
-    "explanation": "Un logo può essere copiato e il QR sostituito.",
+    "explanation": "Chiunque può copiare un logo e sovrapporre un nuovo codice QR a quello originale.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1547,13 +1547,13 @@
     "id": "PHI-018",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Una voce familiare chiede un bonifico urgente. Quale riscontro è più solido?",
+    "question": "Una voce familiare ti chiede di fare un bonifico urgente. Come verifichi chi ti ha contattato?",
     "options": [
-      "Riascoltare il messaggio vocale",
-      "Richiamare tramite rubrica interna"
+      "Riascolti il messaggio vocale",
+      "Richiami la persona al numero della rubrica interna"
     ],
     "correct": 1,
-    "explanation": "La voce può essere imitata; il numero noto offre un controllo indipendente.",
+    "explanation": "Una voce può essere imitata. Richiamare la persona a un numero noto permette una verifica indipendente.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1561,7 +1561,7 @@
     "id": "PHI-019",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Ricevi due messaggi identici con mittenti visibili uguali. Cosa puoi dedurre?",
+    "question": "Due messaggi identici mostrano lo stesso nome del mittente. Che cosa puoi dedurre?",
     "options": [
       "Sono stati inviati dallo stesso account",
       "Il solo nome visualizzato non identifica l’autore"
@@ -1575,10 +1575,10 @@
     "id": "PHI-020",
     "category_id": "PHI",
     "category": "Phishing e ingegneria sociale",
-    "question": "Una pagina di consenso chiede di leggere tutta la posta per mostrare un PDF. Come procedi?",
+    "question": "Per mostrarti un PDF, un’app chiede il permesso di leggere tutta la tua posta. Come procedi?",
     "options": [
-      "Interrompo e verifico i permessi richiesti",
-      "Concedo accesso perché uso il login aziendale"
+      "Interrompi la procedura e verifichi i permessi richiesti",
+      "Concedi l’accesso perché usi le credenziali aziendali"
     ],
     "correct": 0,
     "explanation": "Anche un’autorizzazione autentica può attribuire privilegi eccessivi a un’app.",
@@ -1589,7 +1589,7 @@
     "id": "AUT-016",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Perché conservare separatamente i codici di recupero dal telefono?",
+    "question": "Perché è utile conservare i codici di recupero anche fuori dal telefono?",
     "options": [
       "Servono anche se il telefono viene smarrito",
       "Devono essere disponibili a tutto il team"
@@ -1605,11 +1605,11 @@
     "category": "Password e autenticazione",
     "question": "Quale scelta permette di attribuire una modifica a un operatore?",
     "options": [
-      "Account individuali con registrazione degli accessi",
+      "Account individuali con registrazione delle operazioni",
       "Un account condiviso con password lunga"
     ],
     "correct": 0,
-    "explanation": "La robustezza della password non distingue le persone che la condividono.",
+    "explanation": "Il registro delle operazioni associa la modifica a un account. Se più persone usano lo stesso account, diventa difficile risalire a chi ha agito.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1617,10 +1617,10 @@
     "id": "AUT-018",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Chiudi la finestra del browser su un PC condiviso. Cosa protegge meglio la sessione?",
+    "question": "Hai usato un servizio da un profilo temporaneo su un PC condiviso. Che cosa fai prima di allontanarti?",
     "options": [
-      "Uscire dal servizio e chiudere il profilo temporaneo",
-      "Eliminare solo la cronologia degli indirizzi"
+      "Esci dal servizio e chiudi il profilo temporaneo",
+      "Cancelli soltanto la cronologia del browser"
     ],
     "correct": 0,
     "explanation": "Il cookie di sessione può sopravvivere alla chiusura della finestra.",
@@ -1631,10 +1631,10 @@
     "id": "AUT-019",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Un consulente termina l’incarico. Cosa fare del secondo fattore a lui associato?",
+    "question": "Un consulente termina l’incarico. Come gestisci gli accessi associati al suo account?",
     "options": [
-      "Revocare accesso e metodi di recupero collegati",
-      "Cambiare il solo nome visualizzato"
+      "Revochi l’accesso, il secondo fattore e i metodi di recupero associati",
+      "Cambi solo il nome visualizzato"
     ],
     "correct": 0,
     "explanation": "I fattori e le sessioni residue possono consentire ulteriori accessi.",
@@ -1645,13 +1645,13 @@
     "id": "AUT-020",
     "category_id": "AUT",
     "category": "Password e autenticazione",
-    "question": "Dove registrare una chiave di sicurezza di riserva?",
+    "question": "Dove registri una chiave di sicurezza di riserva?",
     "options": [
       "Nel modulo arrivato da un mittente sconosciuto",
-      "Nel proprio account tramite il percorso ufficiale"
+      "Nelle impostazioni di sicurezza del tuo account"
     ],
     "correct": 1,
-    "explanation": "La registrazione di un nuovo fattore modifica chi può autenticarsi.",
+    "explanation": "Aggiungere una chiave significa abilitare un nuovo fattore di autenticazione per l’account.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1659,13 +1659,13 @@
     "id": "MAL-016",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Trovi una chiavetta smarrita in aula. Come la gestisci?",
+    "question": "Trovi in aula una chiavetta USB smarrita. Come la gestisci?",
     "options": [
-      "La consegno al referente previsto",
-      "La apro sul PC del docente per identificarla"
+      "La consegni al referente incaricato",
+      "La colleghi al PC del docente per scoprirne il proprietario"
     ],
     "correct": 0,
-    "explanation": "Un dispositivo sconosciuto può interagire con il sistema già al collegamento.",
+    "explanation": "Un dispositivo USB sconosciuto può interagire con il computer appena viene collegato.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1673,13 +1673,13 @@
     "id": "MAL-017",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Un browser propone un falso aggiornamento durante la lettura. Dove controlli?",
+    "question": "Durante la navigazione, una finestra ti invita ad aggiornare il browser. Dove verifichi se l’aggiornamento è disponibile?",
     "options": [
-      "Nelle impostazioni ufficiali del browser",
-      "Nel collegamento della finestra comparsa"
+      "Nelle impostazioni del browser",
+      "Nella pagina aperta dal link che compare nella finestra"
     ],
     "correct": 0,
-    "explanation": "Il canale di aggiornamento integrato evita installer di provenienza incerta.",
+    "explanation": "La funzione di aggiornamento del browser permette di evitare programmi di installazione di provenienza incerta.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1687,10 +1687,10 @@
     "id": "MAL-018",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Un allegato richiede di disattivare la protezione del documento. Come procedi?",
+    "question": "Un allegato chiede di disattivare la modalità protetta per leggerne il contenuto. Come procedi?",
     "options": [
-      "Verifico l’origine tramite un canale noto",
-      "Abilito il contenuto per vedere se è leggibile"
+      "Verifichi l’origine del documento tramite un canale noto",
+      "Disattivi la protezione per vedere se il documento è leggibile"
     ],
     "correct": 0,
     "explanation": "Il contenuto attivo può eseguire operazioni prima della lettura.",
@@ -1701,13 +1701,13 @@
     "id": "MAL-019",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Dopo la pulizia di un PC, perché verificare gli altri dispositivi coinvolti?",
+    "question": "Dopo aver bonificato un PC, perché controllare anche gli altri dispositivi coinvolti?",
     "options": [
-      "Perché tutti richiedono sempre la reinstallazione",
+      "Perché occorre sempre reinstallare il sistema operativo su tutti i dispositivi",
       "Per individuare ulteriori effetti dello stesso incidente"
     ],
     "correct": 1,
-    "explanation": "La portata va ricostruita dalle evidenze prima di scegliere le misure.",
+    "explanation": "Prima di scegliere le misure da adottare occorre ricostruire la portata dell’incidente sulla base dei dati raccolti.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1715,9 +1715,9 @@
     "id": "MAL-020",
     "category_id": "MAL",
     "category": "Malware e ransomware",
-    "question": "Quale caratteristica rende più affidabile un ripristino dopo ransomware?",
+    "question": "Quale scelta rende più affidabile il recupero dei dati dopo un attacco ransomware?",
     "options": [
-      "Copie isolate già provate in ripristino",
+      "Copie isolate già verificate con una prova di ripristino",
       "Una replica sempre scrivibile con le stesse credenziali"
     ],
     "correct": 0,
@@ -1729,13 +1729,13 @@
     "id": "NET-016",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Il Wi-Fi della sala ha due reti con nomi simili. A chi chiedi conferma?",
+    "question": "Nella sala riunioni vedi due reti Wi-Fi con nomi simili. Come verifichi quale usare?",
     "options": [
-      "Alla prima pagina che chiede le credenziali",
-      "Al gestore tramite un recapito noto"
+      "Ti affidi alla prima pagina che chiede le credenziali",
+      "Contatti il gestore usando un recapito noto"
     ],
     "correct": 1,
-    "explanation": "Il nome di rete da solo non identifica il gestore.",
+    "explanation": "Il nome della rete, da solo, non permette di identificarne il gestore.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1743,13 +1743,13 @@
     "id": "NET-017",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Quale indirizzo indica un dominio distinto da esempio.it?",
+    "question": "Quale dei due indirizzi si trova al di fuori del dominio esempio.it?",
     "options": [
       "esempio.it.assistenza.test",
       "supporto.esempio.it"
     ],
     "correct": 0,
-    "explanation": "Il nome sulla destra determina la gerarchia del dominio.",
+    "explanation": "L’indirizzo supporto.esempio.it è un sottodominio di esempio.it. L’altro indirizzo appartiene al dominio assistenza.test.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -1757,10 +1757,10 @@
     "id": "NET-018",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Quale misura limita i contatti tra dispositivi ospiti e server interni?",
+    "question": "Quale misura limita le comunicazioni tra i dispositivi degli ospiti e i server interni?",
     "options": [
-      "Usare un nome diverso per lo stesso segmento aperto",
-      "Una rete ospiti separata con regole di accesso"
+      "Dare un altro nome allo stesso segmento di rete",
+      "Creare una rete ospiti separata con regole di accesso"
     ],
     "correct": 1,
     "explanation": "La separazione dipende dalle regole applicate al traffico.",
@@ -1771,10 +1771,10 @@
     "id": "NET-019",
     "category_id": "NET",
     "category": "Reti e sicurezza web",
-    "question": "Una connessione HTTPS valida cosa garantisce sul negozio online?",
+    "question": "Che cosa garantisce una connessione HTTPS valida al sito di un negozio online?",
     "options": [
-      "Affidabilità commerciale del venditore",
-      "Protezione del collegamento al dominio indicato"
+      "L’affidabilità commerciale del venditore",
+      "La protezione del collegamento al dominio indicato"
     ],
     "correct": 1,
     "explanation": "Il certificato non valuta le pratiche commerciali del sito.",
@@ -1788,10 +1788,10 @@
     "question": "Un portale interno è raggiungibile solo tramite VPN. Chi deve poter leggere i documenti?",
     "options": [
       "Qualsiasi utente connesso alla VPN",
-      "I soli utenti autorizzati sui documenti"
+      "Solo gli utenti autorizzati a consultare quei documenti"
     ],
     "correct": 1,
-    "explanation": "Accesso alla rete e autorizzazione al contenuto sono controlli distinti.",
+    "explanation": "L’accesso alla rete e il permesso di consultare i documenti richiedono controlli distinti.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1799,9 +1799,9 @@
     "id": "PRI-011",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Devi registrare presenze a un webinar. Quale campo richiede una motivazione ulteriore?",
+    "question": "Devi registrare le presenze a un webinar. Per quale dato occorre una giustificazione ulteriore?",
     "options": [
-      "Il nome del partecipante se necessario all’attestato",
+      "Il nome del partecipante, se serve a rilasciare l’attestato",
       "L’indirizzo di casa"
     ],
     "correct": 1,
@@ -1813,10 +1813,10 @@
     "id": "PRI-012",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un interessato chiede copia dei propri dati. Come instradi la richiesta?",
+    "question": "Una persona chiede una copia dei propri dati scrivendo alla casella ordinaria dell’azienda. Come gestisci la richiesta?",
     "options": [
-      "La archivio perché arrivata alla casella ordinaria",
-      "La trasmetto alla funzione che gestisce i diritti"
+      "La archivi perché non è stata inviata alla casella dedicata",
+      "La inoltri a chi gestisce le richieste di accesso ai dati"
     ],
     "correct": 1,
     "explanation": "La gestione interna deve consentire di prendere in carico le richieste ricevute.",
@@ -1827,10 +1827,10 @@
     "id": "PRI-013",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un report sostituisce i nomi con codici. L’azienda conserva la tabella di raccordo. Cosa sono i dati?",
+    "question": "In un rapporto i nomi sono sostituiti da codici. L’azienda conserva separatamente la tabella di collegamento. Come si definiscono questi dati?",
     "options": [
       "Dati pseudonimizzati",
-      "Dati aggregati irreversibili",
+      "Dati statistici aggregati",
       "Dati anonimi",
       "Dati esclusivamente tecnici"
     ],
@@ -1843,10 +1843,10 @@
     "id": "PRI-014",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un modulo ha uno spazio libero per osservazioni. Quale misura aiuta la minimizzazione?",
+    "question": "Un modulo include un campo a testo libero per le osservazioni. Come limiti la raccolta ai dati necessari?",
     "options": [
-      "Chiedere una storia personale completa",
-      "Indicare quali informazioni servono e limitare il campo"
+      "Chiedi di raccontare per intero la propria storia personale",
+      "Indichi quali informazioni servono e limiti lo spazio per la risposta"
     ],
     "correct": 1,
     "explanation": "I campi liberi possono raccogliere dettagli estranei allo scopo.",
@@ -1857,13 +1857,13 @@
     "id": "PRI-015",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Devi inviare un avviso a destinatari esterni che non si conoscono. Quale opzione tutela gli indirizzi?",
+    "question": "Devi inviare un avviso a destinatari esterni che non si conoscono. Come mantieni riservati i loro indirizzi email?",
     "options": [
-      "Invii separati o copia nascosta",
-      "Inserire ogni indirizzo nel campo A"
+      "Invii messaggi separati o usi il campo «Ccn»",
+      "Inserisci tutti gli indirizzi nel campo «A»"
     ],
     "correct": 0,
-    "explanation": "La visibilità degli indirizzi è una comunicazione ulteriore.",
+    "explanation": "Con la copia conoscenza nascosta (Ccn), ogni destinatario riceve il messaggio senza vedere gli altri indirizzi inseriti in quel campo.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1871,13 +1871,13 @@
     "id": "PRI-016",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un dipendente segnala un indirizzo personale errato in anagrafica. Quale principio è coinvolto?",
+    "question": "Un dipendente segnala che l’indirizzo riportato nella sua scheda anagrafica è errato. Quale principio è coinvolto?",
     "options": [
       "Portabilità del software",
       "Esattezza dei dati"
     ],
     "correct": 1,
-    "explanation": "I dati inesatti devono poter essere corretti rispetto allo scopo.",
+    "explanation": "Correggere l’indirizzo permette di mantenere esatti i dati usati per contattare il dipendente.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1885,10 +1885,10 @@
     "id": "PRI-017",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Hai concluso una selezione del personale. Come decidi quanto conservare i CV?",
+    "question": "Hai concluso una selezione del personale. Come decidi per quanto tempo conservare i CV?",
     "options": [
-      "Applico tempi e criteri motivati per la finalità",
-      "Li conservo finché resta spazio sul disco"
+      "Applichi tempi di conservazione giustificati dalla finalità",
+      "Li conservi finché resta spazio sul disco"
     ],
     "correct": 0,
     "explanation": "La capacità di archiviazione non determina il periodo necessario.",
@@ -1899,7 +1899,7 @@
     "id": "PRI-018",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un fornitore tratta dati per conto del cliente seguendone le istruzioni. Quale ruolo descrive questa attività?",
+    "question": "Un fornitore tratta dati personali per conto del cliente e ne segue le istruzioni. Quale ruolo svolge?",
     "options": [
       "Contitolare per il solo fatto di essere pagato",
       "Destinatario occasionale senza incarico",
@@ -1918,10 +1918,10 @@
     "question": "Un documento con dati personali è inviato al destinatario sbagliato. Qual è la prima azione interna?",
     "options": [
       "Attendere che il destinatario presenti reclamo",
-      "Segnalare tempestivamente l’evento secondo procedura"
+      "Segnalare tempestivamente l’evento secondo la procedura interna"
     ],
     "correct": 1,
-    "explanation": "La segnalazione permette di valutare conseguenze e contenimento.",
+    "explanation": "La segnalazione permette di valutare le conseguenze dell’invio e di decidere come limitarle.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -1929,9 +1929,9 @@
     "id": "PRI-020",
     "category_id": "PRI",
     "category": "Privacy e protezione dati",
-    "question": "Un servizio propone di riusare i dati degli iscritti per uno scopo diverso. Cosa va valutato prima?",
+    "question": "Un servizio propone di riutilizzare i dati degli iscritti per uno scopo diverso. Quali aspetti vanno valutati prima?",
     "options": [
-      "Compatibilità della finalità e base giuridica applicabile",
+      "La compatibilità con la finalità originaria e la base giuridica applicabile",
       "Solo il costo della campagna"
     ],
     "correct": 0,
@@ -1959,8 +1959,8 @@
     "category": "Comportamenti sicuri",
     "question": "Come condividi una bozza riservata con un solo revisore?",
     "options": [
-      "Link accessibile a chiunque lo riceva",
-      "Accesso nominativo al documento"
+      "Invii un link accessibile a chiunque lo riceva",
+      "Concedi l’accesso al documento solo all’account del revisore"
     ],
     "correct": 1,
     "explanation": "L’accesso nominativo restringe la consultazione al destinatario previsto.",
@@ -1971,10 +1971,10 @@
     "id": "OPS-013",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Un’app richiede accesso ai contatti per fare calcoli. Come valuti la richiesta?",
+    "question": "Un’app per fare calcoli chiede di accedere ai tuoi contatti. Come valuti la richiesta?",
     "options": [
-      "Verifico se il permesso serve alla funzione",
-      "Concedo ogni permesso richiesto alla prima apertura"
+      "Verifichi se l’accesso ai contatti serve alla funzione richiesta",
+      "Concedi tutti i permessi richiesti alla prima apertura"
     ],
     "correct": 0,
     "explanation": "I privilegi superflui ampliano l’esposizione dei dati.",
@@ -1985,10 +1985,10 @@
     "id": "OPS-014",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Una stampa riservata resta sul vassoio comune. Quale misura preventiva scegli?",
+    "question": "Una stampa riservata resta nel vassoio della stampante condivisa. Come eviti che accada di nuovo?",
     "options": [
-      "Rilascio della stampa con identificazione",
-      "Stampa in caratteri più piccoli"
+      "Imposti la stampa dopo l’identificazione dell’utente alla stampante",
+      "Stampi il documento in caratteri più piccoli"
     ],
     "correct": 0,
     "explanation": "Il rilascio controllato riduce il tempo in cui i fogli restano incustoditi.",
@@ -1999,7 +1999,7 @@
     "id": "OPS-015",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Quale dispositivo usare per archiviare un file di lavoro riservato?",
+    "question": "Quale supporto usi per archiviare un file di lavoro riservato?",
     "options": [
       "Un supporto autorizzato e protetto",
       "Il primo supporto libero disponibile"
@@ -2013,13 +2013,13 @@
     "id": "OPS-016",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Prima di condividere lo schermo in riunione cosa è più utile?",
+    "question": "Prima di condividere lo schermo in riunione, come eviti di mostrare contenuti estranei?",
     "options": [
-      "Aprire anche il client di posta per comodità",
-      "Selezionare la sola finestra necessaria"
+      "Apri anche il programma di posta per comodità",
+      "Selezioni soltanto la finestra necessaria"
     ],
     "correct": 1,
-    "explanation": "La condivisione selettiva riduce le esposizioni involontarie.",
+    "explanation": "Scegliendo una singola finestra puoi tenere le altre applicazioni fuori dalla presentazione.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2027,10 +2027,10 @@
     "id": "OPS-017",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Un collega cambia mansione. Cosa fare dei permessi precedenti?",
+    "question": "Un collega cambia mansione. Come gestisci i permessi che aveva prima?",
     "options": [
-      "Rivederli rispetto ai nuovi compiti",
-      "Sommare sempre vecchi e nuovi permessi"
+      "Li rivedi in base ai nuovi compiti",
+      "Sommi sempre i vecchi permessi a quelli nuovi"
     ],
     "correct": 0,
     "explanation": "La revisione previene l’accumulo di privilegi.",
@@ -2041,10 +2041,10 @@
     "id": "OPS-018",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Come gestire un portatile dismesso contenente dati di lavoro?",
+    "question": "Come va gestito un portatile dismesso che contiene ancora dati di lavoro?",
     "options": [
       "Spostare i file nel cestino prima della cessione",
-      "Seguire la procedura di cancellazione o distruzione approvata"
+      "Seguire la procedura approvata per cancellare i dati o distruggere il supporto"
     ],
     "correct": 1,
     "explanation": "Il cestino non rende irrecuperabili i dati.",
@@ -2055,13 +2055,13 @@
     "id": "OPS-019",
     "category_id": "OPS",
     "category": "Comportamenti sicuri",
-    "question": "Una richiesta di installazione sembra urgente. Qual è il canale appropriato?",
+    "question": "Serve installare un programma con urgenza. Quale canale usi per farne richiesta?",
     "options": [
       "Un servizio gratuito suggerito in chat",
-      "Il catalogo o il supporto autorizzato"
+      "Il catalogo aziendale o il servizio di supporto autorizzato"
     ],
     "correct": 1,
-    "explanation": "Il canale gestito permette di verificare provenienza e autorizzazione.",
+    "explanation": "Il canale aziendale permette di verificare la provenienza del programma e l’autorizzazione a installarlo.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2071,8 +2071,8 @@
     "category": "Comportamenti sicuri",
     "question": "Devi trasferire un file voluminoso. Come scegli lo strumento?",
     "options": [
-      "Verifico classificazione del file e servizi approvati",
-      "Uso qualsiasi sito che non richieda registrazione"
+      "Verifichi la classificazione del file e quali servizi sono approvati",
+      "Usi qualsiasi sito che permetta di inviare file senza registrarsi"
     ],
     "correct": 0,
     "explanation": "Il tipo di informazione determina le condizioni di condivisione.",
@@ -2083,13 +2083,13 @@
     "id": "SOC-011",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Un alert arriva senza orario di riferimento. Quale dato chiedi?",
+    "question": "Un avviso riporta un orario senza indicare il fuso. Che cosa chiedi per confrontarlo con gli altri log?",
     "options": [
       "La dimensione del monitor dell’analista",
-      "Fuso orario e timestamp originale"
+      "L’orario registrato dal sistema di origine e il relativo fuso"
     ],
     "correct": 1,
-    "explanation": "I tempi devono essere confrontabili fra sistemi diversi.",
+    "explanation": "Conoscere il fuso permette di confrontare gli orari registrati da sistemi diversi.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2111,13 +2111,13 @@
     "id": "SOC-013",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Un ticket passa al turno successivo. Quale annotazione serve?",
+    "question": "Devi passare un caso al turno successivo. Che cosa annoti nel ticket?",
     "options": [
-      "Azioni svolte, evidenze e verifiche pendenti",
+      "Le azioni svolte, gli elementi raccolti e le verifiche ancora da fare",
       "Solo il nome dell’analista uscente"
     ],
     "correct": 0,
-    "explanation": "Il passaggio deve rendere ripercorribile lo stato del caso.",
+    "explanation": "Chi subentra deve poter capire a che punto è l’analisi e quali controlli mancano.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2125,7 +2125,7 @@
     "id": "SOC-014",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Quale elemento distingue meglio un fatto da un’ipotesi nel rapporto?",
+    "question": "In un rapporto, quale elemento permette di distinguere un fatto osservato da un’ipotesi?",
     "options": [
       "Il grado di sicurezza espresso a voce",
       "Una fonte verificabile associata all’osservazione"
@@ -2158,10 +2158,10 @@
       "Il primo operatore disponibile",
       "Il proprietario del primo ticket aperto",
       "Il fornitore del componente più costoso",
-      "I responsabili individuati dal piano considerando gli impatti"
+      "I responsabili indicati nel piano, in base all’impatto sui servizi"
     ],
     "correct": 3,
-    "explanation": "Le dipendenze operative guidano l’ordine del ripristino.",
+    "explanation": "L’impatto sui servizi e le dipendenze operative guidano l’ordine di ripristino.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2171,11 +2171,11 @@
     "category": "SOC e risposta agli incidenti",
     "question": "Un reparto riferisce un’anomalia non visibile nei log. Come procedi?",
     "options": [
-      "Scarto la segnalazione senza approfondire",
-      "Raccolgo i dettagli e verifico la copertura dei log"
+      "Scarti la segnalazione senza approfondire",
+      "Raccogli i dettagli e verifichi quali attività vengono registrate"
     ],
     "correct": 1,
-    "explanation": "L’assenza di registrazioni può dipendere da lacune di visibilità.",
+    "explanation": "Alcune attività potrebbero non essere registrate dai sistemi monitorati.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2185,8 +2185,8 @@
     "category": "SOC e risposta agli incidenti",
     "question": "Quale comunicazione è più utile durante un incidente in corso?",
     "options": [
-      "Attribuzione immediata basata su supposizioni",
-      "Stato verificato, azioni in corso e prossimo aggiornamento"
+      "Un’attribuzione immediata della responsabilità basata su supposizioni",
+      "I fatti verificati, le azioni in corso e l’orario del prossimo aggiornamento"
     ],
     "correct": 1,
     "explanation": "Aggiornamenti circostanziati aiutano a coordinare le decisioni.",
@@ -2197,13 +2197,13 @@
     "id": "SOC-019",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Due sistemi mostrano orari discordanti. Come conservi l’informazione?",
+    "question": "Due sistemi riportano orari discordanti per lo stesso evento. Come documenti la differenza?",
     "options": [
-      "Riscrivo i file di log originali",
-      "Registro lo scarto mantenendo i timestamp originali"
+      "Riscrivi gli orari nei file di log originali",
+      "Registri lo scarto e conservi gli orari originali"
     ],
     "correct": 1,
-    "explanation": "La normalizzazione per l’analisi deve preservare i riferimenti originari.",
+    "explanation": "Conservare gli orari originali permette di verificare in seguito le conversioni usate nell’analisi.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -2211,13 +2211,13 @@
     "id": "SOC-020",
     "category_id": "SOC",
     "category": "SOC e risposta agli incidenti",
-    "question": "Come rendere controllabile una misura emersa dopo un incidente?",
+    "question": "Come rendi verificabile un’azione correttiva decisa dopo un incidente?",
     "options": [
-      "Registrare solo una raccomandazione generica",
-      "Assegnare un responsabile, una scadenza e un criterio di verifica"
+      "Registri solo una raccomandazione generica",
+      "Indichi chi ne risponde, la scadenza e il criterio di verifica"
     ],
     "correct": 1,
-    "explanation": "Un’azione verificabile permette di misurare il miglioramento.",
+    "explanation": "Il responsabile sa che cosa deve fare e il criterio concordato permette di verificare il risultato.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2225,13 +2225,13 @@
     "id": "BCP-011",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Quale prova dimostra che un backup è utilizzabile?",
+    "question": "Quale prova mostra che i dati contenuti in un backup sono recuperabili?",
     "options": [
       "Leggere il nome del file di backup",
-      "Ripristino verificato di un campione rappresentativo"
+      "Ripristinare un campione rappresentativo e verificarne il contenuto"
     ],
     "correct": 1,
-    "explanation": "Il ripristino verifica disponibilità e leggibilità del contenuto.",
+    "explanation": "Il ripristino del campione permette di controllare che i dati esaminati siano disponibili e leggibili.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2239,10 +2239,10 @@
     "id": "BCP-012",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Una sincronizzazione propaga una cancellazione. Cosa aiuta a recuperare?",
+    "question": "Un file eliminato scompare anche dalla cartella sincronizzata. Che cosa può aiutarti a recuperarlo?",
     "options": [
-      "Versioni o copie precedenti recuperabili",
-      "Aumentare la frequenza della sola sincronizzazione"
+      "La cronologia delle versioni o una copia precedente",
+      "Una sincronizzazione più frequente"
     ],
     "correct": 0,
     "explanation": "La copia corrente può riflettere lo stesso errore della sorgente.",
@@ -2253,13 +2253,13 @@
     "id": "BCP-013",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Hai recuperato i dati ma manca la chiave di cifratura. Cosa doveva prevedere il piano?",
+    "question": "Hai recuperato i dati cifrati, ma manca la chiave per leggerli. Che cosa avrebbe dovuto prevedere il piano?",
     "options": [
       "Solo una copia ulteriore dei dati cifrati",
-      "Recupero protetto anche delle chiavi"
+      "Una procedura sicura per recuperare anche le chiavi"
     ],
     "correct": 1,
-    "explanation": "Il ripristino richiede anche le dipendenze critiche.",
+    "explanation": "Per leggere i dati ripristinati serve la chiave. Il piano deve prevedere come recuperarla in modo sicuro.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2267,7 +2267,7 @@
     "id": "BCP-014",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Quale obiettivo indica la perdita temporale di dati tollerabile?",
+    "question": "Quale obiettivo esprime, in termini di tempo, la massima perdita di dati tollerabile?",
     "options": [
       "RPO",
       "MTBF",
@@ -2275,7 +2275,7 @@
       "RTO"
     ],
     "correct": 0,
-    "explanation": "L’RPO esprime a quale punto temporale occorre poter recuperare i dati.",
+    "explanation": "Con un RPO (Recovery Point Objective) di 30 minuti, il punto di ripristino deve risalire al massimo a mezz’ora prima dell’interruzione.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2283,7 +2283,7 @@
     "id": "BCP-015",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Quale obiettivo riguarda il tempo disponibile per tornare operativi?",
+    "question": "Quale obiettivo indica il tempo entro cui si punta a ripristinare un servizio dopo un’interruzione?",
     "options": [
       "RPO",
       "MTTR misurato a consuntivo",
@@ -2291,7 +2291,7 @@
       "Numero massimo di copie"
     ],
     "correct": 2,
-    "explanation": "L’RTO descrive il tempo obiettivo di ripristino.",
+    "explanation": "Un RTO di quattro ore fissa l’obiettivo di rimettere in funzione il servizio entro quattro ore dall’interruzione.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2299,7 +2299,7 @@
     "id": "BCP-016",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Un servizio dipende da un fornitore esterno. Cosa verificare nel piano?",
+    "question": "Un servizio dipende da un fornitore esterno. Che cosa va verificato nel piano di continuità?",
     "options": [
       "Solo la data di firma del contratto",
       "Dipendenze, contatti e modalità di ripristino"
@@ -2313,13 +2313,13 @@
     "id": "BCP-017",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "A cosa serve una copia immutabile per un periodo definito?",
+    "question": "Quando imposti un periodo di immutabilità per un backup, quale risultato ottieni?",
     "options": [
-      "A limitare modifica e cancellazione delle copie",
-      "A garantire che i file originali siano corretti"
+      "La copia è protetta da modifiche e cancellazioni per quel periodo",
+      "È garantita la correttezza dei file originali"
     ],
     "correct": 0,
-    "explanation": "L’immutabilità protegge la copia; la qualità del contenuto richiede verifica.",
+    "explanation": "L’immutabilità protegge la copia così come è stata scritta. La correttezza del contenuto richiede una verifica separata.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2327,13 +2327,13 @@
     "id": "BCP-018",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Dopo un ripristino quale controllo compete anche agli utenti del servizio?",
+    "question": "Dopo un ripristino, quale prova è importante che svolgano anche gli utenti del servizio?",
     "options": [
-      "Controllare solo che il server risponda",
-      "Verificare le funzioni operative essenziali"
+      "Controllare soltanto che il server risponda",
+      "Verificare che le funzioni operative essenziali siano disponibili"
     ],
     "correct": 1,
-    "explanation": "Una risposta tecnica positiva non garantisce un processo utilizzabile.",
+    "explanation": "Un server può rispondere anche quando gli utenti non riescono ancora a svolgere il proprio lavoro.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -2341,13 +2341,13 @@
     "id": "BCP-019",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Durante una prova il recapito del fornitore è scaduto. Come chiudi il rilievo?",
+    "question": "Durante una prova scopri che il recapito del fornitore non è più attivo. Come risolvi il problema?",
     "options": [
-      "Rimando il controllo al prossimo incidente",
-      "Aggiorno il contatto e verifico il canale sostitutivo"
+      "Rimandi la verifica al prossimo incidente",
+      "Aggiorni il recapito e verifichi che il fornitore sia raggiungibile"
     ],
     "correct": 1,
-    "explanation": "Un piano di continuità dipende da riferimenti raggiungibili.",
+    "explanation": "In caso di interruzione, chi applica il piano deve poter contattare il fornitore.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2355,10 +2355,10 @@
     "id": "BCP-020",
     "category_id": "BCP",
     "category": "Cloud, backup e continuità",
-    "question": "Quali dati scegliere per la prima prova di ripristino di un processo critico?",
+    "question": "Quali elementi includi nella prima prova di ripristino di un processo critico?",
     "options": [
       "Soltanto il file più piccolo disponibile",
-      "Dati e dipendenze necessari a una funzione rappresentativa"
+      "I dati e le dipendenze necessari a verificare una funzione rappresentativa"
     ],
     "correct": 1,
     "explanation": "La prova deve misurare la capacità di riprendere il processo.",
@@ -2369,13 +2369,13 @@
     "id": "SSL-001",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un nuovo lavoratore nota un riparo danneggiato. A chi segnalarlo tempestivamente?",
+    "question": "Un nuovo lavoratore nota che il riparo di una macchina è danneggiato. A chi deve segnalarlo?",
     "options": [
-      "Al preposto o al responsabile secondo procedura",
+      "Al preposto o al responsabile indicato dalla procedura aziendale",
       "Solo al collega del turno successivo"
     ],
     "correct": 0,
-    "explanation": "La segnalazione attiva chi può mettere in sicurezza la situazione.",
+    "explanation": "Una segnalazione tempestiva permette a chi ne ha la responsabilità di mettere in sicurezza la macchina.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2383,15 +2383,15 @@
     "id": "SSL-002",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Chi rappresenta i lavoratori sui temi di salute e sicurezza?",
+    "question": "Chi rappresenta i lavoratori in materia di salute e sicurezza sul lavoro?",
     "options": [
       "Il rappresentante dei lavoratori per la sicurezza",
       "Il medico competente",
-      "Il responsabile acquisti",
+      "Il responsabile degli acquisti",
       "Il responsabile del servizio di prevenzione e protezione"
     ],
     "correct": 0,
-    "explanation": "L’RLS rappresenta i lavoratori per gli aspetti della salute e sicurezza.",
+    "explanation": "Questa figura, indicata con la sigla RLS, rappresenta i lavoratori sulle questioni che riguardano la loro salute e sicurezza sul lavoro.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2399,7 +2399,7 @@
     "id": "SSL-003",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quale ruolo sovrintende all’attività lavorativa e vigila sulle disposizioni ricevute?",
+    "question": "Chi sovrintende all’attività lavorativa e vigila sull’osservanza delle disposizioni di sicurezza?",
     "options": [
       "Il medico competente",
       "Il rappresentante sindacale",
@@ -2415,9 +2415,9 @@
     "id": "SSL-004",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un lavoratore riceve un’attrezzatura mai utilizzata. Cosa verifica prima dell’uso?",
+    "question": "Un lavoratore deve usare per la prima volta un’attrezzatura. Che cosa verifica prima di iniziare?",
     "options": [
-      "Di avere istruzioni, formazione e addestramento previsti",
+      "Di aver ricevuto le istruzioni, la formazione e l’addestramento previsti",
       "Che un collega la consideri semplice"
     ],
     "correct": 0,
@@ -2429,10 +2429,10 @@
     "id": "SSL-005",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "A cosa serve segnalare un mancato infortunio?",
+    "question": "A che cosa serve segnalare un mancato infortunio?",
     "options": [
-      "Registrare soltanto il costo dei materiali",
-      "Individuare condizioni da correggere prima di un danno"
+      "A registrare soltanto il costo dei materiali",
+      "A individuare condizioni da correggere prima che qualcuno si infortuni"
     ],
     "correct": 1,
     "explanation": "Un evento senza lesioni può rivelare una carenza di prevenzione.",
@@ -2457,7 +2457,7 @@
     "id": "SSL-007",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quando si introduce un nuovo processo cosa va riesaminato?",
+    "question": "Quando si introduce un nuovo processo, che cosa va riesaminato?",
     "options": [
       "Il rischio associato alle nuove modalità operative",
       "Solo il nome del reparto"
@@ -2471,7 +2471,7 @@
     "id": "SSL-008",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quale informazione rende più utile una segnalazione?",
+    "question": "Quali dettagli rendono più utile la segnalazione di un pericolo?",
     "options": [
       "Un giudizio generico sulla prudenza dei colleghi",
       "Luogo, situazione osservata e persone potenzialmente esposte"
@@ -2485,10 +2485,10 @@
     "id": "SSL-009",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "In una riunione di reparto emerge una difficoltà nell’uso dei DPI. Come gestirla?",
+    "question": "In una riunione di reparto emerge una difficoltà nell’uso dei dispositivi di protezione individuale (DPI). Come va affrontata?",
     "options": [
       "Lasciare ciascuno libero di rinunciarvi",
-      "Portarla ai referenti per verificare adeguatezza e modalità d’uso"
+      "Segnalarla ai referenti perché verifichino l’idoneità dei DPI e le modalità d’uso"
     ],
     "correct": 1,
     "explanation": "La difficoltà segnala una possibile esigenza di adattamento o formazione.",
@@ -2499,7 +2499,7 @@
     "id": "SSL-010",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quale documento registra la valutazione dei rischi e le misure previste?",
+    "question": "Quale documento riporta i rischi individuati e le misure di prevenzione e protezione previste?",
     "options": [
       "Il DVR",
       "Il registro delle presenze",
@@ -2507,7 +2507,7 @@
       "Il piano delle ferie"
     ],
     "correct": 0,
-    "explanation": "Il documento di valutazione collega i rischi alle misure di prevenzione e protezione.",
+    "explanation": "Il documento di valutazione dei rischi (DVR) collega i rischi individuati alle misure di prevenzione e protezione.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2515,10 +2515,10 @@
     "id": "SSL-011",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un cavo attraversa il passaggio. Quale rischio riconosci?",
+    "question": "Un cavo attraversa un corridoio. Qual è il rischio per chi passa?",
     "options": [
-      "Inciampo",
-      "Esposizione a rumore"
+      "Inciampare nel cavo",
+      "Esporsi al rumore"
     ],
     "correct": 0,
     "explanation": "Il cavo crea un ostacolo sul percorso pedonale.",
@@ -2529,13 +2529,13 @@
     "id": "SSL-012",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Vedi condensa su un pavimento liscio. Quale pericolo cambia subito?",
+    "question": "Su un pavimento liscio si è formata della condensa. Quale rischio aumenta?",
     "options": [
       "La presenza di radiazioni",
       "La possibilità di scivolare"
     ],
     "correct": 1,
-    "explanation": "Il bagnato può ridurre l’aderenza delle calzature.",
+    "explanation": "Sul pavimento bagnato le calzature possono perdere aderenza.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2557,10 +2557,10 @@
     "id": "SSL-014",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Uno scaffale mostra una deformazione dopo un urto. Come ti comporti?",
+    "question": "Dopo un urto, il montante di uno scaffale appare deformato. Come ti comporti?",
     "options": [
-      "Segnalo e faccio verificare prima di riutilizzare l’area interessata",
-      "Raddrizzo il montante con un attrezzo improvvisato"
+      "Segnali il danno e chiedi una verifica prima di riutilizzare l’area",
+      "Raddrizzi il montante con un attrezzo improvvisato"
     ],
     "correct": 0,
     "explanation": "La deformazione può compromettere la capacità portante.",
@@ -2571,13 +2571,13 @@
     "id": "SSL-015",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Una scatola nasconde la visuale durante il trasporto. Qual è il problema immediato?",
+    "question": "Una scatola ti copre la visuale mentre la trasporti. Qual è il problema immediato?",
     "options": [
-      "Variazione dell’umidità ambientale",
-      "Difficoltà a vedere ostacoli e persone"
+      "La variazione dell’umidità ambientale",
+      "La difficoltà di vedere ostacoli e persone sul percorso"
     ],
     "correct": 1,
-    "explanation": "La visibilità è parte della valutazione del percorso.",
+    "explanation": "Chi trasporta un carico deve poter vedere il percorso e le persone che lo attraversano.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2585,13 +2585,13 @@
     "id": "SSL-016",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Una tanica è priva di etichetta. Quale dato manca per utilizzarla in sicurezza?",
+    "question": "Trovi una tanica senza etichetta. Quali informazioni ti mancano per valutarne i rischi?",
     "options": [
-      "Identità del contenuto e indicazioni di pericolo",
-      "Prezzo di acquisto"
+      "L’identità del contenuto e le relative indicazioni di pericolo",
+      "Il prezzo d’acquisto"
     ],
     "correct": 0,
-    "explanation": "L’aspetto del liquido non identifica sostanza e rischi.",
+    "explanation": "L’aspetto del liquido non basta a identificare la sostanza o i suoi pericoli.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2599,13 +2599,13 @@
     "id": "SSL-017",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Rumore intenso impedisce di sentire i segnali. Quale rischio aggiuntivo emerge?",
+    "question": "Il rumore intenso in un reparto copre i segnali acustici. Quale rischio aggiuntivo ne deriva?",
     "options": [
-      "Aumento automatico della luce",
-      "Mancata percezione degli avvisi"
+      "Un aumento dell’illuminazione",
+      "La mancata percezione di un allarme"
     ],
     "correct": 1,
-    "explanation": "Oltre all’esposizione sonora va considerata la comunicazione degli allarmi.",
+    "explanation": "Nel valutare il rumore occorre considerare anche se i lavoratori riescono a sentire gli allarmi.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2617,11 +2617,11 @@
     "options": [
       "Lavoro discontinuo con recupero completo",
       "Alternanza regolare di compiti differenti",
-      "Serie frequenti dello stesso gesto con recupero insufficiente",
+      "Ripetizione frequente dello stesso gesto con pause insufficienti",
       "Spostamenti occasionali a mani libere"
     ],
     "correct": 2,
-    "explanation": "Frequenza, forza e recupero contribuiscono al carico biomeccanico.",
+    "explanation": "La frequenza dei gesti, la forza richiesta e il tempo di recupero contribuiscono al carico biomeccanico.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2643,9 +2643,9 @@
     "id": "SSL-020",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Due imprese lavorano contemporaneamente nella stessa zona. Quale rischio aggiuntivo valutare?",
+    "question": "Quando due imprese lavorano contemporaneamente nella stessa zona, che cosa occorre valutare?",
     "options": [
-      "Interferenze tra attività",
+      "Le possibili interferenze tra le attività",
       "Solo il numero di badge emessi"
     ],
     "correct": 0,
@@ -2657,13 +2657,13 @@
     "id": "SSL-021",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "È possibile eliminare alla fonte un pericolo. Come si colloca questa scelta?",
+    "question": "Se è possibile eliminare un pericolo alla fonte, quale priorità ha questa misura?",
     "options": [
       "Ha priorità rispetto alla sola protezione individuale",
       "È equivalente alla sola affissione di cartelli"
     ],
     "correct": 0,
-    "explanation": "La prevenzione privilegia l’eliminazione o riduzione del rischio alla fonte.",
+    "explanation": "La prevenzione privilegia l’eliminazione dei rischi o, quando ciò non è possibile, la loro riduzione alla fonte.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2671,7 +2671,7 @@
     "id": "SSL-022",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quale misura è una protezione collettiva?",
+    "question": "Quale di queste misure offre una protezione collettiva?",
     "options": [
       "Un paio di guanti protettivi",
       "Un parapetto adeguato",
@@ -2689,11 +2689,11 @@
     "category": "Salute e sicurezza nei luoghi di lavoro",
     "question": "Un DPI è visibilmente danneggiato. Come procedi?",
     "options": [
-      "Lo riparo con nastro e proseguo sempre",
-      "Ne segnalo il difetto e richiedo la sostituzione prima dell’uso"
+      "Lo ripari con nastro adesivo e continui a usarlo",
+      "Segnali il difetto e chiedi la sostituzione del DPI prima di usarlo"
     ],
     "correct": 1,
-    "explanation": "Il danno può compromettere la prestazione protettiva prevista.",
+    "explanation": "Il danno può compromettere la protezione offerta dal dispositivo.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2701,10 +2701,10 @@
     "id": "SSL-024",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Due DPI devono essere indossati insieme. Cosa verificare?",
+    "question": "Devi indossare due DPI contemporaneamente. Che cosa verifichi?",
     "options": [
-      "La compatibilità e l’efficacia della combinazione",
-      "Solo che abbiano lo stesso colore"
+      "Che siano compatibili e che entrambi restino efficaci",
+      "Soltanto che abbiano lo stesso colore"
     ],
     "correct": 0,
     "explanation": "Un dispositivo può alterare la tenuta o il posizionamento dell’altro.",
@@ -2715,13 +2715,13 @@
     "id": "SSL-025",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Come si seleziona un guanto per una sostanza chimica?",
+    "question": "Che cosa consideri quando scegli i guanti per manipolare una sostanza chimica?",
     "options": [
-      "In base a rischio, sostanza e indicazioni tecniche applicabili",
-      "Solo in base allo spessore visibile"
+      "La sostanza, il rischio di esposizione e le indicazioni tecniche dei guanti",
+      "Solo lo spessore visibile dei guanti"
     ],
     "correct": 0,
-    "explanation": "Materiali diversi resistono diversamente al contatto con le sostanze.",
+    "explanation": "La resistenza del materiale dipende dalla sostanza con cui entra in contatto.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2729,15 +2729,15 @@
     "id": "SSL-026",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quale misura affronta i vapori direttamente al punto di emissione?",
+    "question": "Quale misura permette di captare i vapori nel punto in cui vengono emessi?",
     "options": [
       "Una barriera acustica",
       "Un armadietto per i DPI",
-      "Spostamento del cartello di avviso",
-      "Aspirazione localizzata adeguata"
+      "Lo spostamento del cartello di avviso",
+      "Un impianto di aspirazione localizzata"
     ],
     "correct": 3,
-    "explanation": "La captazione alla sorgente limita la diffusione nell’ambiente.",
+    "explanation": "Aspirare i vapori alla sorgente ne limita la diffusione nell’ambiente.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2745,13 +2745,13 @@
     "id": "SSL-027",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Una protezione impedisce di raggiungere parti mobili. Quando può essere esclusa per velocizzare il lavoro?",
+    "question": "Per velocizzare una lavorazione, si può disattivare un riparo che impedisce di raggiungere le parti mobili?",
     "options": [
-      "Mai per accelerare la produzione",
-      "Quando il lavoratore ha molta esperienza"
+      "No, l’esigenza di accelerare la produzione non lo giustifica",
+      "Sì, se il lavoratore ha molta esperienza"
     ],
     "correct": 0,
-    "explanation": "L’esperienza non sostituisce la funzione di sicurezza del riparo.",
+    "explanation": "Il riparo impedisce il contatto con le parti mobili anche a chi conosce bene la macchina.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2759,7 +2759,7 @@
     "id": "SSL-028",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un reparto introduce una sostanza meno pericolosa. Che tipo di intervento è?",
+    "question": "Un reparto passa a una sostanza meno pericolosa per la stessa lavorazione. Che tipo di intervento è?",
     "options": [
       "Sola protezione individuale",
       "Sostituzione per ridurre il rischio alla fonte",
@@ -2767,7 +2767,7 @@
       "Formazione sui segnali"
     ],
     "correct": 1,
-    "explanation": "La sostituzione modifica il pericolo prima dell’esposizione.",
+    "explanation": "La scelta di una sostanza meno pericolosa riduce il rischio all’origine.",
     "difficulty": "Avanzato",
     "type": "MULTI"
   },
@@ -2775,13 +2775,13 @@
     "id": "SSL-029",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quale elemento aiuta a verificare l’efficacia di una misura preventiva?",
+    "question": "Come verifichi l’efficacia di una misura preventiva?",
     "options": [
-      "Osservare e misurare il rischio residuo dopo l’intervento",
-      "Registrare soltanto la spesa sostenuta"
+      "Valuti il rischio residuo dopo l’intervento",
+      "Registri soltanto la spesa sostenuta"
     ],
     "correct": 0,
-    "explanation": "La misura va giudicata rispetto alla riduzione effettiva del rischio.",
+    "explanation": "Il confronto con la situazione iniziale mostra quanto si sia ridotto il rischio.",
     "difficulty": "Avanzato",
     "type": "AB"
   },
@@ -2789,10 +2789,10 @@
     "id": "SSL-030",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quando si usa un DPI assegnato individualmente, quali indicazioni seguire per conservarlo?",
+    "question": "Come conservi un DPI assegnato a uso individuale?",
     "options": [
-      "Quelle definite per il dispositivo e il luogo di lavoro",
-      "Quelle valide per qualunque capo di abbigliamento"
+      "Segui le istruzioni previste per quel dispositivo e per il luogo di lavoro",
+      "Segui le regole valide per un qualunque capo di abbigliamento"
     ],
     "correct": 0,
     "explanation": "Conservazione e manutenzione influiscono sulle prestazioni.",
@@ -2803,13 +2803,13 @@
     "id": "SSL-031",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Per raggiungere un ripiano alto in ufficio quale scelta è corretta?",
+    "question": "Devi raggiungere un ripiano alto in ufficio. Che cosa usi?",
     "options": [
-      "Usare un’attrezzatura idonea secondo le istruzioni",
-      "Salire su una sedia con ruote bloccate"
+      "Un’attrezzatura idonea, seguendo le istruzioni d’uso",
+      "Una sedia da ufficio con le ruote bloccate"
     ],
     "correct": 0,
-    "explanation": "Una sedia da ufficio non è progettata come attrezzatura per accesso in altezza.",
+    "explanation": "Una sedia da ufficio non è progettata per raggiungere ripiani alti.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2817,13 +2817,13 @@
     "id": "SSL-032",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un riflesso sul monitor ostacola la lettura. Cosa modificare per prima cosa?",
+    "question": "Un riflesso sul monitor ti impedisce di leggere bene. Che cosa regoli per prima cosa?",
     "options": [
       "Solo il volume degli altoparlanti",
-      "Orientamento dello schermo e illuminazione"
+      "L’orientamento dello schermo e l’illuminazione"
     ],
     "correct": 1,
-    "explanation": "La disposizione della postazione influenza riflessi e abbagliamento.",
+    "explanation": "La posizione dello schermo rispetto alle fonti di luce influisce sui riflessi e sull’abbagliamento.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2833,7 +2833,7 @@
     "category": "Salute e sicurezza nei luoghi di lavoro",
     "question": "Quale regolazione facilita una postura confortevole al videoterminale?",
     "options": [
-      "Adattare seduta e piano di lavoro alla persona",
+      "Adattare la seduta e il piano di lavoro alla persona",
       "Usare la stessa altezza per tutti"
     ],
     "correct": 0,
@@ -2845,13 +2845,13 @@
     "id": "SSL-034",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Prima di spostare un carico ingombrante cosa valuti oltre al peso?",
+    "question": "Prima di spostare un carico ingombrante, che cosa valuti oltre al peso?",
     "options": [
-      "Presa, percorso, ingombro e ausili disponibili",
+      "La presa, il percorso, le dimensioni del carico e gli ausili disponibili",
       "Solo il colore dell’imballo"
     ],
     "correct": 0,
-    "explanation": "La movimentazione dipende anche da geometria, ambiente e modalità operative.",
+    "explanation": "La forma del carico, lo spazio disponibile e il modo in cui lo si afferra incidono sulla movimentazione.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2861,11 +2861,11 @@
     "category": "Salute e sicurezza nei luoghi di lavoro",
     "question": "Una presa elettrica mostra segni di bruciatura. Cosa fai?",
     "options": [
-      "Sospendo l’utilizzo e segnalo per verifica qualificata",
-      "Sposto la spina per cercare un contatto migliore"
+      "Smetti di usare la presa e segnali il problema perché venga controllata",
+      "Sposti la spina per cercare un contatto migliore"
     ],
     "correct": 0,
-    "explanation": "Il danno può indicare un guasto che richiede controllo competente.",
+    "explanation": "I segni di bruciatura possono indicare un guasto. La presa deve essere controllata da personale qualificato.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2873,15 +2873,15 @@
     "id": "SSL-036",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Quale condizione verificare prima di usare una scala portatile?",
+    "question": "Che cosa verifichi prima di usare una scala portatile?",
     "options": [
-      "Integrità, stabilità e idoneità all’attività",
+      "Che sia integra, stabile e adatta al lavoro da svolgere",
       "Il numero di persone in reparto",
       "Il solo anno di acquisto",
       "Solo l’altezza raggiungibile"
     ],
     "correct": 0,
-    "explanation": "La sicurezza dipende dall’attrezzatura e dalle condizioni di appoggio e impiego.",
+    "explanation": "L’uso sicuro della scala dipende anche dalle condizioni di appoggio e dal tipo di attività.",
     "difficulty": "Base",
     "type": "MULTI"
   },
@@ -2889,13 +2889,13 @@
     "id": "SSL-037",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "La scheda di sicurezza di un prodotto dove aiuta concretamente?",
+    "question": "A che cosa serve la scheda di dati di sicurezza di un prodotto chimico?",
     "options": [
-      "Nella determinazione del prezzo di vendita",
-      "Nella scelta di precauzioni per uso e stoccaggio"
+      "A stabilire il prezzo di vendita",
+      "A scegliere le precauzioni per l’uso e lo stoccaggio"
     ],
     "correct": 1,
-    "explanation": "La scheda raccoglie informazioni sui pericoli e sulla gestione sicura.",
+    "explanation": "La scheda descrive i pericoli del prodotto e le precauzioni per manipolarlo e conservarlo in sicurezza.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2903,10 +2903,10 @@
     "id": "SSL-038",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Una macchina si inceppa durante il lavoro. Quale procedura seguire?",
+    "question": "Una macchina si inceppa durante il lavoro. Come procedi?",
     "options": [
-      "Fermarla e applicare la procedura prevista per la messa in sicurezza",
-      "Inserire subito la mano nella zona di lavoro"
+      "La fermi e applichi la procedura prevista per metterla in sicurezza",
+      "Inserisci subito la mano nella zona di lavoro"
     ],
     "correct": 0,
     "explanation": "L’energia residua o il riavvio possono causare lesioni.",
@@ -2917,13 +2917,13 @@
     "id": "SSL-039",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Il corridoio di esodo è usato come deposito temporaneo. Come gestirlo?",
+    "question": "Un corridoio lungo la via di esodo è usato come deposito temporaneo. Che cosa fai?",
     "options": [
-      "Far ripristinare e mantenere libero il passaggio",
-      "Lasciare gli oggetti fino alla prossima esercitazione"
+      "Fai liberare il passaggio e verifichi che rimanga sgombro",
+      "Lasci gli oggetti fino alla prossima esercitazione"
     ],
     "correct": 0,
-    "explanation": "Le vie di esodo devono essere disponibili anche per emergenze impreviste.",
+    "explanation": "Le vie di esodo devono essere percorribili in caso di emergenza.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2931,13 +2931,13 @@
     "id": "SSL-040",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un collega propone una modifica artigianale a un utensile. Cosa serve prima di usarlo?",
+    "question": "Un collega propone una modifica artigianale a un utensile. Che cosa occorre verificare prima di usare l’utensile modificato?",
     "options": [
-      "Il solo consenso degli operatori del turno",
-      "Valutazione e autorizzazione secondo la procedura aziendale"
+      "Che gli operatori del turno siano d’accordo",
+      "Che la modifica sia stata valutata e autorizzata secondo la procedura aziendale"
     ],
     "correct": 1,
-    "explanation": "Una modifica può cambiare funzionamento e condizioni di sicurezza.",
+    "explanation": "Una modifica può alterare il funzionamento dell’utensile e la sicurezza di chi lo usa.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -2945,13 +2945,13 @@
     "id": "SSL-041",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Suona l’allarme di evacuazione previsto dal piano. Cosa segui?",
+    "question": "Suona l’allarme di evacuazione. Come raggiungi il punto di raccolta?",
     "options": [
-      "Il percorso più comodo anche se interdetto",
-      "I percorsi e le indicazioni degli addetti"
+      "Scegli il percorso più comodo, anche se interdetto",
+      "Segui i percorsi previsti dal piano e le indicazioni degli addetti"
     ],
     "correct": 1,
-    "explanation": "Il piano coordina l’uscita e tiene conto delle vie previste.",
+    "explanation": "Il piano individua le vie di esodo e assegna agli addetti il compito di coordinare l’uscita.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2959,10 +2959,10 @@
     "id": "SSL-042",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Una volta al punto di raccolta cosa fai?",
+    "question": "Una volta al punto di raccolta, che cosa fai?",
     "options": [
-      "Mi allontano senza informare nessuno",
-      "Resto disponibile per la verifica delle presenze"
+      "Ti allontani senza informare nessuno",
+      "Resti a disposizione per la verifica delle presenze"
     ],
     "correct": 1,
     "explanation": "L’allontanamento può far risultare una persona dispersa.",
@@ -2973,13 +2973,13 @@
     "id": "SSL-043",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Noti fumo in un locale. Quale informazione aiuta gli addetti?",
+    "question": "Noti del fumo in un locale. Che cosa riferisci agli addetti?",
     "options": [
-      "Posizione esatta e ciò che hai osservato da luogo sicuro",
+      "Il luogo esatto e ciò che hai osservato da una posizione sicura",
       "Una stima non verificata dei danni economici"
     ],
     "correct": 0,
-    "explanation": "Localizzazione e condizioni osservate aiutano ad attivare la risposta.",
+    "explanation": "Sapere dove si trova il fumo e che cosa hai visto aiuta gli addetti a organizzare l’intervento.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -2990,7 +2990,7 @@
     "question": "Quando si può rientrare dopo un’evacuazione?",
     "options": [
       "Dopo dieci minuti dal primo segnale",
-      "Al via libera dei responsabili previsti dal piano",
+      "Quando i responsabili indicati nel piano danno il via libera",
       "Quando rientra un singolo collega",
       "Appena l’allarme sonoro cessa"
     ],
@@ -3003,13 +3003,13 @@
     "id": "SSL-045",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un collega si infortuna. Qual è il riferimento per attivare i soccorsi interni?",
+    "question": "Un collega si infortuna. Come attivi i soccorsi interni?",
     "options": [
-      "Il prossimo incontro periodico di reparto",
-      "La procedura di emergenza e gli addetti al primo soccorso"
+      "Aspetti la prossima riunione periodica di reparto",
+      "Segui la procedura di emergenza e avvisi gli addetti al primo soccorso"
     ],
     "correct": 1,
-    "explanation": "La risposta deve essere tempestiva e coordinata con personale preparato.",
+    "explanation": "La procedura indica chi contattare affinché il personale incaricato possa intervenire tempestivamente.",
     "difficulty": "Intermedio",
     "type": "AB"
   },
@@ -3017,10 +3017,10 @@
     "id": "SSL-046",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un visitatore è presente durante un allarme. Come lo aiuti?",
+    "question": "Un visitatore è con te quando suona l’allarme di evacuazione. Come lo aiuti?",
     "options": [
-      "Lo mando da solo a cercare l’ingresso principale",
-      "Gli indico le istruzioni di esodo previste sul posto"
+      "Lo mandi da solo a cercare l’ingresso principale",
+      "Gli spieghi come raggiungere il punto di raccolta seguendo il percorso previsto"
     ],
     "correct": 1,
     "explanation": "I visitatori possono non conoscere percorsi e punti di raccolta.",
@@ -3031,13 +3031,13 @@
     "id": "SSL-047",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Perché non tornare alla scrivania per recuperare oggetti durante l’esodo?",
+    "question": "Perché durante l’evacuazione devi proseguire senza tornare alla scrivania a prendere un oggetto?",
     "options": [
-      "Il ritorno può esporre al pericolo e intralciare il flusso",
-      "Gli oggetti sono sempre sostituiti dall’azienda"
+      "Perché puoi esporti al pericolo e ostacolare l’uscita degli altri",
+      "Perché l’azienda sostituisce sempre gli oggetti lasciati in ufficio"
     ],
     "correct": 0,
-    "explanation": "La priorità è raggiungere il luogo sicuro secondo il piano.",
+    "explanation": "La priorità è raggiungere il luogo sicuro indicato nel piano.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -3045,10 +3045,10 @@
     "id": "SSL-048",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Un’uscita indicata è impraticabile durante l’emergenza. Come ti orienti?",
+    "question": "Durante un’emergenza, una delle uscite indicate è impraticabile. Come ti orienti?",
     "options": [
-      "Seguo le alternative previste e le indicazioni degli addetti",
-      "Forzo il passaggio anche in presenza di pericolo"
+      "Segui i percorsi alternativi previsti e le indicazioni degli addetti",
+      "Forzi il passaggio anche in presenza di pericolo"
     ],
     "correct": 0,
     "explanation": "L’esodo deve adattarsi alle condizioni reali e ai percorsi sicuri.",
@@ -3059,13 +3059,13 @@
     "id": "SSL-049",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Cosa rende utile il confronto dopo una prova di evacuazione?",
+    "question": "Dopo una prova di evacuazione, che cosa rende utile il confronto tra i partecipanti?",
     "options": [
       "Registrare soltanto il numero degli invitati",
-      "Raccogliere criticità e assegnare azioni correttive"
+      "Individuare le difficoltà emerse e assegnare le azioni correttive"
     ],
     "correct": 1,
-    "explanation": "Le osservazioni permettono di migliorare organizzazione e percorsi.",
+    "explanation": "Le osservazioni di chi ha partecipato aiutano a migliorare l’organizzazione e i percorsi di esodo.",
     "difficulty": "Base",
     "type": "AB"
   },
@@ -3073,13 +3073,13 @@
     "id": "SSL-050",
     "category_id": "SSL",
     "category": "Salute e sicurezza nei luoghi di lavoro",
-    "question": "Durante una chiamata di soccorso quale informazione agevola l’arrivo della squadra?",
+    "question": "Durante una chiamata di soccorso, quali informazioni aiutano la squadra a raggiungere il luogo dell’emergenza?",
     "options": [
-      "Indirizzo, accesso utile e natura dell’evento",
+      "L’indirizzo, il punto di accesso e la natura dell’emergenza",
       "Soltanto la denominazione commerciale dell’azienda"
     ],
     "correct": 0,
-    "explanation": "Indicazioni precise aiutano a localizzare il luogo e predisporre l’intervento.",
+    "explanation": "Queste indicazioni aiutano i soccorritori a individuare l’ingresso e a preparare l’intervento.",
     "difficulty": "Intermedio",
     "type": "AB"
   }

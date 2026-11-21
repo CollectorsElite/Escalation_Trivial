@@ -1,12 +1,13 @@
 """Validation and representation shared by the bundled catalogue and the editor."""
 import json
+import unicodedata
 from pathlib import Path
 
 LEVELS = ('Base', 'Intermedio', 'Avanzato')
 
 
 def normalized(value):
-    return ' '.join(value.casefold().split())
+    return unicodedata.normalize('NFC',' '.join(value.casefold().split()))
 
 
 def validate_question(q):
