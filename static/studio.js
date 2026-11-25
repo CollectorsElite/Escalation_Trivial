@@ -58,7 +58,7 @@ function previewQuestion(id) {
     (q.revision ? 'Catalogo di base · Modificata dal docente' : 'Catalogo di base');
   modal('Dettaglio domanda',`${topic(q)}
     <div class="muted small gap-top">${esc(questionCode(q))} · ${esc(q.difficulty)} · ${origin}</div>
-    <h3 class="preview-title">${esc(q.text)}</h3><div class="options preview-options">${q.options.map((v,i)=>optionRow(v,i,{correct:i===q.correct})).join('')}</div>
+    <h3 class="preview-title">${esc(q.text)}</h3>${questionImage(q)}<div class="options preview-options">${q.options.map((v,i)=>optionRow(v,i,{correct:i===q.correct})).join('')}</div>
     <div class="explain">${icon('info')}<p>${esc(q.explanation)}</p></div>`,
     act('edit-question','Modifica domanda','edit','primary',`data-id="${esc(id)}"`) +
       act('copy-question','Crea una copia','copy','soft',`data-id="${esc(id)}"`));

@@ -38,7 +38,7 @@ def export(browser, game):
 def play_catalogue(browser, app):
     questions = payload(browser.get('/api/admin/overview'))['questions']
     ids = [q['id'] for q in questions]
-    assert len(set(ids)) == len(ids) == 210
+    assert len(set(ids)) == len(ids) == 237
     bonus = {qid: 1 + index % 3 for index, qid in enumerate(ids)}
     game = payload(browser.post('/api/admin/create', json={
         'ids':ids, 'duration':60, 'multipliers':bonus, 'bets':True, 'revealOnComplete':False
@@ -122,19 +122,19 @@ def play_catalogue(browser, app):
         end_b = take(peer, 'snapshot', 'finished')['me']
     assert end_b['rank'] == 1 and end_a['rank'] == 2
     recap = end_a['summary']
-    assert (recap['correct'],recap['wrong'],recap['missed']) == (70,70,70)
+    assert (recap['correct'],recap['wrong'],recap['missed']) == (79,79,79)
     assert recap['base'] + recap['bonus'] + recap['stake'] == total_a
     published = export(browser, game)
-    assert (int(published['Nicolò']['Punteggio']), int(published['Nicolò']['Risposte inviate'])) == (total_a, 140)
-    assert (int(published['Orione']['Punteggio']), int(published['Orione']['Risposte corrette'])) == (total_b, 210)
+    assert (int(published['Nicolò']['Punteggio']), int(published['Nicolò']['Risposte inviate'])) == (total_a, 158)
+    assert (int(published['Orione']['Punteggio']), int(published['Orione']['Risposte corrette'])) == (total_b, 237)
     reviews = payload(browser.post('/api/player/review',json=identity(first)))['rounds']
-    assert len(reviews)==210 and [r['outcome'] for r in reviews] == ['correct','wrong','missed']*70
+    assert len(reviews)==237 and [r['outcome'] for r in reviews] == ['correct','wrong','missed']*79
     teacher=payload(browser.get('/api/admin/overview'))['snapshot']
     projection=payload(browser.get('/api/screen'))
     assert projection['leaderboard']==teacher['leaderboard']
-    assert len(teacher['lesson']['areas'])==9
-    assert sum(a[1] for a in teacher['lesson']['areas'].values())==350
-    print('OK 210 round, 350 risposte, 9 categorie, velocità 1000/750/501, bonus e Raddoppi, classifica, CSV e ripasso')
+    assert len(teacher['lesson']['areas'])==10
+    assert sum(a[1] for a in teacher['lesson']['areas'].values())==395
+    print('OK 237 round, 395 risposte, 10 categorie, velocità 1000/750/501, bonus e Raddoppi, classifica, CSV e ripasso')
 
 
 def staff_sessions(browser, app, password):

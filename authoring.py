@@ -1,5 +1,6 @@
 """Shared teacher sets and editable questions, stored on the game's SQLite volume."""
 from contextlib import contextmanager
+import asyncio
 import json
 import re
 import secrets
@@ -7,6 +8,7 @@ import time
 
 from fastapi import APIRouter, HTTPException, Request
 from catalogue import decode_question, normalized, question_values, validate_question
+from question_media import MAX_QUESTION_BODY, apply_media, normalize_upload, release_unused
 
 
 @contextmanager
@@ -20,14 +22,29 @@ def transaction(db):
         raise
 
 
-async def read_object(request):
+async def read_object(request, limit=None):
     try:
-        body = await request.json()
+        if limit is None:
+            body = await request.json()
+        else:
+            raw = bytearray()
+            async for chunk in request.stream():
+                if len(raw) + len(chunk) > limit:
+                    raise HTTPException(413, detail='La domanda supera il limite consentito. Scegli un’immagine fino a 5 MB.')
+                raw.extend(chunk)
+            body = json.loads(raw)
     except (ValueError, UnicodeError):
         raise HTTPException(400, detail='La richiesta non contiene dati validi.')
     if not isinstance(body, dict):
         raise HTTPException(400, detail='Formato della richiesta non valido.')
     return body
+
+
+async def read_question(request):
+    body = await read_object(request, MAX_QUESTION_BODY)
+    if 'imageUpload' not in body:
+        return body, None
+    return body, await asyncio.to_thread(normalize_upload, body.pop('imageUpload'))
 
 
 def checked_ids(db, ids):
@@ -113,7 +130,7 @@ def category_for(db, body):
     return 'CAT-' + secrets.token_hex(8), name
 
 
-def editor_question(db, body, qid):
+def editor_question(db, body, qid, current, upload):
     cid, name = category_for(db, body)
     options = body.get('options')
     if not isinstance(options, list) or len(options) not in (2, 4):
@@ -123,6 +140,9 @@ def editor_question(db, body, qid):
              options=[short_text(v, 'Alternativa', 240) for v in options],
              correct=body.get('correct'), explanation=short_text(body.get('explanation'), 'Spiegazione', 1200),
              type='AB' if len(options)==2 else 'MULTI')
+    image_id, alt = apply_media(db, body, current, upload)
+    if image_id:
+        q.update(image=image_id, imageAlt=alt)
     try:
         validate_question(q)
     except ValueError as error:
@@ -131,6 +151,7 @@ def editor_question(db, body, qid):
     for stored in db.execute('SELECT * FROM questions WHERE id<>?', (qid,)):
         if (normalized(stored['question']) == normalized(q['question']) and
                 stored['category_id'] == cid and stored['difficulty'] == q['difficulty'] and
+                stored['image_id'] == image_id and
                 stored['correct'] == q['correct'] and normalized(stored['explanation']) == normalized(q['explanation']) and
                 [normalized(v) for v in json.loads(stored['options_json'])] == [normalized(v) for v in q['options']]):
             raise HTTPException(409, detail='Nel catalogo esiste già una domanda con questi contenuti.')
@@ -221,39 +242,40 @@ def teacher_routes(db, require_admin, lock):
     @router.post('/catalogue')
     async def create_question(request: Request):
         require_admin(request)
-        body = await read_object(request)
+        body, upload = await read_question(request)
         qid = new_id(body, 'DOC-')
         async with lock:
             with transaction(db):
-                q = editor_question(db, body, qid)
+                q = editor_question(db, body, qid, {}, upload)
                 existing = db.execute('SELECT * FROM questions WHERE id=?', (qid,)).fetchone()
                 if existing:
                     stored = decode_question(existing)
-                    expected = dict(id=qid, category_id=q['category_id'], category=q['category'], text=q['question'],
-                                    options=q['options'], correct=q['correct'], explanation=q['explanation'],
-                                    difficulty=q['difficulty'], type=q['type'])
+                    expected = dict(q)
+                    expected['text'] = expected.pop('question')
                     if not existing['revision'] or stored != expected:
                         raise HTTPException(409, detail='Questa domanda è già stata salvata e modificata.')
                 else:
                     db.execute('''INSERT INTO questions(id,category_id,category,question,options_json,correct,explanation,
-                        difficulty,type,revision) VALUES (?,?,?,?,?,?,?,?,?,1)''', question_values(q))
+                        difficulty,type,image_id,image_alt,revision) VALUES (?,?,?,?,?,?,?,?,?,?,?,1)''', question_values(q))
             return fetch_question(qid)
 
     @router.put('/catalogue/{qid}')
     async def update_question(qid: str, request: Request):
         require_admin(request)
-        body = await read_object(request)
+        body, upload = await read_question(request)
         async with lock:
             with transaction(db):
                 current = fetch_question(qid)
                 check_revision(current, body, 'question_changed')
-                q = editor_question(db, body, qid)
+                q = editor_question(db, body, qid, current, upload)
                 # A base question saved without any edits still receives future catalogue updates.
-                fields = ('category_id', 'category', 'difficulty', 'options', 'correct', 'explanation', 'type')
-                if current['text'] == q['question'] and all(current[k] == q[k] for k in fields):
+                fields = ('category_id', 'category', 'difficulty', 'options', 'correct', 'explanation', 'type', 'image', 'imageAlt')
+                if current['text'] == q['question'] and all(current.get(k) == q.get(k) for k in fields):
                     return current
                 db.execute('''UPDATE questions SET category_id=?,category=?,question=?,options_json=?,correct=?,
-                    explanation=?,difficulty=?,type=?,revision=revision+1 WHERE id=?''', (*question_values(q)[1:], qid))
+                    explanation=?,difficulty=?,type=?,image_id=?,image_alt=?,revision=revision+1 WHERE id=?''', (*question_values(q)[1:], qid))
+                if current.get('image') and current['image'] != q.get('image'):
+                    release_unused(db, current['image'])
             return fetch_question(qid)
 
     return router

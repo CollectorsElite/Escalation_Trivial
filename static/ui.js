@@ -44,7 +44,8 @@ function icon(name, cls='') {
 const topics = {
   SSL:['shield','Sicurezza sul lavoro','#f6c772'], PHI:['mail','Phishing','#ffb183'], AUT:['key','Autenticazione','#ffce62'], MAL:['bug','Malware','#f1a6a1'],
   NET:['net','Reti e web','#96c9ff'], PRI:['lock','Privacy','#c8adf4'], OPS:['shield','Pratiche sicure','#a5d99d'],
-  SOC:['activity','SOC e incidenti','#91d8d0'], BCP:['cloud','Cloud e backup','#a5baff']
+  SOC:['activity','SOC e incidenti','#91d8d0'], BCP:['cloud','Cloud e backup','#a5baff'],
+  PCTO:['cards','PCTO','#a6ddc9']
 };
 function topic(q) {const t=topics[q?.category_id] || ['layers',q?.category || 'Quiz','#b8c6bd'];return `<span class="topic" style="--t:${t[2]}">${icon(t[0])}${esc(t[1])}${q?.multiplier>1?' · Bonus ×'+q.multiplier:''}</span>`;}
 function act(name, label, sym, variant='soft', attrs='') {

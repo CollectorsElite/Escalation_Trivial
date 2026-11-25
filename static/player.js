@@ -91,6 +91,7 @@ function renderPlayerRound(s) {
     <section class="panel round player-card paper">
       <div class="round-line">${topic(q)}${timerBox()}</div>
       <h1 class="question" id="current-question" data-phase-focus tabindex="-1">${esc(q.text)}</h1>
+      ${questionImage(q)}
        ${s.game.bets?`<div class="stake-box"><button class="btn soft" type="button" data-action="wager" aria-pressed="false">Raddoppio</button><small>Se indovini aggiungi i punti base. Se sbagli perdi fino a 500 punti.</small></div>`:''}<div class="answer-keys ${short ? 'short-keys' : 'long-keys'} ${q.options.length===2 ? 'two-keys' : 'four-keys'}" role="group" aria-labelledby="current-question">${choices}</div>
       <div class="receipt" data-receipt role="status" aria-live="polite" aria-atomic="true"><span class="receipt-sign" aria-hidden="true"></span><span data-receipt-text></span></div>
     </section>${playerFoot(s.me || {})}</div>`, 'player-round');
@@ -183,7 +184,7 @@ function renderPlayerResult(s) {
       </div>
       ${solutionContent(q, a?.choice)}
       <details class="details-box"><summary>Rivedi domanda e opzioni</summary>
-        <div class="details-body">${topic(q)}<p class="detail-question">${esc(q.text)}</p><div class="options preview-options">${options}</div></div>
+        <div class="details-body">${topic(q)}<p class="detail-question">${esc(q.text)}</p>${questionImage(q,true)}<div class="options preview-options">${options}</div></div>
       </details>
     </article>
     <div class="personal-strip"><div><span>Posizione</span><b>${rankText(me)}</b></div><div><span>Punti totali</span><b>${fmt(me.score)} pt</b></div></div>
@@ -234,7 +235,7 @@ function fillReview(body, allRounds) {
     const [label, sym] = outcomeInfo(r.outcome);
     return `<details class="review-row details-box" data-outcome="${esc(r.outcome)}">
       <summary><span class="review-meta">${icon(sym)}${label} · Domanda ${r.number}</span><strong>${esc(r.text)}</strong></summary>
-      <div class="details-body"><p class="review-category">${esc(r.category)}</p>${solutionContent(r,r.choice)}</div>
+      <div class="details-body"><p class="review-category">${esc(r.category)}</p>${questionImage(r,true)}${solutionContent(r,r.choice)}</div>
     </details>`;
   }).join('');
   body.innerHTML = `<div class="review-filters" role="group" aria-label="Domande da visualizzare">

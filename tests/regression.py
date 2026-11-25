@@ -21,8 +21,8 @@ async def main():
         assert (await c.post('/api/admin/create',json={'ids':['PHI-001']})).status_code==401
         assert (await c.post('/api/admin/login',json={'password':'SuperSicuraDiTest-2026'})).status_code==200
         q=(await c.get('/api/admin/overview')).json()['questions']
-        assert len(q)==210 and len(set(x['id'] for x in q))==210
-        assert sum(x['type']=='AB' for x in q)==138
+        assert len(q)==237 and len(set(x['id'] for x in q))==237
+        assert sum(x['type']=='AB' for x in q)==141
         assert all(len(x['options']) in (2,4) and 0<=x['correct']<len(x['options']) for x in q)
         print('OK: auth and catalogue integrity')
         # Reject invalid inputs

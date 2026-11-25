@@ -4,6 +4,7 @@ Avviare separatamente il server e lanciare: python tests/integration.py --player
 import argparse
 import asyncio
 import csv
+import hashlib
 import io
 import json
 import time
@@ -21,26 +22,26 @@ async def main(n=10,url='http://127.0.0.1:8128'):
     print('Test su',url,'con',n,'giocatori')
     async with httpx.AsyncClient(base_url=url,timeout=30,limits=httpx.Limits(max_connections=150,max_keepalive_connections=50)) as c:
         health=(await c.get('/health')).json()
-        assert health['question_count']==210,health
+        assert health['question_count']==237,health
         assert (await c.get('/api/admin/overview')).status_code==401
         r=await c.post('/api/admin/login',json={'password':'SuperSicuraDiTest-2026'})
         assert r.status_code==200,r.text
         info=(await c.get('/api/admin/overview')).json()
         qs=info['questions']
-        assert len(qs)==210
-        assert len({q['id'] for q in qs})==210
-        assert len({q['category_id'] for q in qs})==9
+        assert len(qs)==237
+        assert len({q['id'] for q in qs})==237
+        assert len({q['category_id'] for q in qs})==10
         assert sum(q['type']=='AB' for q in qs)>0
-        selected=[next(q for q in qs if q['type']=='MULTI'),next(q for q in qs if q['type']=='AB')]
+        selected=[next(q for q in qs if q['id']=='PCTO-003'),next(q for q in qs if q['type']=='AB')]
         active=info['game']
         if active and active['status'] in ('lobby','question','results'):
             print('Annullamento precedente',active['pin'])
             r=await c.post('/api/admin/action',json={'action':'cancel'});assert r.status_code==200,r.text
-        r=await c.post('/api/admin/create',json={'ids':[q['id'] for q in selected],'duration':10})
+        r=await c.post('/api/admin/create',json={'ids':[q['id'] for q in selected],'duration':60})
         assert r.status_code==200,r.text
         game=r.json()['game'];pin=game['pin'];assert game['status']=='lobby'
         # Modifica lobby e conserva la selezione
-        r=await c.patch('/api/admin/questions',json={'ids':[q['id'] for q in selected],'duration':10})
+        r=await c.patch('/api/admin/questions',json={'ids':[q['id'] for q in selected],'duration':60})
         assert r.status_code==200,r.text
         async def join(i):
             data={'pin':pin,'nickname':f'CyberPlayer-{i:03d}'}
@@ -81,6 +82,14 @@ async def main(n=10,url='http://127.0.0.1:8128'):
         assert r.status_code==200,r.text
         start_msgs=await asyncio.gather(*(receive(s,'snapshot','question') for s in sockets))
         assert all(m['type']=='snapshot' and m['game']['status']=='question' for m in start_msgs)
+        image_id = selected[0]['image']
+        assert all(m['question']['image']==image_id and 'correct' not in m['question'] for m in start_msgs)
+        async def open_image():
+            photo = await c.get('/api/question-images/'+image_id)
+            assert photo.status_code==200 and photo.headers['content-type']=='image/webp'
+            assert hashlib.sha256(photo.content).hexdigest()==image_id
+        await asyncio.gather(*(open_image() for _ in players))
+        print(f'Immagine del quesito PCTO ricevuta da {n} client.')
         # Risposta corretta per tutti, invio in parallelo
         # L'ordine delle domande è quello selezionato, senza shuffle
         first_id=selected[0]['id']
@@ -126,7 +135,7 @@ async def main(n=10,url='http://127.0.0.1:8128'):
             assert me['tied']==participant['tied']
         print(f'Classifica completa, prime {min(10,n)} in proiezione e {len(export_rows)} righe CSV coerenti.')
         await asyncio.gather(*(s.close() for s in sockets))
-        print('TUTTI I TEST SUPERATI:',n,'giocatori; 210 domande; 9 categorie; risposte; punteggi; export; finale.')
+        print('TUTTI I TEST SUPERATI:',n,'giocatori; 237 domande; 10 categorie; risposte; punteggi; export; finale.')
 
 if __name__=='__main__':
     ap=argparse.ArgumentParser()

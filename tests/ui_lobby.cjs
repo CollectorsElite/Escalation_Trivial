@@ -30,7 +30,7 @@ function tab(shared,pathname='/') {
   const context=vm.createContext({document,window,navigator:{onLine:true},crypto,URL,URLSearchParams,
     WebSocket:Socket,location:{pathname,search:'',host:'localhost',origin:'http://localhost',protocol:'http:'},
     setInterval(){},setTimeout:fn=>{timers.set(++timerId,fn);return timerId;},clearTimeout:id=>timers.delete(id)});
-  for(const file of ['ui.js','studio.js','teacher.js','game.js','player.js','app.js']) {
+  for(const file of ['ui.js','question-media.js','studio.js','teacher.js','game.js','player.js','app.js']) {
     let source=fs.readFileSync(path.join(__dirname,'..','static',file),'utf8');
     if(file==='app.js') source=source.replace(/\nboot\(\);\s*$/,'');
     vm.runInContext(source,context,{filename:file});
@@ -82,6 +82,7 @@ async function questionEditor() {
     const view=tab(storage(),'/docente');
     const q={id,revision,category_id:'AUT',category:'Password e autenticazione',difficulty:'Base',
       text:'Quale password usi?',options:['La precedente','Una nuova'],correct:1,explanation:'Ogni servizio ha la sua password.'};
+    if (revision || copy) Object.assign(q,{image:'a'.repeat(64),imageAlt:'Traccia iniziale.'});
     view.context.question=q;
     view.run('state.questions=[question];state.selected.add(question.id);renderStudio=()=>{}');
     const dialog=view.dom.get('#dialog');
@@ -95,7 +96,10 @@ async function questionEditor() {
     const values={category:'AUT',newCategory:'',difficulty:'Base',text:'Quale password scegli?',
       format:'2',option0:q.options[0],option1:q.options[1],option2:'',option3:'',correct:'1',explanation:q.explanation};
     const elements=Object.fromEntries(Object.entries(values).map(([k,value])=>[k,{value}]));
-    const controls=new Map([['details',{open:false}],['[data-new-category]',{}]]);
+    elements.imageFile={value:'',files:[], setCustomValidity(error){this.error=error;}};
+    elements.imageAlt={value:q.imageAlt||''};
+    const controls=new Map([['details',{open:false}],['[data-new-category]',{}],
+      ['[data-editor-image]',{}],['[data-remove-image]',{}],['[data-image-description]',{}],['[data-image-feedback]',{hidden:true}]]);
     for (let i=0;i<4;i++) controls.set(`[data-option-row="${i}"]`,{querySelector:()=>({})});
     const form={elements,dataset:{},isConnected:true,querySelector:key=>controls.get(key)||null,querySelectorAll:()=>[]};
     view.dom.set('#question-form',form);
@@ -109,16 +113,86 @@ async function questionEditor() {
     view.context.action=copy?'copy-question':'edit-question';
     await view.run("perform(action,question.id)");
     assert.ok(dialog.innerHTML.includes(copy?'Copia domanda':'Salva modifiche'));
+    assert.ok(dialog.innerHTML.includes('Immagine della domanda'));
+    const holder=controls.get('[data-editor-image]'), remove=controls.get('[data-remove-image]');
+    if(q.image) assert.ok(holder.innerHTML.includes('/api/question-images/'+q.image));
+    let expectedImage=q.image||null;
+    if(revision===2) {
+      elements.imageFile.files=[{type:'image/svg+xml',size:50,name:'test.svg'}];
+      elements.imageFile.onchange();
+      assert.match(elements.imageFile.error,/JPG/);
+      assert.ok(holder.innerHTML.includes(q.image));
+      view.context.URL=class extends URL {
+        static createObjectURL(){return 'blob:anteprima';}
+        static revokeObjectURL(){}
+      };
+      view.context.FileReader=class {
+        readAsDataURL(){this.result='data:image/png;base64,QUJD';this.onload();}
+      };
+      elements.imageFile.files=[{type:'image/png',size:12,name:'nuova.png'}];
+      elements.imageFile.onchange();
+      assert.equal(elements.imageFile.error,'');
+      assert.ok(holder.innerHTML.includes('blob:anteprima'));
+      assert.equal(elements.imageAlt.value,'');
+      elements.imageAlt.value='Nuova illustrazione.';
+      expectedImage=null;
+    } else if(id==='DOC-demo') {
+      remove.onclick();
+      assert.equal(holder.innerHTML,'');
+      assert.equal(remove.hidden,true);
+      assert.equal(elements.imageAlt.value,'');
+      expectedImage=null;
+    }
     await form.onsubmit({preventDefault(){},submitter:{value:'save'}});
     assert.equal(request.method,copy?'POST':'PUT');
     assert.equal(request.url,'/api/admin/catalogue'+(copy?'':'/'+id));
     assert.equal(request.body.expectedRevision,copy?undefined:revision);
     assert.equal(request.body.text,values.text);
+    assert.equal(request.body.image,expectedImage);
+    assert.equal(request.body.imageAlt,elements.imageAlt.value);
+    assert.equal(request.body.imageUpload,revision===2?'QUJD':undefined);
     assert.equal(view.run('state.questions.length'),copy?2:1);
     assert.deepEqual([...view.run('state.selected')],[id]);
     assert.equal(view.run("state.questions.find(q=>q.id===question.id).text"),copy?q.text:values.text);
   }
   console.log('OK: editor docente, salvataggio sullo stesso codice e copia indipendente');
+}
+
+async function questionImages() {
+  const q={id:'PCTO-003',image:'b'.repeat(64),imageAlt:'Mario <legge> il messaggio.',category_id:'PCTO',category:'PCTO',
+    text:'Che cosa faresti?',options:['Apro','Verifico'],correct:1,type:'AB',difficulty:'Base',explanation:'Verifica il messaggio.'};
+  for (const route of ['/docente','/schermo','/']) {
+    const view=tab(storage(),route);
+    view.context.snap={game:{id:'g',status:'question',current:1,total:2,duration:60,players:1,deadline:Date.now()/1000+60},
+      question:q,me:{nickname:'Mario',score:0}};
+    view.run("state.game=snap.game;state.snap=snap;route==='player'?renderPlayerRound(snap):renderGroupRound(snap)");
+    const html=view.dom.get('#app').innerHTML;
+    assert.ok(html.includes('/api/question-images/'+q.image) && html.includes('Ingrandisci immagine'));
+    assert.ok(html.includes('Mario &lt;legge&gt; il messaggio.'));
+    view.run("snap.game.status='results';route==='player'?renderPlayerResult(snap):renderGroupResult(snap)");
+    assert.ok(view.dom.get('#app').innerHTML.includes('/api/question-images/'+q.image));
+    assert.equal(view.run("questionImage({text:'Solo testo'})"),'');
+    assert.equal(view.run("questionImage({image:'https://example.test/untrusted.jpg'})"),'');
+  }
+  const view=tab(storage()), original={src:'/api/question-images/'+q.image,alt:q.imageAlt};
+  const enlarged={}, viewport={scrollLeft:10,scrollTop:10}, zoom={setAttribute(k,v){this[k]=v;}};
+  const close={focus(){this.focused=true;}};
+  const captionText={},caption={querySelector:()=>captionText};
+  const widgets={img:enlarged,'.image-viewport':viewport,'.image-caption':caption,'[data-zoom-image]':zoom,'[data-close-image]':close};
+  const viewer={open:false,querySelector:k=>widgets[k],
+    classList:{remove(){},toggle(){return true;}},showModal(){this.open=true;},close(){this.open=false;}};
+  view.dom.set('#question-image-viewer',viewer);
+  const target={closest(k){return k==='.question-image'?{querySelector:()=>original}:k==='img, [data-expand-image]'?this:null;}};
+  await view.handlers['doc:click']({target});
+  assert.ok(viewer.open && close.focused && enlarged.src===original.src && enlarged.alt===original.alt);
+  assert.equal(captionText.textContent,original.alt);
+  assert.equal(caption.hidden,false);
+  assert.equal(viewport.scrollLeft+viewport.scrollTop,0);
+  await view.handlers['doc:click']({target:{closest:k=>k==='#question-image-viewer'?viewer:k==='[data-zoom-image]'?zoom:null}});
+  assert.equal(zoom['aria-pressed'],'true');
+  await view.handlers['doc:click']({target:{closest:k=>k==='#question-image-viewer'?viewer:k==='[data-close-image]'?close:null}});
+  assert.equal(viewer.open,false);
+  console.log('OK: immagini in regia, proiezione e telefono, zoom e chiusura del visualizzatore');
 }
 
 async function presentationControls() {
@@ -171,6 +245,7 @@ async function main() {
   await presentationControls();
   await studioAndLobby();
   await questionEditor();
+  await questionImages();
   const shared=storage(), first=tab(shared), second=tab(shared);
   first.run("storePlayer({playerId:'old',token:'first',nickname:'Vega',pin:'222222'})");
   second.run("storePlayer({playerId:'new',token:'second',nickname:'Nova',pin:'333333'})");

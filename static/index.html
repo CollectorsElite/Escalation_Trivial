@@ -12,12 +12,14 @@
   <link rel="stylesheet" href="/static/play.css?v=3.2.1">
   <link rel="stylesheet" href="/static/identita.css?v=3.2.1">
   <link rel="stylesheet" href="/static/studio-rounds.css?v=3.2.1">
-  <script defer src="/static/ui.js?v=3.2.1"></script>
-  <script defer src="/static/studio.js?v=3.3"></script>
-  <script defer src="/static/teacher.js?v=3.3"></script>
-  <script defer src="/static/game.js?v=3.2.1"></script>
-  <script defer src="/static/player.js?v=3.2.1"></script>
-  <script defer src="/static/app.js?v=3.2.1"></script>
+  <link rel="stylesheet" href="/static/question-media.css?v=3.4">
+  <script defer src="/static/ui.js?v=3.4"></script>
+  <script defer src="/static/question-media.js?v=3.4"></script>
+  <script defer src="/static/studio.js?v=3.4"></script>
+  <script defer src="/static/teacher.js?v=3.4"></script>
+  <script defer src="/static/game.js?v=3.4"></script>
+  <script defer src="/static/player.js?v=3.4"></script>
+  <script defer src="/static/app.js?v=3.4"></script>
 </head>
 <body>
   <a href="#app" class="skip">Vai al contenuto</a>
@@ -26,5 +28,13 @@
   <div id="notice" role="status" aria-live="polite"></div>
   <div class="sr" id="phase-announce" aria-live="polite" aria-atomic="true"></div>
   <dialog id="dialog" aria-labelledby="dialog-title"></dialog>
+  <dialog id="question-image-viewer" aria-label="Immagine della domanda">
+    <div class="image-view-controls">
+      <button type="button" data-zoom-image aria-pressed="false">Zoom</button>
+      <button type="button" data-close-image>Chiudi immagine</button>
+    </div>
+    <div class="image-viewport"><img alt=""></div>
+    <details class="image-caption" hidden><summary>Leggi la descrizione dell’immagine</summary><p></p></details>
+  </dialog>
 </body>
 </html>

@@ -26,9 +26,9 @@ function draw(count, allowed) {
   return totals;
 }
 
-assert.equal(categories.length, 9);
+assert.equal(categories.length, 10);
 for (let run = 0; run < 20; run++) {
-  for (const count of [1, 3, 9, 10, 18, 210]) {
+  for (const count of [1, 3, 9, 10, 18, questions.length]) {
     const totals = Object.values(draw(count, categories));
     assert.equal(state.selected.size, count);
     assert.equal(totals.length, Math.min(count, categories.length));

@@ -47,10 +47,13 @@ def load_catalogue(path: Path):
 
 def question_values(q):
     return (q['id'], q['category_id'], q['category'], q['question'], json.dumps(q['options'], ensure_ascii=False),
-            q['correct'], q['explanation'], q['difficulty'], q['type'])
+            q['correct'], q['explanation'], q['difficulty'], q['type'], q.get('image'), q.get('imageAlt',''))
 
 
 def decode_question(q):
-    return dict(id=q['id'], category_id=q['category_id'], category=q['category'],
+    result = dict(id=q['id'], category_id=q['category_id'], category=q['category'],
                 text=q['question'], options=json.loads(q['options_json']), correct=q['correct'],
                 explanation=q['explanation'], difficulty=q['difficulty'], type=q['type'])
+    if q['image_id']:
+        result.update(image=q['image_id'], imageAlt=q['image_alt'])
+    return result

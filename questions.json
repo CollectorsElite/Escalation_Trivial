@@ -3082,5 +3082,485 @@
     "explanation": "Queste indicazioni aiutano i soccorritori a individuare l’ingresso e a preparare l’intervento.",
     "difficulty": "Intermedio",
     "type": "AB"
+  },
+  {
+    "id": "PCTO-001",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quali proprietà delle informazioni tutela la sicurezza informatica?",
+    "options": [
+      "La sola difesa della rete dagli attacchi esterni",
+      "La riservatezza, l’integrità e la disponibilità",
+      "La sola presenza di un antivirus sui dispositivi",
+      "Il solo aggiornamento dei dispositivi"
+    ],
+    "correct": 1,
+    "explanation": "La riservatezza riguarda chi può accedere alle informazioni, l’integrità la loro protezione da modifiche indebite e la disponibilità la possibilità di usarle quando servono.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "86d27069ca6ad0a1139cc0d1e7fef4080e08de27f22536459cb637c0af49e185",
+    "imageAlt": "Una persona tiene le mani intorno al simbolo di un lucchetto."
+  },
+  {
+    "id": "PCTO-002",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Come si chiama l’attacco che usa email ingannevoli per indurre il destinatario a rivelare informazioni?",
+    "options": [
+      "DDoS",
+      "Phishing",
+      "Hacking",
+      "Keylogging"
+    ],
+    "correct": 1,
+    "explanation": "Nel phishing il mittente si presenta come un soggetto conosciuto per spingere il destinatario a comunicare dati o a compiere un’azione.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "df42df0447f589905258d2213c7dbc210c86df295c3c0b79807b08bc723e89a6",
+    "imageAlt": "Due computer portatili. Una persona usa una canna da pesca per raggiungere la busta sullo schermo opposto."
+  },
+  {
+    "id": "PCTO-003",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Sei Mario Rossi. Osserva il messaggio 1 di 4, che sembra arrivare dalla tua banca. Come ti comporti?",
+    "options": [
+      "Apro il link «QUI» per leggere la comunicazione.",
+      "Rispondo al mittente per chiedere spiegazioni.",
+      "Segnalo il messaggio come sospetto e lo elimino senza aprire il link.",
+      "Chiamo il numero che trovo nella firma del messaggio, senza verificarlo."
+    ],
+    "correct": 2,
+    "explanation": "Il dominio del mittente è estraneo alla banca e il testo contiene diversi errori. Per verificare eventuali comunicazioni puoi usare l’app o un recapito bancario già noto.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "d1a9b142625785757617fedbfd01f66f1e17778aa533b166ed4ad8a1a3bd8387",
+    "imageAlt": "Da: guy@strangedom.com. A: mrossi@gmail.it. Oggetto: Comunicazione. «Gendile client, tu preghiamo volere prendere di vissione le novittà he possono si trovare QUI. Hello.» La parola QUI è sottolineata."
+  },
+  {
+    "id": "PCTO-004",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Sei Mario Rossi. Osserva il messaggio 2 di 4, che sembra arrivare dalla tua banca. Come ti comporti?",
+    "options": [
+      "Apro il link «QUI» per leggere la comunicazione.",
+      "Rispondo al mittente per chiedere spiegazioni.",
+      "Segnalo il messaggio come sospetto e lo elimino senza aprire il link.",
+      "Chiamo il numero che trovo nella firma del messaggio, senza verificarlo."
+    ],
+    "correct": 2,
+    "explanation": "Il messaggio chiede di verificare il conto attraverso un link. L’indirizzo visualizzato del mittente, da solo, non dimostra l’autenticità della richiesta.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "e70d69c45800880cd30e9c8f2863bcce88915c497ed841c8af06453ff62ff7a3",
+    "imageAlt": "Da: servizioclienti@banca.it. A: mrossi@gmail.it. Oggetto: Comunicazione. «Gentile mrossi@gmail.it, ti preghiamo di verificare il tuo account cliccando QUI. Saluti.» La parola QUI è sottolineata."
+  },
+  {
+    "id": "PCTO-005",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Sei Mario Rossi. Osserva il messaggio 3 di 4, che sembra arrivare dalla tua banca. Come ti comporti?",
+    "options": [
+      "Apro il documento allegato per leggere la comunicazione.",
+      "Rispondo al mittente per chiedere spiegazioni.",
+      "Segnalo il messaggio come sospetto e lo elimino senza aprire l’allegato.",
+      "Chiamo il numero che trovo nella firma del messaggio, senza verificarlo."
+    ],
+    "correct": 2,
+    "explanation": "Un documento inatteso richiede una verifica tramite un canale indipendente. Anche un allegato che sembra provenire dalla banca può essere pericoloso.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "bcbf13f9456309471c0fd3a9c5d6caaa83657b2c7cf534b6ab43ea91f4b05b7b",
+    "imageAlt": "Da: servizioclienti@banca.it. A: mrossi@gmail.it. Oggetto: Comunicazione. Allegato: comunicazione.doc. «Gentile mrossi@gmail.it, ti preghiamo di prendere visione della comunicazione allegata. Saluti.»"
+  },
+  {
+    "id": "PCTO-006",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Sei Mario Rossi. Osserva il messaggio 4 di 4, che sembra arrivare dalla tua banca. Come ti comporti?",
+    "options": [
+      "Apro il sito della banca dal mio segnalibro abituale e controllo le novità.",
+      "Rispondo al mittente per chiedere spiegazioni.",
+      "Segnalo un tentativo di phishing soltanto perché il messaggio mi chiama per nome.",
+      "Chiamo il numero che trovo nella firma del messaggio, senza verificarlo."
+    ],
+    "correct": 0,
+    "explanation": "Il messaggio invita a consultare il sito e non contiene un link da seguire né un allegato. Puoi controllare dal tuo segnalibro abituale anche se non conosci l’origine dell’email.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "9c352305d23c10dfe094e686bed72655065d938750606ab12c2d803a593ff241",
+    "imageAlt": "Da: servizioclienti@banca.it. A: mrossi@gmail.it. Oggetto: Comunicazione. «Gentile Mario Rossi, ti preghiamo di prendere visione delle novità che troverai sul sito della banca. Saluti.»"
+  },
+  {
+    "id": "PCTO-007",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Che cosa si intende per ingegneria sociale nella sicurezza informatica?",
+    "options": [
+      "La manipolazione delle persone per indurle a compiere azioni o a rivelare informazioni",
+      "Una specializzazione in ingegneria informatica dedicata alle scienze sociali",
+      "Una tecnica per costruire siti web",
+      "Una tecnica per memorizzare dati di sicurezza"
+    ],
+    "correct": 0,
+    "explanation": "Chi ricorre all’ingegneria sociale sfrutta reazioni come la fiducia, la paura o il senso di urgenza per influenzare il comportamento di una persona.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "93de1fd88ef35123c7b1d5137ec5470983468ee494bb680cce0c10f9eee04c09",
+    "imageAlt": "Illustrazione con una figura che muove una marionetta e la scritta «Social Engineering»."
+  },
+  {
+    "id": "PCTO-008",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Un link ricevuto via SMS sullo smartphone è più sicuro dello stesso link ricevuto via email.",
+    "options": [
+      "Vero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Anche un SMS può rimandare a una pagina fraudolenta. Il canale con cui arriva un link non garantisce l’affidabilità della destinazione.",
+    "difficulty": "Base",
+    "type": "AB",
+    "image": "694e2e95c257086d280323ac1d922f502a6f7efbf0171a725139091b333d5a87",
+    "imageAlt": "Due schermate affiancate di messaggi di testo su uno smartphone."
+  },
+  {
+    "id": "PCTO-009",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale definizione descrive il malware?",
+    "options": [
+      "Esclusivamente un virus che si replica nei file",
+      "Un software malevolo progettato per compromettere dispositivi, dati o servizi",
+      "Qualsiasi programma che si blocca durante l’uso",
+      "Un problema che riguarda soltanto i PC e risparmia gli smartphone"
+    ],
+    "correct": 1,
+    "explanation": "Malware è un termine generale che comprende virus, ransomware, spyware e altri programmi dannosi.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "2bc6ddf0ee6a5319fc9887de6216e5530e8e65feb87cf8481dc46d7961addd50",
+    "imageAlt": "Un computer portatile con figure verdi simili a microbi sullo schermo."
+  },
+  {
+    "id": "PCTO-010",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale di questi termini indica una modalità di distribuzione del software anziché un tipo di malware?",
+    "options": [
+      "Ransomware",
+      "Spyware",
+      "Trojan",
+      "Freeware"
+    ],
+    "correct": 3,
+    "explanation": "Freeware indica software distribuito gratuitamente. Ransomware, spyware e trojan sono invece categorie di malware.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "ff5e4b6326fcaf356113d297c0c953d72b3af96fbcf7eb38a2a26150e652c065",
+    "imageAlt": "Infografica intitolata «Tipi di malware», con icone disposte attorno a un computer."
+  },
+  {
+    "id": "PCTO-011",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale misura permette di recuperare i dati se un ransomware cifra i file del computer?",
+    "options": [
+      "Affidarsi al solo antivirus",
+      "Installare almeno tre antivirus",
+      "Conservare copie di backup verificate su un supporto scollegato dal computer",
+      "Affidarsi soltanto ai punti di ripristino dello stesso computer"
+    ],
+    "correct": 2,
+    "explanation": "Un backup tenuto offline resta separato dal sistema colpito. Le prove di ripristino consentono di verificare che la copia sia utilizzabile.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "93975fa686942afee707add067069ad8f7bd98a49d8f7ed77c926a63400b81bb",
+    "imageAlt": "Un portatile con un lucchetto sullo schermo. Una mano offre una chiave e un’altra porge del denaro."
+  },
+  {
+    "id": "PCTO-012",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Per quale di questi file il solo nome basta a escludere la presenza di malware?",
+    "options": [
+      "orario_scuola.xls",
+      "divina_commedia.doc",
+      "aggiorna_sistema.exe",
+      "Nessuno dei tre"
+    ],
+    "correct": 3,
+    "explanation": "Un nome plausibile e un’estensione familiare non dimostrano che il file sia sicuro. Contano anche la provenienza e il contesto in cui lo ricevi.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "61e03501474be6b9f819de696fda8b23a58a1057a260bf7647c0e4371abc64f5",
+    "imageAlt": "Una raccolta di icone di file con estensioni diverse."
+  },
+  {
+    "id": "PCTO-013",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale dei seguenti comportamenti è una buona pratica per proteggersi dal malware?",
+    "options": [
+      "Disinstallare l’antivirus",
+      "Scaricare un file quando se ne riconoscono il nome e l’estensione, senza controllarne la provenienza",
+      "Installare un’app anche da uno store sconosciuto solo perché il suo nome è familiare",
+      "Nessuno dei comportamenti elencati"
+    ],
+    "correct": 3,
+    "explanation": "Conviene usare fonti affidabili, mantenere attive le protezioni e verificare chi distribuisce un file o un’app.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "5eb6a5717a08556260a05dbcd57bb1f0235c58cd051bced947993177b3cf35ae",
+    "imageAlt": "Un simbolo di divieto sovrapposto alla sagoma di un insetto."
+  },
+  {
+    "id": "PCTO-014",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Scaricare un’app da uno store ufficiale garantisce che sia priva di malware.",
+    "options": [
+      "Vero",
+      "Falso"
+    ],
+    "correct": 1,
+    "explanation": "Gli store ufficiali effettuano controlli che riducono il rischio. È comunque opportuno verificare lo sviluppatore e i permessi richiesti.",
+    "difficulty": "Base",
+    "type": "AB",
+    "image": "ad410979a59fea3143c87bc8a59cc09591750e033b3054cbf56e98a2192a2722",
+    "imageAlt": "I simboli di Google Play e dell’App Store."
+  },
+  {
+    "id": "PCTO-015",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "In quale caso è opportuno fare ulteriori verifiche prima di installare un’app?",
+    "options": [
+      "L’app proviene da uno store non ufficiale",
+      "L’app è poco conosciuta e ha pochissimi download",
+      "L’app richiede permessi che non sembrano necessari alle sue funzioni",
+      "In tutti e tre i casi"
+    ],
+    "correct": 3,
+    "explanation": "Provenienza, informazioni disponibili e coerenza dei permessi sono elementi da valutare insieme prima dell’installazione.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "54a92b32457e1fd469b2688dd331b78af8d3b13519bf98905f9d03328fce8dc7",
+    "imageAlt": "Uno smartphone circondato da icone di rete e servizi digitali."
+  },
+  {
+    "id": "PCTO-016",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Che cosa significa la sigla PEC?",
+    "options": [
+      "Un particolare tipo di microprocessore",
+      "Programma eseguibile complesso",
+      "Posta elettronica certificata",
+      "Un tipo di certificato digitale"
+    ],
+    "correct": 2,
+    "explanation": "La posta elettronica certificata è un servizio di email che documenta l’invio e la consegna attraverso apposite ricevute.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "4f37188909df1d94482219ab58c26678fcd51eefe08a8ae765d94381790eb8b0",
+    "imageAlt": "Un sigillo rosso con la sigla «PEC»."
+  },
+  {
+    "id": "PCTO-017",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Che cosa attesta la ricevuta di avvenuta consegna di una PEC?",
+    "options": [
+      "Che il messaggio è privo di virus",
+      "Che il messaggio è stato consegnato nella casella PEC del destinatario",
+      "Che il destinatario ha letto il messaggio",
+      "Che le dichiarazioni contenute nel messaggio sono vere"
+    ],
+    "correct": 1,
+    "explanation": "La ricevuta attesta il deposito del messaggio nella casella PEC e ne indica data e ora. La lettura da parte del destinatario è un evento distinto.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "3f57ddb17019a749f94e95d68d6af410b3f1a286bb9e36d2b43bcd023ae4a833",
+    "imageAlt": "Una busta con il simbolo @ e la scritta «Posta elettronica certificata»."
+  },
+  {
+    "id": "PCTO-018",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale di queste quattro password di esempio è la più difficile da indovinare?",
+    "options": [
+      "AK8G",
+      "12345",
+      "francesco",
+      "Questa_pwd...e_sicurissima!:-)"
+    ],
+    "correct": 3,
+    "explanation": "Tra gli esempi proposti, la quarta password è decisamente più lunga. Per un account reale scegli una password lunga, imprevedibile e unica. Gli esempi del quiz sono pubblici.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "5bbaa705b3e9cf9639e7a507b37e6cd5c8bbbc9d3a24c9c8f1cb120159c5e80a",
+    "imageAlt": "Un campo per la password che mostra una sequenza di asterischi."
+  },
+  {
+    "id": "PCTO-019",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale comportamento è opportuno evitare per proteggere i propri dati?",
+    "options": [
+      "Utilizzare la stessa password per più servizi",
+      "Attivare l’autenticazione a più fattori",
+      "Evitare di aprire file di provenienza sconosciuta",
+      "Evitare di aprire link inattesi ricevuti via email o SMS"
+    ],
+    "correct": 0,
+    "explanation": "Se un servizio subisce una violazione, una password riutilizzata può consentire l’accesso anche agli altri account.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "32427d965e1f83e8dcba5a6baf0f1c94cd5915e59f16c8b13aaa545065439395",
+    "imageAlt": "Un lucchetto azzurro aperto sopra una sequenza di numeri."
+  },
+  {
+    "id": "PCTO-020",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale di queste abitudini aiuta a proteggere dispositivi e account?",
+    "options": [
+      "Salvare le password in un profilo del browser condiviso con altre persone",
+      "Proteggere la rete Wi-Fi di casa con una password robusta",
+      "Concedere a ogni app tutti i permessi che richiede",
+      "Considerare affidabile una rete Wi-Fi pubblica solo perché richiede una password"
+    ],
+    "correct": 1,
+    "explanation": "Una password robusta aiuta a controllare l’accesso alla rete domestica. Un profilo condiviso, permessi eccessivi e reti di provenienza incerta espongono a rischi diversi.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "f5838da9462c8f79e1bf53cb3a8d2eab29e7c2aa3b418f20253bb044fb05a1ed",
+    "imageAlt": "Una leva è affiancata dalle scritte «SAFE» e «RISKY»."
+  },
+  {
+    "id": "PCTO-021",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Quale comportamento è poco coerente con un uso consapevole dei social network?",
+    "options": [
+      "Evitare di pubblicare informazioni personali che si desidera tenere riservate",
+      "Cercare di trascorrere sui social più tempo possibile",
+      "Considerare che una persona online potrebbe mentire sulla propria identità",
+      "Tenere conto delle conseguenze che le proprie azioni online possono avere sulle altre persone"
+    ],
+    "correct": 1,
+    "explanation": "Un uso consapevole comprende la scelta del tempo da dedicare ai social e l’attenzione ai dati personali e alle conseguenze di ciò che si pubblica.",
+    "difficulty": "Base",
+    "type": "MULTI",
+    "image": "35be60cd58cd73565eeb6b8d033c2441d96a8a4949485613a3e2a147b1fee521",
+    "imageAlt": "Una persona al computer è collegata a una rete di altri profili."
+  },
+  {
+    "id": "PCTO-022",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Che cosa accade in un attacco man-in-the-middle?",
+    "options": [
+      "La vittima riceve necessariamente un’email ingannevole",
+      "Un soggetto si interpone nella comunicazione fra due parti per intercettarla o alterarla",
+      "I file vengono cifrati e viene chiesto un riscatto",
+      "Si tenta di indovinare una password"
+    ],
+    "correct": 1,
+    "explanation": "Il soggetto interposto può osservare o modificare i messaggi mentre le due parti credono di comunicare direttamente fra loro.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "8f85323e71015596e17ab532de4102230480ea1a076a05b70d8ad0a95e1c0712",
+    "imageAlt": "Due persone ai rispettivi computer e una terza figura collegata a entrambe."
+  },
+  {
+    "id": "PCTO-023",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Nella barra degli indirizzi raffigurata, che cosa indicava il lucchetto evidenziato?",
+    "options": [
+      "Che l’antivirus del computer era attivo",
+      "Che la connessione tra il browser e il sito era cifrata tramite HTTPS",
+      "Che il sito richiedeva un pagamento",
+      "Che il sito era certamente privo di malware"
+    ],
+    "correct": 1,
+    "explanation": "Il lucchetto indicava una connessione HTTPS. Anche un sito ingannevole può usare HTTPS. Alcuni browser oggi mostrano un’icona diversa nello stesso punto.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "5398352f1c204c62fedd46457ffd69a626bef4bf9ffe172f002ddf9e6a6d9183",
+    "imageAlt": "Dettaglio della barra degli indirizzi. Un cerchio e una freccia rossi evidenziano il piccolo lucchetto a sinistra dell’indirizzo."
+  },
+  {
+    "id": "PCTO-024",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Che cos’è una botnet?",
+    "options": [
+      "Una rete di dispositivi compromessi che possono essere controllati a distanza",
+      "Un grande database consultabile su Internet",
+      "Un gruppo di persone che si dedica ad attività di hacking",
+      "Un singolo virus che distrugge il sistema operativo"
+    ],
+    "correct": 0,
+    "explanation": "Una botnet riunisce dispositivi compromessi. Chi li controlla può coordinarli anche all’insaputa dei proprietari.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "78f4c178ff02331f53c8f4fbfa5e183df992c1eb927c4153d2d02bfba31af5e6",
+    "imageAlt": "Più computer disposti su un planisfero sono collegati a una figura centrale."
+  },
+  {
+    "id": "PCTO-025",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Per quali attività criminali può essere impiegata una botnet?",
+    "options": [
+      "Attacchi distribuiti di negazione del servizio (DDoS)",
+      "Furto di dati",
+      "Distribuzione di malware",
+      "Tutte e tre le attività"
+    ],
+    "correct": 3,
+    "explanation": "Una rete di dispositivi compromessi può essere usata per sovraccaricare un servizio, raccogliere dati o diffondere software malevolo.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "a5b3d84646519647845f67b163ec30530247df81763fb06aadff48f34a9a6fdb",
+    "imageAlt": "Una figura incappucciata davanti a una trama di dati digitali."
+  },
+  {
+    "id": "PCTO-026",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Una connessione scarica a 100 Mbit/s costanti. Quanto tempo impiega, in condizioni ideali, a trasferire un video di 1 GB (1.000 MB)?",
+    "options": [
+      "Circa 1 minuto e 20 secondi",
+      "Circa 10 secondi",
+      "Meno di 1 secondo",
+      "Circa 10 minuti"
+    ],
+    "correct": 0,
+    "explanation": "Un byte contiene otto bit. Un file da 1.000 MB equivale a 8.000 Mbit. Dividendo per 100 Mbit/s si ottengono 80 secondi.",
+    "difficulty": "Intermedio",
+    "type": "MULTI",
+    "image": "c75a55e14ec1ab376da6e2500d46814ec7b7acc6be4af5e572398c33514e0564",
+    "imageAlt": "Un pulsante verde con una freccia rivolta verso il basso e la parola «Download»."
+  },
+  {
+    "id": "PCTO-027",
+    "category_id": "PCTO",
+    "category": "PCTO",
+    "question": "Usare un PC, un tablet o uno smartphone richiede attenzione anche quando un messaggio sembra familiare.",
+    "options": [
+      "Vero",
+      "Falso"
+    ],
+    "correct": 0,
+    "explanation": "Prima di aprire un link, un allegato o una richiesta di dati, è utile chiedersi se l’azione era attesa e se il mittente è verificabile.",
+    "difficulty": "Base",
+    "type": "AB",
+    "image": "968b5ce50c2e7c5c108f092f8faeef972ca005411a993ed7a22ec3d5798fd175",
+    "imageAlt": "Un uomo tiene aperta una palpebra con le dita."
   }
 ]

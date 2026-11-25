@@ -1,6 +1,8 @@
-# Escalation Trivial 3.3 per Railway
+# Escalation Trivial 3.4 per Railway
 
-Quiz multi-argomento in italiano. Un servizio Railway ospita una partita condivisa, con regia docente, proiezione e fino a 400 giocatori. Il catalogo iniziale comprende 210 domande in nove categorie. Il docente può ampliarlo dalla regia e preparare set condivisi per le proprie lezioni. Docente e studenti usano il browser. I partecipanti possono collegarsi dalla rete mobile o dal Wi-Fi.
+Quiz multi-argomento in italiano. Un servizio Railway ospita una partita condivisa, con regia docente, proiezione e fino a 400 giocatori. Il catalogo iniziale comprende 237 domande in dieci categorie. Il docente può ampliarlo dalla regia e preparare set condivisi per le proprie lezioni. Docente e studenti usano il browser. I partecipanti possono collegarsi dalla rete mobile o dal Wi-Fi.
+
+La 3.4 aggiunge la categoria **PCTO**, con i 27 quesiti illustrati del quiz «Sicurezza Informatica PCTO 2025/26 (ACC v2)». La regia consente di allegare, sostituire o rimuovere un’immagine in qualsiasi categoria. Gli studenti e il docente possono ingrandirla durante il round.
 
 La 3.3 comprende la revisione linguistica delle 210 domande, delle 564 alternative e delle 210 spiegazioni. Dalla regia il docente può correggere anche una domanda di base. I set che la contengono usano il testo aggiornato alla prossima apertura della lobby.
 
@@ -8,7 +10,7 @@ La 3.2.1 corregge 11 difetti riscontrati nella 3.2. La lobby aggiorna titolo e c
 
 ## 1. Pubblicazione su Railway
 
-Estrai lo ZIP in una cartella vuota e carica il contenuto nella radice del repository GitHub che collegherai a Railway. Nella stessa directory devono comparire `Dockerfile`, `app.py`, `authoring.py`, `catalogue.py`, `questions.json`, `requirements.txt` e `static/`. Railway rileva il Dockerfile in quella posizione. [Rilevamento del Dockerfile](https://docs.railway.com/builds/dockerfiles)
+Estrai lo ZIP in una cartella vuota e carica il contenuto nella radice del repository GitHub che collegherai a Railway. Nella stessa directory devono comparire `Dockerfile`, `app.py`, `authoring.py`, `catalogue.py`, `question_media.py`, `questions.json`, `question-images/`, `requirements.txt` e `static/`. Railway rileva il Dockerfile in quella posizione. [Rilevamento del Dockerfile](https://docs.railway.com/builds/dockerfiles)
 
 Nel progetto Railway crea un servizio per il gioco. Configura le voci seguenti nel pannello del servizio, collega il repository e avvia il deploy. Per un servizio già collegato, applica le impostazioni e distribuisci la nuova versione.
 
@@ -16,7 +18,7 @@ Nel progetto Railway crea un servizio per il gioco. Configura le voci seguenti n
 |---|---|
 | `ADMIN_PASSWORD` | In **Variables** inserisci una password lunga, riservata al docente. |
 | `SESSION_SECRET` | In **Variables** inserisci un segreto casuale, diverso dalla password. Puoi generarlo con un gestore di password o con `python -c "import secrets; print(secrets.token_hex(32))"`. Mantieni lo stesso valore fra i deploy per conservare la validità delle sessioni docente. |
-| Volume persistente | Collega un volume al servizio con percorso **`/data`**. Il Dockerfile imposta `DATA_DIR=/data`. Qui SQLite conserva set condivisi, domande personalizzate, partite, partecipanti e punteggi. Per aggiornare un’installazione esistente, riutilizza il suo volume. |
+| Volume persistente | Collega un volume al servizio con percorso **`/data`**. Il Dockerfile imposta `DATA_DIR=/data`. Qui SQLite conserva set condivisi, domande, immagini caricate, partite, partecipanti e punteggi. Per aggiornare un’installazione esistente, riutilizza il suo volume. |
 | Repliche | Imposta **1 replica**. Il Dockerfile avvia **1 worker** Uvicorn. Le connessioni in tempo reale della classe condividono quel processo. |
 | Avvio e porta | Lascia a Docker il comando di avvio. Il server ascolta su `0.0.0.0` e legge `PORT` assegnata da Railway. |
 | Controllo del deploy | Nelle impostazioni di deploy scegli **Healthcheck Path** `/health`. Per riprendere i valori della versione precedente, usa 60 secondi di timeout e la politica di riavvio **On Failure** con 5 tentativi. |
@@ -33,13 +35,13 @@ Apri il dominio HTTPS mostrato da Railway. Tutti i percorsi seguenti appartengon
 | `/docente` | Docente | Accede con la password configurata in Railway, seleziona le domande, apre la lobby e dà il via. |
 | `/schermo` | Proiettore | Mostra PIN, QR, domande e classifica. Apri **Proiettore** dalla regia per usare la stessa sessione. Su un secondo browser serve la password docente, che abilita anche la regia. |
 | `/` | Giocatore | Inserisce PIN e nickname. L’invito via QR o link precompila il PIN. |
-| `/health` | Verifica del servizio | Su un’installazione nuova risponde con codice HTTP 200, stato `ok` e `question_count` pari a 210. |
+| `/health` | Verifica del servizio | Su un’installazione nuova risponde con codice HTTP 200, stato `ok` e `question_count` pari a 237. |
 
 Per la prima partita accedi a `/docente`, scegli **Pesca domande** e poi **Apri la lobby**. Sul proiettore appariranno il QR e il PIN. Il telefono mostra **In attesa del via** dopo l’ingresso e passa alla prima domanda quando premi **Avvia partita**. Per confermare l’accessibilità da Internet dopo la pubblicazione, puoi inquadrare il QR con un telefono sulla rete mobile.
 
 ## 3. Conduzione della partita
 
-In regia puoi selezionare categorie intere o singole domande, cercare per parola o codice, filtrare per difficoltà e consultare soluzione e spiegazione in **Dettagli**. **Pesca domande** sostituisce la selezione ed estrae senza duplicati dalle singole categorie spuntate. A ogni giro sceglie una domanda per categoria disponibile in ordine casuale. Le nove categorie sono inizialmente tutte attive. Il tempo predefinito è **30 secondi**. Puoi portarlo fino a 120 secondi per gli scenari lunghi. Se la selezione contiene domande con almeno 45 parole fra traccia e opzioni, la regia suggerisce di valutarne il tempo di lettura. La selezione, la durata e le impostazioni restano modificabili fino all’avvio.
+In regia puoi selezionare categorie intere o singole domande, cercare per parola o codice, filtrare per difficoltà e consultare soluzione e spiegazione in **Dettagli**. **Pesca domande** sostituisce la selezione ed estrae senza duplicati dalle singole categorie spuntate. A ogni giro sceglie una domanda per categoria disponibile in ordine casuale. Le dieci categorie sono inizialmente tutte attive. Il tempo predefinito è **30 secondi**. Puoi portarlo fino a 120 secondi per gli scenari lunghi. Se la selezione contiene domande con almeno 45 parole fra traccia e opzioni, la regia suggerisce di valutarne il tempo di lettura. La selezione, la durata e le impostazioni restano modificabili fino all’avvio.
 
 ### Set salvati e domande del docente
 
@@ -49,9 +51,19 @@ Il set conserva gli identificativi dei quesiti selezionati, il loro ordine, il t
 
 **Archivia** sposta il set da **Disponibili** ad **Archiviati**. Le domande restano nel catalogo e puoi usarle in altri quiz. Per riutilizzare la selezione con le sue impostazioni, apri **Set salvati → Archiviati** e scegli **Ripristina**.
 
-Con **Nuova domanda** puoi scegliere o creare la categoria, impostare il livello, inserire due o quattro alternative, indicare l’unica risposta corretta e scrivere la spiegazione. **Anteprima sul telefono** mostra come si leggono testo e alternative. **Salva domanda** inserisce il quesito nel catalogo. **Salva e aggiungi al set** lo seleziona anche per il quiz aperto. Per conservare questa composizione premi **Salva come set** o **Aggiorna set**.
+Con **Nuova domanda** puoi scegliere o creare la categoria, impostare il livello, inserire due o quattro alternative, indicare l’unica risposta corretta e scrivere la spiegazione. **Anteprima sul telefono** mostra come si presentano testo, immagine e alternative. **Salva domanda** inserisce il quesito nel catalogo. **Salva e aggiungi al set** lo seleziona anche per il quiz aperto. Per conservare questa composizione premi **Salva come set** o **Aggiorna set**.
 
-Per correggere una domanda già presente, cercala per testo o codice in **Catalogo domande**, apri **Dettagli → Modifica domanda** e premi **Salva modifiche**. Puoi cambiare il testo, le alternative, la risposta corretta, la spiegazione, la categoria e il livello. Il quesito mantiene il suo codice e la correzione vale per tutti i set che lo richiamano, anche se erano già salvati. Per creare una variante destinata a una sola classe, scegli **Crea una copia**, personalizzala e aggiungila alla selezione desiderata. Le copie e le nuove domande ricevono un codice che inizia con `DOC-`.
+Per correggere una domanda già presente, cercala per testo o codice in **Catalogo domande**, apri **Dettagli → Modifica domanda** e premi **Salva modifiche**. Puoi cambiare il testo, le alternative, la risposta corretta, la spiegazione, la categoria, il livello e l’immagine. Il quesito mantiene il suo codice e la correzione vale per tutti i set che lo richiamano, anche se erano già salvati. Per creare una variante destinata a una sola classe, scegli **Crea una copia**, personalizzala e aggiungila alla selezione desiderata. Le copie e le nuove domande ricevono un codice che inizia con `DOC-`.
+
+### Categoria PCTO e domande con immagini
+
+Per riproporre il quiz completo, parti da una selezione vuota e premi **PCTO** nella sezione **Selezione manuale**. Con **Mescola l’ordine delle domande** disattivato, i 27 quesiti compaiono nell’ordine del materiale didattico, da `PCTO-001` a `PCTO-027`. Con **Scegli domande** puoi invece selezionare soltanto alcuni esercizi. Il catalogo comprende 24 quesiti a quattro opzioni e tre quesiti vero/falso in questa categoria.
+
+In **Nuova domanda** oppure **Catalogo domande → Dettagli → Modifica domanda**, apri il selettore di file nel riquadro **Immagine della domanda**. Puoi scegliere un JPG, PNG o WebP statico fino a 5 MB e 24 megapixel. L’anteprima mostra il file selezionato. Scegli un altro file per sostituirlo oppure premi **Rimuovi immagine**. Le modifiche vengono registrate insieme al testo quando premi **Salva domanda** o **Salva modifiche**. Il campo **Descrizione per chi usa un lettore di schermo** permette di riportare anche il testo di uno screenshot. Una copia della domanda eredita l’immagine e può essere modificata separatamente.
+
+Sul telefono, in regia e sul proiettore, **Ingrandisci immagine** apre la figura. **Zoom** ingrandisce ulteriormente i dettagli. Quando è presente una descrizione, **Leggi la descrizione dell’immagine** apre un testo selezionabile. Nei quattro esercizi sulle email contiene la trascrizione del messaggio. **Chiudi immagine** riporta alla domanda. A fine partita la figura è disponibile anche nel ripasso dello studente.
+
+I 27 abbinamenti e le posizioni delle risposte corrette seguono il PDF fornito dal docente. Gli esercizi da 3 a 6 riproducono quattro email distinte. Gli errori intenzionali nell’email del primo esercizio sono stati conservati anche nella descrizione testuale. Per il quesito 23 è stata ritagliata la barra del browser con il lucchetto. La redazione ha uniformato le tracce e aggiunto le spiegazioni. Nel quesito 26 è esplicitata la convenzione decimale e il risultato è espresso in 80 secondi. Il PDF attribuisce la foto utilizzata nel quesito 19 a Hero Images/Hero Images/Getty Images. [Ricevute PEC, AgID](https://www.agid.gov.it/it/piattaforme/posta-elettronica-certificata) · [Indicatore HTTPS, Chromium](https://blog.chromium.org/2023/05/an-update-on-lock-icon.html)
 
 ### Lobby e round
 
@@ -77,6 +89,8 @@ Per i contenuti di privacy e sicurezza sul lavoro i riferimenti sono il Regolame
 
 Collega il servizio allo stesso volume SQLite. Il campo dedicato alla chiusura quando tutti hanno risposto viene aggiunto al primo avvio con una versione dalla 2.1 in poi. Per le partite preesistenti il valore iniziale mantiene il comportamento basato sulla scadenza o sul comando del docente. Prima di aggiornare, conserva una copia del volume o un backup coerente del database. Al primo avvio la migrazione salva i testi, le alternative e le soluzioni delle partite già presenti. Il nuovo catalogo diventa disponibile per le nuove partite. Per una lobby precedente, le domande già associate mantengono il contenuto originale. Le sessioni e i punteggi già registrati restano nel database. Il progetto può anche partire da una cartella dati vuota.
 
+Il passaggio dalla 3.3 alla 3.4 aggiunge automaticamente i 27 quesiti PCTO e importa le relative immagini. Una categoria PCTO già creata a mano viene unificata con quella distribuita. Le domande personalizzate conservano i propri codici, anche nei set. Le immagini caricate dal docente vengono registrate nel medesimo database SQLite su `/data`. Per conservarle durante i successivi aggiornamenti riutilizza lo stesso volume. Le immagini distribuite con il programma sono nella cartella `question-images/`.
+
 Il catalogo di base proviene da `questions.json`. Al riavvio il servizio importa gli aggiornamenti per i quesiti che conservano la versione distribuita. Quando correggi una domanda dal portale docente, il database su volume conserva la tua versione anche dopo un riavvio o un aggiornamento dell’applicazione. Sullo stesso volume vengono salvati i nuovi quesiti e i set condivisi. La 3.2 ha introdotto l’aggiornamento automatico dello schema dalla 3.1 e la ricostruzione delle categorie a partire dai testi salvati. Per il ripristino copia il database a servizio fermo includendo gli eventuali file SQLite `-wal` e `-shm`, oppure usa un backup SQLite coerente.
 
 ## 5. Revisione, catalogo e materiale tecnico
@@ -93,7 +107,7 @@ La cartella `Schermate/` include la conferma della risposta dopo un rientro nell
 
 `VERIFICA_E_CORREZIONI.md` riporta l’analisi didattica, le fonti e gli esiti del collaudo storico della versione 2.0. Per ripetere la suite locale installa `requirements-test.txt` e avvia `python tests/run.py --players 400`. Le prove usano directory temporanee e due porte locali libere, 8129 e 8131. La suite verifica anche il recupero della scadenza dopo il riavvio, la migrazione di partite precedenti, la persistenza di set e domande e la gestione di due aggiornamenti simultanei. Con Node.js puoi eseguire anche `node tests/pesca_v31.cjs` e `node tests/ui_lobby.cjs` per controllare la pesca per categoria, il rientro dei giocatori e la visualizzazione degli esiti e dei pari merito.
 
-Il backend è in `app.py`, la gestione di domande e set in `authoring.py`, la validazione in `catalogue.py`, le tre interfacce in `static/`. Il carattere Archivo è distribuito con la licenza SIL Open Font License inclusa in `static/assets/Archivo-OFL.txt`. Anche la fotografia illustrativa del mazzo viene servita dal pacchetto. L’applicazione non richiede un database esterno né una compilazione del frontend.
+Il backend è in `app.py`, la gestione di domande e set in `authoring.py`, la validazione in `catalogue.py`, il trattamento delle immagini in `question_media.py`, le tre interfacce in `static/`. Il carattere Archivo è distribuito con la licenza SIL Open Font License inclusa in `static/assets/Archivo-OFL.txt`. Anche la fotografia illustrativa del mazzo viene servita dal pacchetto. L’applicazione non richiede un database esterno né una compilazione del frontend.
 
 ## Appendice. Avvio locale facoltativo
 

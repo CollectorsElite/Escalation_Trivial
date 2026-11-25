@@ -113,11 +113,16 @@ function renderGroupRound(s) {
   const hint = g.reveal_on_complete ? 'La soluzione apparirà quando tutti avranno risposto o allo scadere del tempo.' : 'Alla scadenza la soluzione apparirà a tutti.';
   show(`<div class="shell game-wrap ${host?'':'projection'}">${progressTop(g,'Round in corso')}
     <section class="panel round"><div class="round-line">${topic(q)}${timerBox()}</div>
-    <h1 class="question">${esc(q.text)}</h1><div class="options ${q.options.length===2?'binary':''}">${q.options.map((t,i)=>optionRow(t,i)).join('')}</div>
+    <h1 class="question">${esc(q.text)}</h1>${groupChoices(q,q.options.map((t,i)=>optionRow(t,i)).join(''))}
     ${counter(s,g)}</section>
     ${host?`<div class="command-bar"><div><strong>Domanda aperta</strong><p>${hint}</p></div><div class="actions">${act('cancel','Annulla partita','x','text-btn')}${act('reveal','Chiudi le risposte','flag','primary')}</div></div>`:''}
     </div>`,host?'host-round':'screen-round');
   tick();
+}
+
+function groupChoices(q, options) {
+  const list=`<div class="options ${q.options.length===2?'binary':''}">${options}</div>`;
+  return q.image ? `<div class="round-illustrated">${questionImage(q)}${list}</div>` : list;
 }
 
 function renderGroupResult(s) {
@@ -129,7 +134,7 @@ function renderGroupResult(s) {
   const board=ranking(host?s.leaderboard:s.leaderboard?.slice(0,5), host?'Classifica provvisoria':'Prime posizioni');
   show(`<div class="shell game-wrap ${host?'':'projection'}">${progressTop(g,'Soluzione del round')}
     <div class="${host?'host-result-grid':'screen-result-grid'}"><section class="panel round results"><div class="round-line">${topic(q)}<span class="mono muted">${fmt(total)} / ${fmt(g.players)} risposte</span></div>
-    <h1 class="question">${esc(q.text)}</h1><div class="options ${q.options.length===2?'binary':''}">${options}</div>
+    <h1 class="question">${esc(q.text)}</h1>${groupChoices(q,options)}
     <div class="explain">${icon('info')}<div><strong>Perché questa risposta?</strong><p>${esc(q.explanation)}</p></div></div></section>
     ${host?`<div class="command-bar"><div><strong>Confronto in aula</strong><p>${g.current===g.total?'Hai completato l’ultima domanda.':'La spiegazione resta visibile fino al prossimo round.'}</p></div><div class="actions">${next}</div></div>`:''}
     ${board}</div></div>`,host?'host-result':'screen-result');

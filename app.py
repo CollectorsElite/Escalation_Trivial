@@ -23,6 +23,7 @@ from functools import lru_cache
 from PIL import Image
 from reportlab.graphics.barcode import qrencoder
 from catalogue import decode_question, load_catalogue, normalized, question_values
+from question_media import IMAGE_ID, install_media
 from authoring import checked_ids, game_categories, install_authoring, quiz_options, read_object, teacher_routes
 from fastapi import FastAPI, HTTPException, Request, Response, WebSocket, WebSocketDisconnect
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
@@ -124,6 +125,7 @@ def install_catalogue():
         conn.execute('''CREATE TABLE IF NOT EXISTS game_questions (
             game_id TEXT NOT NULL, question_id TEXT NOT NULL, payload TEXT NOT NULL,
             PRIMARY KEY(game_id, question_id))''')
+        install_media(conn, catalogue, ROOT / 'question-images')
         if conn.execute('PRAGMA user_version').fetchone()[0] < 2:
             for game in conn.execute('SELECT id, selected_json FROM games'):
                 freeze_questions(game['id'], json.loads(game['selected_json']))
@@ -136,12 +138,17 @@ def install_catalogue():
         if conn.execute('PRAGMA user_version').fetchone()[0] < 4:
             install_authoring(conn)
             conn.execute('PRAGMA user_version=4')
-        conn.executemany('''INSERT INTO questions(id,category_id,category,question,options_json,correct,explanation,difficulty,type)
-            VALUES (?,?,?,?,?,?,?,?,?)
+        conn.executemany('''INSERT INTO questions(id,category_id,category,question,options_json,correct,explanation,difficulty,type,image_id,image_alt)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?)
             ON CONFLICT(id) DO UPDATE SET category_id=excluded.category_id, category=excluded.category,
             question=excluded.question, options_json=excluded.options_json, correct=excluded.correct,
-            explanation=excluded.explanation, difficulty=excluded.difficulty, type=excluded.type WHERE questions.revision=0''',
+            explanation=excluded.explanation, difficulty=excluded.difficulty, type=excluded.type,
+            image_id=excluded.image_id, image_alt=excluded.image_alt WHERE questions.revision=0''',
             [question_values(q) for q in catalogue])
+        if conn.execute('PRAGMA user_version').fetchone()[0] < 5:
+            conn.execute("""UPDATE questions SET category_id='PCTO',category='PCTO'
+                            WHERE category_id LIKE 'CAT-%' AND lower(trim(category))='pcto'""")
+            conn.execute('PRAGMA user_version=5')
         conn.execute('COMMIT')
     except Exception:
         conn.execute('ROLLBACK')
@@ -308,6 +315,17 @@ def question_stats(game):
     return {'answered':r['n'],'breakdown':breakdown}
 
 
+def visible_question(game, question, host=False):
+    visible = {k:question[k] for k in ('id','category_id','category','text','options','type','difficulty')}
+    if question.get('image'):
+        visible.update(image=question['image'], imageAlt=question.get('imageAlt',''))
+    visible['multiplier'] = settings(game)['multipliers'].get(question['id'],1)
+    visible['number'] = game['current_index'] + 1
+    if host or game['status'] in ('results','finished'):
+        visible.update(correct=question['correct'], explanation=question['explanation'])
+    return visible
+
+
 def public_snapshot(game, role, player_id=None):
     if not game:
         return {'type':'snapshot','game':None}
@@ -315,13 +333,7 @@ def public_snapshot(game, role, player_id=None):
     question=selected_question(game)
     result={'type':'snapshot','game':info}
     if question:
-        visible={k:question[k] for k in ('id','category_id','category','text','options','type','difficulty')}
-        visible['multiplier']=settings(game)['multipliers'].get(question['id'],1)
-        visible['number']=game['current_index']+1
-        if game['status'] in ('results','finished') or role=='host':
-            visible['correct']=question['correct']
-            visible['explanation']=question['explanation']
-        result['question']=visible
+        result['question']=visible_question(game, question, host=role=='host')
         stats=question_stats(game)
         result['answered']=stats['answered']
         if role in ('host','screen') and (game['status'] in ('results','finished') or role=='host'):
@@ -375,13 +387,7 @@ def batched_player_snapshots(game, wanted_ids):
     answers = {}
     common = {'type':'snapshot','game':info}
     if question:
-        visible = {k:question[k] for k in ('id','category_id','category','text','options','type','difficulty')}
-        visible['multiplier']=settings(game)['multipliers'].get(question['id'],1)
-        visible['number'] = game['current_index']+1
-        if game['status'] in ('results','finished'):
-            visible['correct'] = question['correct']
-            visible['explanation'] = question['explanation']
-        common['question'] = visible
+        common['question'] = visible_question(game, question)
         stats=question_stats(game)
         common['answered'] = stats['answered']
         answers = {r['player_id']:r for r in conn.execute("""SELECT a.player_id,a.choice,a.correct,a.points,COALESCE(d.wager,0) AS wager
@@ -535,12 +541,24 @@ async def secure_headers(request: Request,call_next):
         path = request.url.path
         response.headers['Cache-Control'] = ('public, max-age=120' if path.startswith('/static/')
                                              else 'no-store' if path.startswith('/api/') else 'no-cache')
-    response.headers['Content-Security-Policy']="default-src 'self'; connect-src 'self' ws: wss:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
+    response.headers['Content-Security-Policy']="default-src 'self'; connect-src 'self' ws: wss:; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data: blob:; object-src 'none'; base-uri 'self'; frame-ancestors 'none'"
     return response
 
 @app.get('/health')
 async def health():
     return {'status':'ok','question_count':row('SELECT COUNT(*) AS n FROM questions')['n']}
+
+@app.get('/api/question-images/{image_id}')
+async def question_image(image_id: str, request: Request):
+    if not IMAGE_ID.fullmatch(image_id):
+        raise HTTPException(404)
+    data = row('SELECT content FROM question_images WHERE id=?', (image_id,))
+    if not data:
+        raise HTTPException(404)
+    headers = {'ETag': f'"{image_id}"', 'Cache-Control': 'private, max-age=31536000, immutable'}
+    if request.headers.get('if-none-match') == headers['ETag']:
+        return Response(status_code=304, headers=headers)
+    return Response(data['content'], media_type='image/webp', headers=headers)
 
 @app.get('/')
 @app.get('/docente')
@@ -865,6 +883,7 @@ async def player_review(request: Request):
         answer = answers.get(index)
         rounds.append({'number':index + 1, 'category':q['category'], 'text':q['text'],
                        'options':q['options'], 'correct':q['correct'], 'explanation':q['explanation'],
+                       **({k:q[k] for k in ('image','imageAlt') if k in q}),
                        'choice':answer['choice'] if answer else None,
                        'outcome':('correct' if answer['correct'] else 'wrong') if answer else 'missed'})
     return {'gameId':game['id'], 'rounds':rounds}

@@ -12,6 +12,7 @@ function stopSocket() {
 }
 function endAdminSession() {
   stopSocket();
+  closeQuestionImage();
   if(dlg.open) dlg.close();
   Object.assign(state,{admin:false,editing:false,studio:false,game:null,snap:null,phaseKey:'',
     activeSet:null,questions:[],selected:new Set(),quizTitle:'',multipliers:{},drawCategories:null});
@@ -19,6 +20,7 @@ function endAdminSession() {
 }
 function resetPlayer(p=state.player) {
   stopSocket();
+  closeQuestionImage();
   if(dlg.open) dlg.close();
   forgetPlayer(p); rememberJoin(null);
   state.review=null; state.game=null; state.snap=null; state.pending=null; state.phaseKey='';
@@ -72,6 +74,7 @@ function syncView(s, reconnected=false) {
   if (g && g.status !== 'lobby') state.editing=false;
   if (phaseChanged) {
     state.wager=false;
+    closeQuestionImage();
     if (dlg.open && !(route==='player' && !state.player)) dlg.close();
     if (previous && g) {
       tone(g.status);
@@ -284,7 +287,7 @@ async function perform(action,id,revision){switch(action){
   case 'sound':{if(!state.audio){const Audio=window.AudioContext||window.webkitAudioContext;if(!Audio){notice('Audio non disponibile su questo dispositivo.');return;}state.audio=new Audio();}await state.audio.resume();state.sound=!state.sound;if(state.sound)tone('question');header();return;}
 }}
 const mutations=new Set(['archive-set','restore-set','save-deck','start','next','finish','confirm-finish','confirm-cancel','confirm-reveal','confirm-leave','logout','reveal']);
-document.addEventListener('click',async e=>{const choice=e.target.closest('[data-choice]');if(choice){sendAnswer(Number(choice.dataset.choice));return;}const btn=e.target.closest('[data-action]');if(!btn)return;const action=btn.dataset.action;const lock=mutations.has(action);if(lock&&state.busy)return;if(lock){state.busy=true;btn.disabled=true;}
+document.addEventListener('click',async e=>{if(handleImageClick(e.target))return;const choice=e.target.closest('[data-choice]');if(choice){sendAnswer(Number(choice.dataset.choice));return;}const btn=e.target.closest('[data-action]');if(!btn)return;const action=btn.dataset.action;const lock=mutations.has(action);if(lock&&state.busy)return;if(lock){state.busy=true;btn.disabled=true;}
   try{await perform(action,btn.dataset.id,Number(btn.dataset.revision));}catch(err){if(err.status===401&&route!=='player'){endAdminSession();}else if(err.code==='deck_changed' && state.editing) {
     modal('La selezione è cambiata',`<p>${esc(err.message)} La tua bozza è ancora visibile.</p>`,
       act('close','Mantieni la bozza',null,'soft')+act('reload-deck','Ricarica selezione','cards','primary'));

@@ -146,10 +146,10 @@ def restart_phase(client):
     revealed = data(client.get('/api/screen'))['question']
     assert revealed['correct'] == BASE_EDIT['correct'] and revealed['explanation'] == BASE_EDIT['explanation']
     data(client.post('/api/admin/action',json={'action':'cancel'}))
-    # Catalogue capacity is independent of the original 210-question bank.
+    # Catalogue capacity is independent of the bundled question bank.
     ids = [item['id'] for item in catalog['questions']]
-    assert len(ids)==212
-    assert data(client.post('/api/admin/create',json={'ids':ids}))['game']['total']==212
+    assert len(ids)==239
+    assert data(client.post('/api/admin/create',json={'ids':ids}))['game']['total']==239
     assert data(client.patch('/api/admin/questions',json={'ids':ids[::-1],'duration':30}))['ok']
     assert data(client.get('/api/admin/overview'))['selected']==ids[::-1]
 

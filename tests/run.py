@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='trivial-suite-') as data:
                 except httpx.TransportError:pass
                 time.sleep(.1)
             else:raise RuntimeError('Il server di prova non risponde.')
-        run('tests/railway_inviti.py');run('tests/bonus_v3.py');run('tests/authoring_v32.py');run('tests/audit_v321.py')
+        run('tests/railway_inviti.py');run('tests/bonus_v3.py');run('tests/authoring_v32.py');run('tests/question_media_v34.py');run('tests/audit_v321.py')
         run('tools/check_questions.py');run('tests/regression.py');run('tests/rules_v2.py');run('tests/integration.py','--players',str(args.players),'--url',base);run('tests/lobby_v22.py');run('tests/restart_recovery.py');run('tests/migration.py')
     finally:
         proc.terminate();proc.wait(timeout=15)

@@ -168,6 +168,7 @@ async function openQuestionEditor(id, copy=false) {
       <label>Difficoltà<select name="difficulty">${['Base','Intermedio','Avanzato'].map(level=>`<option ${q?.difficulty===level?'selected':''}>${level}</option>`).join('')}</select></label></div>
       <label data-new-category hidden>Nome della nuova categoria<input name="newCategory" maxlength="80"></label>
       <label>Testo della domanda<textarea name="text" rows="2" required maxlength="600">${esc(q?.text)}</textarea></label>
+      ${questionImageFields(q)}
       <fieldset class="answer-editor"><legend>Alternative e risposta corretta</legend>
       <label class="format-field">Formato <select name="format"><option value="2">2 alternative</option><option value="4" ${size===4?'selected':''}>4 alternative</option></select></label>
       ${[0,1,2,3].map(i=>`<div class="edit-option" data-option-row="${i}">
@@ -175,7 +176,7 @@ async function openQuestionEditor(id, copy=false) {
         <label><span>${letters[i]}</span><input name="option${i}" aria-label="Testo alternativa ${letters[i]}" maxlength="240" value="${esc(options[i])}"></label></div>`).join('')}
       <p class="edit-hint">Seleziona il cerchio accanto all’alternativa corretta.</p></fieldset>
       <label>Spiegazione<textarea name="explanation" rows="2" required maxlength="1200">${esc(q?.explanation)}</textarea></label>
-      ${copy?'<p class="edit-hint">Personalizza la domanda, le alternative o la spiegazione per salvare la copia.</p>':''}
+      ${copy?'<p class="edit-hint">Personalizza il testo, le alternative, la spiegazione o l’immagine per salvare la copia.</p>':''}
       ${existing?'<p class="edit-hint">La modifica si applica a tutti i set che contengono questa domanda.</p>':''}
       <details class="phone-preview"><summary>Anteprima sul telefono</summary><div data-phone-preview></div></details>
       ${editorErrorLine}<div class="editor-actions"><button type="submit" class="btn ${existing?'primary':'soft'}" value="save">${existing?'Salva modifiche':'Salva domanda'}</button>
@@ -200,10 +201,11 @@ async function openQuestionEditor(id, copy=false) {
     if(preview.open) {
       const categoryName=create?fields.newCategory.value:fields.category.selectedOptions[0].text;
       $('[data-phone-preview]',form).innerHTML=`<div class="sample-phone"><div class="sample-category">${esc(categoryName)}</div>
-        <strong>${esc(fields.text.value.trim() || 'Testo della domanda')}</strong>
+        <strong>${esc(fields.text.value.trim() || 'Testo della domanda')}</strong>${media.preview()}
         <div>${Array.from({length:count},(_,i)=>`<p>${answerMark(i)}<span>${esc(fields['option'+i].value || 'Alternativa '+letters[i])}</span></p>`).join('')}</div></div>`;
     }
   };
+  const media=bindQuestionImageEditor(form,q,refresh);
   form.oninput=refresh; form.onchange=refresh; preview.ontoggle=refresh; refresh();
   form.onsubmit=async event=>{
     event.preventDefault();
@@ -213,7 +215,7 @@ async function openQuestionEditor(id, copy=false) {
       const payload={categoryId:create?'':fields.category.value,newCategory:create?fields.newCategory.value:'',
         difficulty:fields.difficulty.value,text:fields.text.value,
         options:Array.from({length:count},(_,i)=>fields['option'+i].value),correct:Number(fields.correct.value),
-        explanation:fields.explanation.value,creationKey:creation};
+        explanation:fields.explanation.value,creationKey:creation,...await media.payload()};
       if(existing) payload.expectedRevision=q.revision;
       const saved=await api('/api/admin/catalogue'+(existing?'/'+encodeURIComponent(q.id):''),existing?'PUT':'POST',payload);
       if (!form.isConnected || !dlg.open) return;
